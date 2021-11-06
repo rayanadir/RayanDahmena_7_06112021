@@ -1,0 +1,22 @@
+{
+    "name": "p7_rayan_dahmena",
+    "version": "1.0.0",
+    "description": "",
+    "main": "script.js",
+    "scripts": {
+        "sass": "sass --watch sass:css"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/rayanadir/RayanDahmena_7_06112021.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/rayanadir/RayanDahmena_7_06112021/issues"
+    },
+    "homepage": "https://github.com/rayanadir/RayanDahmena_7_06112021#readme",
+    "dependencies": {
+        "node-sass": "^6.0.1"
+    }
+}
