@@ -8,6 +8,7 @@
     <title>Les petits plats</title>
     <script src="script.js"></script>
     <link rel="stylesheet" href="css/styles.css">
+    <script src="https://kit.fontawesome.com/8570de5ffd.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -18,7 +19,86 @@
 
     <main>
         <section class="search">
-            <input type="text" class="search__input" placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette">
+            <div class="search__wrapper">
+                <input type="text" class="search__input" placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette">
+                <i class="fas fa-search search__icon"></i>
+            </div>
+        </section>
+        <section class="filter">
+            <button class="filter__button filter__1">Ingrédients
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <button class="filter__button filter__2">Appareils
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <button class="filter__button filter__3">Ustensiles
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </section>
+        <section class="recipes">
+            <article class="recipes__recipe">
+                <img src="/images/img.png" alt="image" class="recipes__image">
+                <div class="recipes__details">
+                    <div class="recipes__title_time">
+                        <div class="recipes__title">
+                            Limonade de coco
+                        </div>
+                        <div class="recipes__time">
+                            <i class="far fa-clock recipes__icon"></i>
+                            <div class="recipes__time_value">
+                                10 min
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recipes__ingredients_description">
+                        <div class="recipes__ingredients">
+                            <label for="ingredient" class="recipes__ingredient">
+                                <p class="recipes__ingredient_name">
+                                    Lait de coco : 
+                                </p>
+                                <p class="recipes__ingredient_value">
+                                    400ml
+                                </p>
+                            </label>
+                            <label for="ingredient" class="recipes__ingredient">
+                                <p class="recipes__ingredient_name">
+                                    Jus de citron :
+                                </p>
+                                <p class="recipes__ingredient_value">
+                                    2
+                                </p>
+                            </label>
+                            <label for="ingredient" class="recipes__ingredient">
+                                <p class="recipes__ingredient_name">
+                                    Crème de coco : 
+                                </p>
+                                <p class="recipes__ingredient_value">
+                                    4 cuillères
+                                </p>
+                            </label>
+                            <label for="ingredient" class="recipes__ingredient">
+                                <p class="recipes__ingredient_name">
+                                    Sucre :
+                                </p>
+                                <p class="recipes__ingredient_value">
+                                    20g
+                                </p>
+                            </label>
+                            <label for="ingredient" class="recipes__ingredient">
+                                <p class="recipes__ingredient_name">
+                                    Glaçons :
+                                </p>
+                                <p class="recipes__ingredient_value">
+                                    2
+                                </p>
+                            </label>
+                        </div>
+                        <label class="recipes__description">
+                            Mettre les glaçons à votre goût dans le blender, ajouter le lait, la crème de coco, le jus de 2 citrons et le sucre. Mixer jusqu'à avoir la consistence désirée
+                        </label>
+                    </div>
+                </div>
+            </article>
         </section>
     </main>
 </body>

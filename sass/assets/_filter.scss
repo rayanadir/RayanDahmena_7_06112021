@@ -1,0 +1,24 @@
+.filter {
+    padding-top: 1rem;
+    font-family: 'DM-sans', sans-serif;
+    display: flex;
+    column-gap: 1rem;
+    &__button {
+        padding: 1.2rem 1rem;
+        border-radius: 5px;
+        border: 0;
+        color: white;
+        display: flex;
+        align-items: center;
+        column-gap: 1rem;
+    }
+    &__1 {
+        background: #3282F7;
+    }
+    &__2 {
+        background: #68D9A4;
+    }
+    &__3 {
+        background: #ED6454;
+    }
+}

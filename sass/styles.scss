@@ -1,3 +1,4 @@
+@import '../sass/assets/filter';
 body {
     width: 1240px;
     margin: auto;
@@ -19,6 +20,15 @@ body {
 }
 
 .search {
+    &__wrapper {
+        display: flex;
+        align-items: center;
+    }
+    &__icon {
+        position: relative;
+        right: 3rem;
+        font-size: 25px;
+    }
     &__input {
         background: #E7E7E7;
         border-radius: 5px;
@@ -28,5 +38,68 @@ body {
         padding-left: 1rem;
         outline: none;
         font-size: 16px;
+    }
+}
+
+.recipes {
+    margin-top: 2rem;
+    font-family: 'Lato', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    &__recipe {
+        background: #E7E7E7;
+        border-radius: 5px;
+        position: absolute;
+        width: 380px;
+    }
+    &__details {
+        padding: .8rem;
+    }
+    &__title_time {
+        display: flex;
+        justify-content: space-between;
+    }
+    &__title {
+        font-family: 'Lato', sans-serif;
+        font-size: 18px;
+    }
+    &__time {
+        display: flex;
+        column-gap: .5rem;
+        align-items: center;
+    }
+    &__time_value {
+        font-weight: bold;
+    }
+    &__icon {
+        font-size: 22px;
+    }
+    &__ingredients_description {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: space-between;
+        column-gap: 5rem;
+    }
+    &__ingredient {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: max-content;
+    }
+    &__ingredient_name {
+        font-weight: bold;
+        margin: 1px;
+        font-size: 12px;
+    }
+    &__ingredient_value {
+        margin: 1px;
+        font-size: 12px;
+    }
+    &__ingredients_description {
+        display: flex;
+        justify-content: space-between;
+    }
+    &__description {
+        font-size: 12px;
     }
 }
