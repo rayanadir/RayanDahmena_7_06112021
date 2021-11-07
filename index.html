@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Les petits plats</title>
-    <script src="script.js"></script>
+    <script src="recipes.js"></script>
+    <script type="module" src="script.js"></script>
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://kit.fontawesome.com/8570de5ffd.js" crossorigin="anonymous"></script>
 </head>
@@ -18,12 +19,14 @@
     </header>
 
     <main>
+
         <section class="search">
             <div class="search__wrapper">
                 <input type="text" class="search__input" placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette">
                 <i class="fas fa-search search__icon"></i>
             </div>
         </section>
+
         <section class="filter">
             <button class="filter__button filter__1">Ingrédients
                 <i class="fas fa-chevron-down"></i>
@@ -35,8 +38,9 @@
                 <i class="fas fa-chevron-down"></i>
             </button>
         </section>
-        <section class="recipes">
-            <article class="recipes__recipe">
+
+        <section class="recipes" id="recipes">
+            <!--<article class="recipes__recipe">
                 <img src="/images/img.png" alt="image" class="recipes__image">
                 <div class="recipes__details">
                     <div class="recipes__title_time">
@@ -98,8 +102,9 @@
                         </label>
                     </div>
                 </div>
-            </article>
+            </article>-->
         </section>
+
     </main>
 </body>
 

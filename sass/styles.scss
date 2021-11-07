@@ -46,10 +46,12 @@ body {
     font-family: 'Lato', sans-serif;
     font-style: normal;
     font-weight: normal;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 2rem;
     &__recipe {
         background: #E7E7E7;
         border-radius: 5px;
-        position: absolute;
         width: 380px;
     }
     &__details {
