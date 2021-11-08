@@ -53,6 +53,7 @@ body {
         background: #E7E7E7;
         border-radius: 5px;
         width: 380px;
+        height: 360px;
     }
     &__details {
         padding: .8rem;
@@ -103,5 +104,24 @@ body {
     }
     &__description {
         font-size: 12px;
+        /* -webkit-line-clamp: 11; */
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 7;
+        display: -webkit-box;
+        /* font-size: .8rem; */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 50%;
+    }
+    &__ingredients {
+        font-size: 12px;
+        /* -webkit-line-clamp: 11; */
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 7;
+        display: -webkit-box;
+        /* font-size: .8rem; */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 50%;
     }
 }

@@ -7,7 +7,6 @@ var recipesArray = recipes.recipes;
 let recipesList = document.getElementById('recipes');
 
 for (var i = 0; i < recipesArray.length; i++) {
-    console.log(recipesArray[i]);
     var template = `
     <article class="recipes__recipe">
     <img src="/images/img.png" alt="image" class="recipes__image">
