@@ -1,6 +1,11 @@
 .filter {
   padding-top: 1rem;
-  font-family: "DM-sans", sans-serif;
+  font-family: "Lato", sans-serif;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+.filter__buttons {
   display: flex;
   column-gap: 1rem;
 }
@@ -13,6 +18,22 @@
   align-items: center;
   column-gap: 1rem;
   cursor: pointer;
+}
+.filter__result {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 1rem;
+  align-items: center;
+  background: #3282F7;
+  border: 0;
+  border-radius: 5px;
+  padding: 0.7rem;
+  color: white;
+  cursor: pointer;
+}
+.filter__close {
+  color: white;
+  font-size: 18px;
 }
 .filter__1 {
   background: #3282F7;
