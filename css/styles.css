@@ -93,6 +93,7 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   row-gap: 2rem;
+  padding-bottom: 4rem;
 }
 .recipes__recipe {
   background: #E7E7E7;
@@ -149,22 +150,18 @@ body {
 }
 .recipes__description {
   font-size: 12px;
-  /* -webkit-line-clamp: 11; */
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 7;
   display: -webkit-box;
-  /* font-size: .8rem; */
   overflow: hidden;
   text-overflow: ellipsis;
   width: 50%;
 }
 .recipes__ingredients {
   font-size: 12px;
-  /* -webkit-line-clamp: 11; */
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 7;
   display: -webkit-box;
-  /* font-size: .8rem; */
   overflow: hidden;
   text-overflow: ellipsis;
   width: 50%;

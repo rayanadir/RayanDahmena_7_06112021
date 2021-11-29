@@ -3,8 +3,8 @@ import * as recipes from '../recipes.js';
 //console.log(recipes.recipes);
 
 var recipesArray = recipes.recipes;
-
 let recipesList = document.getElementById('recipes');
+
 
 function loadRecipes(array) {
     recipesList.innerHTML = ``;
@@ -26,7 +26,7 @@ function loadRecipes(array) {
         </div>
         <div class="recipes__ingredients_description">
             <div class="recipes__ingredients">
-                    ${array[i].ingredients.map((a)=>`
+                    ${array[i].ingredients.map((a) => `
                     <label for="ingredient" class="recipes__ingredient">
                         <p class="recipes__ingredient_name">
                         ${a.ingredient} : 
@@ -44,20 +44,22 @@ function loadRecipes(array) {
     </div>
 </article>
     `
-    recipesList.innerHTML += template;
-}
+        recipesList.innerHTML += template;
+    }
 }
 
 loadRecipes(recipesArray);
 
-document.getElementById('search').addEventListener('input', (e)=>{
-    const value=e.target.value;
-    const length=value.length;
-    console.log(value + " " + length);
-    recipesArray.forEach((recipe)=>{
-        //console.log(recipe.name)
-        if(value==recipe.name){
-            console.log(recipe)
-        }
-    })
+document.getElementById('search').addEventListener('input', (e) => {
+    const value = e.target.value.toLowerCase();
+    var length = value.length;
+    var resultRecipes = [];
+    if (length >= 3) {
+        recipesArray.forEach((recipe) => {
+            if (recipe.name.toLowerCase().includes(value) || recipe.description.toLowerCase().includes(value) || recipes.ingredients.some(a => a.ingredient.includes(value))) {
+                resultRecipes.push(recipe);
+            }
+        })
+        console.log(resultRecipes);
+    }
 })
