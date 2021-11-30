@@ -17,6 +17,7 @@
         align-items: center;
         column-gap: 1rem;
         cursor: pointer;
+        justify-content: space-between;
     }
     &__result {
         display: flex;
