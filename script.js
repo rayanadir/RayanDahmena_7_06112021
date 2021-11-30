@@ -9,6 +9,14 @@ let recipesList = document.getElementById('recipes');
 function loadRecipes(array) {
     recipesList.innerHTML = ``;
     for (var i = 0; i < array.length; i++) {
+        array[i].ingredients.map((a) => {
+            if (a.unit == undefined) {
+                a.unit = "";
+            }
+            if (a.quantity == undefined) {
+                a.quantity = "";
+            }
+        })
         var template = `
     <article class="recipes__recipe">
     <img src="/images/img.png" alt="image" class="recipes__image">
@@ -56,10 +64,13 @@ document.getElementById('search').addEventListener('input', (e) => {
     var resultRecipes = [];
     if (length >= 3) {
         recipesArray.forEach((recipe) => {
-            if (recipe.name.toLowerCase().includes(value) || recipe.description.toLowerCase().includes(value) || recipes.ingredients.some(a => a.ingredient.includes(value))) {
+            if (recipe.name.toLowerCase().includes(value) || recipe.description.toLowerCase().includes(value)) {
                 resultRecipes.push(recipe);
             }
         })
-        console.log(resultRecipes);
+        loadRecipes(resultRecipes);
+        //console.log(resultRecipes);
+    }else{
+        resultRecipes=recipesArray;
     }
 })
