@@ -20,6 +20,18 @@
   cursor: pointer;
   justify-content: space-between;
 }
+.filter__button[open=true] {
+  width: 30rem;
+}
+.filter__chevron[open=true] {
+  transform: rotate(180deg);
+}
+.filter__button[open=false] {
+  width: auto;
+}
+.filter__chevron[open=false] {
+  transform: rotate(0deg);
+}
 .filter__result {
   display: flex;
   justify-content: space-between;

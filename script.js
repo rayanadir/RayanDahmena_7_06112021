@@ -8,10 +8,10 @@ let ustensilesFilter = document.getElementById('ustensiles');
 let chevron1 = document.getElementById('chevron1');
 let chevron2 = document.getElementById('chevron2');
 let chevron3 = document.getElementById('chevron3');
+let filterOpen = false;
 
 function loadRecipes(array) {
     recipesList.innerHTML = ``;
-    //console.log(array.length)
     if (array.length > 0) {
         recipesList.style.display = "grid";
         for (var i = 0; i < array.length; i++) {
@@ -67,8 +67,7 @@ function loadRecipes(array) {
             Aucune rectette ne correspond à votre critère ... vous pouvez chercher "tarte aux pommes","poisson", etc ...
         </p>
         `
-    }
-    
+    } 
 }
 
 loadRecipes(recipesArray);
@@ -86,7 +85,6 @@ document.getElementById('search').addEventListener('input', (e) => {
     } else {
         resultRecipes = recipesArray;
     }
-    //console.log(resultRecipes);
     loadRecipes(resultRecipes);
 })
 
@@ -94,23 +92,65 @@ function getAllIngredients(array){
     var ingredientsArray=[];
     array.forEach((recipe)=>{
         recipe.ingredients.forEach((ingredient)=>{
-            if(ingredientsArray.indexOf(ingredient.ingredient) == -1){
-                ingredientsArray.push(ingredient.ingredient)
+            if(ingredientsArray.indexOf(ingredient.ingredient.toLowerCase()) == -1){
+                ingredientsArray.push(ingredient.ingredient.toLowerCase())
             }
         })
     });
-    //console.log(ingredientsArray);
     return ingredientsArray;
 }
 
+function getAllAppliance(array){
+    var applianceArray=[];
+    array.forEach((recipe)=>{
+        if(applianceArray.indexOf(recipe.appliance.toLowerCase()) == -1){
+            applianceArray.push(recipe.appliance.toLowerCase());
+        }
+    })
+    return applianceArray;
+}
+
+function getAllUstensils(array) {
+    var ustensilsArray=[];
+    array.forEach((recipe)=>{
+        recipe.ustensils.forEach((ustensil)=>{
+            if(ustensilsArray.indexOf(ustensil.toLowerCase())==-1){
+                ustensilsArray.push(ustensil.toLowerCase());
+            }
+        })
+    })
+    return ustensilsArray;
+}
+
+getAllUstensils(recipesArray);
+getAllAppliance(recipesArray);
 getAllIngredients(recipesArray);
 
 ingredientsFilter.addEventListener('click', (e)=>{
-    ingredientsFilter.style.width="30rem";
-    chevron1.style.transform="rotate(180deg)";
+    if(filterOpen==false){
+        filterOpen=true;
+        ingredientsFilter.setAttribute('open',true);
+        chevron1.setAttribute('open',true);
+    }else{
+        filterOpen=false;
+        ingredientsFilter.setAttribute('open',false);
+        chevron1.setAttribute('open',false);
+    }
+    
 })
-
+ingredientsFilter.addEventListener('blur',(e)=>{
+    ingredientsFilter.setAttribute('open',false);
+    chevron1.setAttribute('open',false);
+})
+/*
 chevron1.addEventListener('click', (e)=>{
-    ingredientsFilter.style.width="auto";
-    chevron1.style.transform="rotate(0deg)";
-})
+    if(filterOpen==false){
+        filterOpen=true;
+        ingredientsFilter.setAttribute('open',true);
+        chevron1.setAttribute('open',true);
+    }else{
+        filterOpen=false;
+        ingredientsFilter.setAttribute('open',false);
+        chevron1.setAttribute('open',false);
+    }
+})*/

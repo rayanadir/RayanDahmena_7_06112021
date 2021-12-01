@@ -19,6 +19,18 @@
         cursor: pointer;
         justify-content: space-between;
     }
+    &__button[open="true"] {
+        width: 30rem;
+    }
+    &__chevron[open="true"] {
+        transform: rotate(180deg);
+    }
+    &__button[open="false"] {
+        width: auto;
+    }
+    &__chevron[open="false"] {
+        transform: rotate(0deg);
+    }
     &__result {
         display: flex;
         justify-content: space-between;
