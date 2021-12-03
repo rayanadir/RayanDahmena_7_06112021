@@ -29,15 +29,31 @@
 
         <section class="filter">
             <div class="filter__results">
-                <button class="filter__result">
+                <!--<button class="filter__result">
                     Coco
                     <i class="far fa-times-circle filter__close"></i>
-                </button>
+                </button>-->
             </div>
             <div class="filter__buttons">
-                <button class="filter__button filter__1" id="ingredients">Ingrédients
-                    <i class="fas fa-chevron-down filter__chevron" id="chevron1"></i>
-                </button>
+                <div class="filter__filters_class" id="ingredients">
+                    <button class="filter__button filter__1" id="ingredients_button">
+                        <div class="filter__title_chevron">
+                            <div class="filter__name" id="name_ingredients">
+                                Ingrédients
+                            </div>
+                            <i class="fas fa-chevron-down filter__chevron" id="chevron1"></i>
+                        </div>
+                    </button>
+                    <div class="filter__button filter__1" id="ingredientsListDropdown">
+                        <div class="filter__title_chevron">
+                            <input placeholder="Ingrédients" class="filter__name" id="name_ingredients">
+                            </input>
+                            <i class="fas fa-chevron-up filter__chevron" id="chevron1"></i>
+                        </div>
+                        <div class="filter__filters" id="ingredientsList">
+                        </div>
+                    </div>
+                </div>
                 <button class="filter__button filter__2" id="appareils">Appareils
                     <i class="fas fa-chevron-down filter__chevron" id="chevron2"></i>
                 </button>

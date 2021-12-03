@@ -19,18 +19,49 @@
   column-gap: 1rem;
   cursor: pointer;
   justify-content: space-between;
+  flex-direction: inherit;
 }
 .filter__button[open=true] {
-  width: 30rem;
+  width: 100%;
+  flex-direction: column;
+  border-radius: 5px 5px 0 0;
 }
 .filter__chevron[open=true] {
   transform: rotate(180deg);
 }
 .filter__button[open=false] {
   width: auto;
+  flex-direction: inherit;
+  border-radius: 5px;
 }
 .filter__chevron[open=false] {
   transform: rotate(0deg);
+}
+.filter__title_chevron {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.filter__filters {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: auto;
+  border-radius: 0 0 5px 5px;
+}
+.filter__filters[open=true] {
+  width: 30rem;
+}
+.filter__filters[open=false] {
+  width: auto;
+}
+.filter__element_name {
+  cursor: pointer;
+  text-align: center;
+  color: white;
+}
+.filter__filters_class {
+  z-index: 1;
 }
 .filter__result {
   display: flex;
