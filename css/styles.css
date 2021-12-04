@@ -21,10 +21,18 @@
   justify-content: space-between;
   flex-direction: inherit;
 }
+.filter__dropdown {
+  width: 30rem;
+  display: none;
+}
 .filter__button[open=true] {
   width: 100%;
   flex-direction: column;
   border-radius: 5px 5px 0 0;
+}
+.filter__chevron {
+  color: white;
+  cursor: pointer;
 }
 .filter__chevron[open=true] {
   transform: rotate(180deg);
@@ -41,7 +49,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  padding: 1rem;
 }
 .filter__filters {
   display: grid;
@@ -60,8 +68,21 @@
   text-align: center;
   color: white;
 }
+.filter__element_name:hover {
+  text-decoration: underline;
+}
 .filter__filters_class {
   z-index: 1;
+}
+.filter__input {
+  border: 0;
+  outline: none;
+  font-size: 20px;
+  color: white;
+}
+.filter__input::placeholder {
+  color: white;
+  opacity: 50%;
 }
 .filter__result {
   display: flex;

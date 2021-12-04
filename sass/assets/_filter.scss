@@ -20,10 +20,18 @@
         justify-content: space-between;
         flex-direction: inherit;
     }
+    &__dropdown {
+        width: 30rem;
+        display: none;
+    }
     &__button[open="true"] {
         width: 100%;
         flex-direction: column;
         border-radius: 5px 5px 0 0;
+    }
+    &__chevron {
+        color: white;
+        cursor: pointer;
     }
     &__chevron[open="true"] {
         transform: rotate(180deg);
@@ -40,7 +48,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 100%;
+        padding: 1rem;
     }
     &__filters {
         display: grid;
@@ -59,8 +67,21 @@
         text-align: center;
         color: white;
     }
+    &__element_name:hover {
+        text-decoration: underline;
+    }
     &__filters_class {
         z-index: 1;
+    }
+    &__input {
+        border: 0;
+        outline: none;
+        font-size: 20px;
+        color: white;
+    }
+    &__input::placeholder {
+        color: white;
+        opacity: 50%;
     }
     &__result {
         display: flex;

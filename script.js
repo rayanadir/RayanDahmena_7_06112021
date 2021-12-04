@@ -3,20 +3,35 @@ import Service from './public/js/Service.js';
 
 var recipesArray = recipes.recipes;
 let recipesList = document.getElementById('recipes');
+
+//Ingredients DOM elements
 let ingredientsFilter = document.getElementById('ingredients');
 let ingredientsListDropdown = document.getElementById('ingredientsListDropdown');
-ingredientsListDropdown.style.display = "none"
-let appareilsFilter = document.getElementById('appareils');
-let ustensilesFilter = document.getElementById('ustensiles');
+let ingredients_button = document.getElementById('ingredients_button');
+let inputIngredient = document.getElementById('inputIngredients')
+var ingredientsArray = Service.getIngredients(recipesArray);
 let chevron1 = document.getElementById('chevron1');
+
+//Appareils DOM elements
+let appareilsFilter = document.getElementById('appareils');
+let appareilsListDropdown = document.getElementById('appareilsListDropdown');
+let appareils_button = document.getElementById('appareils_button');
+let inputAppareil = document.getElementById('inputAppareil');
+var appreilsArray = Service.getAppliance(recipesArray);
 let chevron2 = document.getElementById('chevron2');
+
+//Ustensiles DOM elements
+let ustensilesFilter = document.getElementById('ustensiles');
+let ustensilesListDropdown = document.getElementById('ustensilesListDropdown');
+let ustensiles_button = document.getElementById('ustensiles_button');
+let inputUstensiles = document.getElementById('inputUstensiles');
+var ustensilesArray = Service.getUstensils(recipesArray);
 let chevron3 = document.getElementById('chevron3');
+
 let filterOpen = false;
 let filtersArray = [];
 
-
 Service.loadRecipes(recipesArray, recipesList);
-
 Service.getAppliance(recipesArray);
 Service.getUstensils(recipesArray);
 
@@ -26,7 +41,7 @@ document.getElementById('search').addEventListener('input', (e) => {
     var resultRecipes = [];
     if (length >= 3) {
         recipesArray.forEach((recipe) => {
-            if (recipe.name.toLowerCase().includes(value) || recipe.description.toLowerCase().includes(value) || recipe.ingredients.some(a => a.ingredient.includes(value))) {
+            if (recipe.name.toLowerCase().includes(value) || recipe.description.toLowerCase().includes(value) || recipe.ingredients.toLowerCase().some(a => a.ingredient.includes(value))) {
                 resultRecipes.push(recipe);
             }
         })
@@ -35,112 +50,141 @@ document.getElementById('search').addEventListener('input', (e) => {
     }
     Service.loadRecipes(resultRecipes, recipesList);
 })
+
+// evenements ingredients
 ingredientsFilter.addEventListener('click', (e) => {
-    let filtersList = document.getElementById('filtersList');
-    let ingredients_button = document.getElementById('ingredients_button');
-    let ingredientsListDropdown = document.getElementById('ingredientsListDropdown');
     if (filterOpen == false) {
         filterOpen = true;
-        ingredients_button.style.display = "none";
-        ingredientsListDropdown.style.display = "flex";
-
-
-        /*const id_ingredients = document.getElementById('name_ingredients')
-        id_ingredients.innerHTML = ``;
-        let input = document.createElement('input');
-        id_ingredients.appendChild(input);
-        input.id = "input"
-        input.classList.add('filter__input')
-        input.placeholder = "Ingrédients";
-        filterOpen = true;
-        ingredientsFilter.setAttribute('open', true);
-        chevron1.setAttribute('open', true);
-        var ingredients = Service.getIngredients(recipesArray);
-        ingredients.forEach((ingredient) => {
+        ingredients_button.style.display = "none"
+        ingredientsListDropdown.style.display = "block";
+        document.getElementById('ingredientsList').innerHTML = ``;
+        ingredientsArray.forEach((ingredient) => {
             var template = `
                 <p class="filter__element_name" id="element_name" title="ingredient" data-id="${ingredient}">${ingredient}</p>
             `;
-            filtersList.innerHTML += template;
+            document.getElementById('ingredientsList').innerHTML += template;
         })
-        const elementName = document.getElementsByClassName('filter__element_name')
-        for (let element of elementName) {
-            element.addEventListener('click', (e) => {
-                const value = e.target.dataset.id;
-                const type = e.target.title;
-                let object = { "value": value, "type": type };
-                if (filtersArray.indexOf(object) == -1) {
-                    filtersArray.push(object);
-                }
-                ingredientsFilter.setAttribute('open', false);
-                chevron1.setAttribute('open', false);
-                let filtersList = document.getElementById('filtersList');
-                filtersList.innerHTML = ``;
-                console.log(filtersArray);
-            })
-        }*/
-
-
-
     } else {
-        filterOpen = false
-        ingredients_button.style.display = "block";
-        ingredientsListDropdown.style.display = "none";
-
-
-        /*
         filterOpen = false;
-        ingredientsFilter.setAttribute('open', false);
-        chevron1.setAttribute('open', false);
-        filtersList.innerHTML = ``;*/
     }
 })
 
-/*
-ingredientsFilter.addEventListener('blur', (e) => {
-        ingredientsFilter.setAttribute('open', false);
-        chevron1.setAttribute('open', false);
-        let filtersList = document.getElementById('filtersList');
-        filtersList.innerHTML = ``;
-        const id_ingredients = document.getElementById('name_ingredients')
-        id_ingredients.innerHTML = `Ingrédients`;
-    })
 chevron1.addEventListener('click', (e) => {
-        ingredientsFilter.setAttribute('open', false);
-        chevron1.setAttribute('open', false);
-        let filtersList = document.getElementById('filtersList');
-        filtersList.innerHTML = ``;
-        const id_ingredients = document.getElementById('name_ingredients');
-        id_ingredients.removeChild(document.getElementById('input'));
-        id_ingredients.innerHTML = `Ingrédients`;
+    ingredients_button.style.display = "flex";
+    ingredientsListDropdown.style.display = "none";
+    document.getElementById('ingredientsList').innerHTML = ``;
+})
+
+inputIngredient.addEventListener('input', (e) => {
+    const value = e.target.value.toLowerCase();
+    const length = value.length;
+    var resultIngredients = [];
+    document.getElementById('ingredientsList').innerHTML = ``;
+    if (length > 0) {
+        ingredientsArray.forEach((ingredient) => {
+            if (ingredient.toLowerCase().includes(value)) {
+                resultIngredients.push(ingredient);
+            }
+        })
+    } else {
+        resultIngredients = ingredientsArray;
+    }
+    resultIngredients.forEach((ingredient) => {
+        var template = `
+        <p class="filter__element_name" id="element_name" title="ingredient" data-id="${ingredient}">${ingredient}</p>
+        `;
+        document.getElementById('ingredientsList').innerHTML += template;
     })
-        
-        appareilsFilter.addEventListener('click', (e) => {
-            if (filterOpen == false) {
-                filterOpen = true;
-                appareilsFilter.setAttribute('open', true);
-                chevron2.setAttribute('open', true);
-            } else {
-                filterOpen = false;
-                appareilsFilter.setAttribute('open', false);
-                chevron2.setAttribute('open', false);
+});
+
+// evenements appareils
+appareilsFilter.addEventListener('click', (e) => {
+    if (filterOpen == false) {
+        filterOpen = true;
+        appareils_button.style.display = "none";
+        appareilsListDropdown.style.display = "block";
+        document.getElementById('appareilsList').innerHTML = ``;
+        appreilsArray.forEach((appareil) => {
+            var template = `
+                <p class="filter__element_name" id="element_name" title="appareil" data-id="${appareil}">${appareil}</p>
+            `;
+            document.getElementById('appareilsList').innerHTML += template;
+        })
+    } else {
+        filterOpen = false;
+    }
+})
+
+chevron2.addEventListener('click', (e) => {
+    appareils_button.style.display = "flex";
+    appareilsListDropdown.style.display = "none";
+    document.getElementById('appareilsList').innerHTML = ``;
+})
+
+inputAppareil.addEventListener('input', (e) => {
+    const value = e.target.value.toLowerCase();
+    const length = value.length;
+    var resultAppareils = [];
+    document.getElementById('appareilsList').innerHTML = ``;
+    if (length > 0) {
+        appreilsArray.forEach((appareil) => {
+            if (appareil.toLowerCase().includes(value)) {
+                resultAppareils.push(appareil);
             }
         })
-        appareilsFilter.addEventListener('blur', (e) => {
-            appareilsFilter.setAttribute('open', false);
-            chevron2.setAttribute('open', false);
+    } else {
+        resultAppareils = appreilsArray;
+    }
+    resultAppareils.forEach((appareil) => {
+        var template = `
+        <p class="filter__element_name" id="element_name" title="ingredient" data-id="${appareil}">${appareil}</p>
+        `;
+        document.getElementById('appareilsList').innerHTML += template;
+    })
+})
+
+// evenements ustensiles
+ustensilesFilter.addEventListener('click', (e) => {
+    if (filterOpen == false) {
+        filterOpen = true;
+        ustensiles_button.style.display = "none";
+        ustensilesListDropdown.style.display = "block";
+        document.getElementById('ustensilesList').innerHTML = ``;
+        ustensilesArray.forEach((ustensiles) => {
+            var template = `
+                <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensiles}">${ustensiles}</p>
+            `;
+            document.getElementById('ustensilesList').innerHTML += template;
         })
-        ustensilesFilter.addEventListener('click', (e) => {
-            if (filterOpen == false) {
-                filterOpen = true;
-                ustensilesFilter.setAttribute('open', true);
-                chevron3.setAttribute('open', true);
-            } else {
-                filterOpen = false;
-                ustensilesFilter.setAttribute('open', false);
-                chevron3.setAttribute('open', false);
+    } else {
+        filterOpen = false;
+    }
+})
+
+chevron3.addEventListener('click', (e) => {
+    ustensiles_button.style.display = "flex";
+    ustensilesListDropdown.style.display = "none";
+    document.getElementById('ustensilesList').innerHTML = ``;
+})
+
+inputUstensiles.addEventListener('input', (e) => {
+    const value = e.target.value.toLowerCase();
+    const length = value.length;
+    var resultUstensiles = [];
+    document.getElementById('ustensilesList').innerHTML = ``;
+    if (length > 0) {
+        ustensilesArray.forEach((ustensil) => {
+            if (ustensil.toLowerCase().includes(value)) {
+                resultUstensiles.push(ustensil);
             }
         })
-        ustensilesFilter.addEventListener('blur', (e) => {
-            ustensilesFilter.setAttribute('open', false);
-            chevron3.setAttribute('open', false)
-        });*/
+    } else {
+        resultUstensiles = ustensilesArray;
+    }
+    resultUstensiles.forEach((ustensil) => {
+        var template = `
+            <p class="filter__element_name" id="element_name" title="ustensile" data-id="${ustensil}">${ustensil}</p>
+            `;
+        document.getElementById('ustensilesList').innerHTML += template;
+    })
+})
