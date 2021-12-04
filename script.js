@@ -1,5 +1,5 @@
-import * as recipes from '../recipes.js';
-import Service from './public/js/Service.js';
+import * as recipes from '/recipes.js';
+import Service from '/public/js/Service.js';
 
 var recipesArray = recipes.recipes;
 let recipesList = document.getElementById('recipes');
