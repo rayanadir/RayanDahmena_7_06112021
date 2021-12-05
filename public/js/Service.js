@@ -86,7 +86,7 @@ export default class Service {
                     ustensilsArray.push(ustensil.toLowerCase());
                 }
             })
-        })
+        });
         return ustensilsArray;
     }
 }

@@ -1,5 +1,5 @@
-import * as recipes from '/recipes.js';
-import Service from '/public/js/Service.js';
+import * as recipes from '../recipes.js';
+import Service from './public/js/Service.js';
 
 var recipesArray = recipes.recipes;
 let recipesList = document.getElementById('recipes');
@@ -32,8 +32,71 @@ let filterOpen = false;
 let filtersArray = [];
 
 Service.loadRecipes(recipesArray, recipesList);
-Service.getAppliance(recipesArray);
-Service.getUstensils(recipesArray);
+var allAppliance = Service.getAppliance(recipesArray);
+var allUstensils = Service.getUstensils(recipesArray);
+var allIngredients = Service.getIngredients(recipesArray);
+
+
+
+
+
+allIngredients.forEach((ingredient) => {
+    var template = `
+        <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ingredient}">${ingredient}</p>
+    `;
+    document.getElementById('ingredientsList').innerHTML += template;
+    const elementName = document.getElementsByClassName('filter__element_name');
+    for (let element of elementName) {
+        element.addEventListener('click', (e) => {
+            const value = e.target.dataset.id;
+            const type = e.target.title;
+            let object = { "value": value, "type": type };
+            if (filtersArray.indexOf(object) == -1) {
+                filtersArray.push(object);
+            }
+            console.log(filtersArray);
+        })
+    }
+})
+
+allUstensils.forEach((ustensiles) => {
+    var template = `
+        <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensiles}">${ustensiles}</p>
+    `;
+    document.getElementById('ustensilesList').innerHTML += template;
+    const elementName = document.getElementsByClassName('filter__element_name');
+    for (let element of elementName) {
+        element.addEventListener('click', (e) => {
+            const value = e.target.dataset.id;
+            const type = e.target.title;
+            let object = { "value": value, "type": type };
+            if (filtersArray.indexOf(object) == -1) {
+                filtersArray.push(object);
+            }
+            console.log(filtersArray);
+        })
+    }
+})
+
+allAppliance.forEach((appliance) => {
+    var template = `
+        <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${appliance}">${appliance}</p>
+    `;
+    document.getElementById('appareilsList').innerHTML += template;
+    const elementName = document.getElementsByClassName('filter__element_name');
+    for (let element of elementName) {
+        element.addEventListener('click', (e) => {
+            const value = e.target.dataset.id;
+            const type = e.target.title;
+            let object = { "value": value, "type": type };
+            if (filtersArray.indexOf(object) == -1) {
+                filtersArray.push(object);
+            }
+            console.log(filtersArray);
+        })
+    }
+})
+
 
 document.getElementById('search').addEventListener('input', (e) => {
     const value = e.target.value.toLowerCase();
@@ -149,13 +212,6 @@ ustensilesFilter.addEventListener('click', (e) => {
         filterOpen = true;
         ustensiles_button.style.display = "none";
         ustensilesListDropdown.style.display = "block";
-        document.getElementById('ustensilesList').innerHTML = ``;
-        ustensilesArray.forEach((ustensiles) => {
-            var template = `
-                <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensiles}">${ustensiles}</p>
-            `;
-            document.getElementById('ustensilesList').innerHTML += template;
-        })
     } else {
         filterOpen = false;
     }
