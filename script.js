@@ -1,7 +1,6 @@
-import * as recipes from '../recipes.js';
 import Service from './public/js/Service.js';
 
-var recipesArray = recipes.recipes;
+//var recipesrecipies = recipes.recipes;
 let recipesList = document.getElementById('recipes');
 
 //Ingredients DOM elements
@@ -9,7 +8,7 @@ let ingredientsFilter = document.getElementById('ingredients');
 let ingredientsListDropdown = document.getElementById('ingredientsListDropdown');
 let ingredients_button = document.getElementById('ingredients_button');
 let inputIngredient = document.getElementById('inputIngredients')
-var ingredientsArray = Service.getIngredients(recipesArray);
+var ingredientsArray = Service.getIngredients();
 let chevron1 = document.getElementById('chevron1');
 
 //Appareils DOM elements
@@ -17,7 +16,7 @@ let appareilsFilter = document.getElementById('appareils');
 let appareilsListDropdown = document.getElementById('appareilsListDropdown');
 let appareils_button = document.getElementById('appareils_button');
 let inputAppareil = document.getElementById('inputAppareil');
-var appreilsArray = Service.getAppliance(recipesArray);
+var appreilsArray = Service.getAppliance();
 let chevron2 = document.getElementById('chevron2');
 
 //Ustensiles DOM elements
@@ -25,38 +24,95 @@ let ustensilesFilter = document.getElementById('ustensiles');
 let ustensilesListDropdown = document.getElementById('ustensilesListDropdown');
 let ustensiles_button = document.getElementById('ustensiles_button');
 let inputUstensiles = document.getElementById('inputUstensiles');
-var ustensilesArray = Service.getUstensils(recipesArray);
+var ustensilesArray = Service.getUstensils();
 let chevron3 = document.getElementById('chevron3');
 
 let filterOpen = false;
-let filtersArray = [];
+var filtersArray = [];
+var filtersTemplate = document.getElementById('results')
 
-Service.loadRecipes(recipesArray, recipesList);
-var allAppliance = Service.getAppliance(recipesArray);
-var allUstensils = Service.getUstensils(recipesArray);
-var allIngredients = Service.getIngredients(recipesArray);
+var recipesArray = Service.loadRecipes();
+var allAppliance = Service.getAppliance();
+var allUstensils = Service.getUstensils();
+var allIngredients = Service.getIngredients();
 
 
 
+function displayRecipies(recipes) {
+    recipesList.innerHTML = ``;
+    if (recipes.length > 0) {
+        recipesList.style.display = "grid";
+        for (var i = 0; i < recipes.length; i++) {
+            recipes[i].ingredients.map((a) => {
+                if (a.unit == undefined) {
+                    a.unit = "";
+                }
+                if (a.quantity == undefined) {
+                    a.quantity = "";
+                }
+            })
+            var template = `
+            <article class="recipes__recipe">
+            <img src="/public/images/img.png" alt="image" class="recipes__image">
+            <div class="recipes__details">
+                <div class="recipes__title_time">
+                    <div class="recipes__title">
+                        ${recipes[i].name}
+                    </div>
+                    <div class="recipes__time">
+                        <i class="far fa-clock recipes__icon"></i>
+                        <div class="recipes__time_value">
+                            ${recipes[i].time} min
+                        </div>
+                    </div>
+                </div>
+                <div class="recipes__ingredients_description">
+                    <div class="recipes__ingredients">
+                            ${recipes[i].ingredients.map((a) => `
+                            <label for="ingredient" class="recipes__ingredient">
+                                <p class="recipes__ingredient_name">
+                                ${a.ingredient} : 
+                            </p>
+                            <p class="recipes__ingredient_value">
+                                ${a.quantity} ${a.unit}
+                            </p>
+                            </label>
+                            `).join('')}
+                    </div>
+                    <label class="recipes__description">
+                        ${recipes[i].description}
+                    </label>
+                </div>
+            </div>
+            </article>
+            `
+            recipesList.innerHTML += template;
+        }
+    } else {
+        recipesList.style.display = "block";
+        recipesList.innerHTML = `
+    <p class="recipes__no_result">
+        Aucune rectette ne correspond à votre critère ... vous pouvez chercher "tarte aux pommes","poisson", etc ...
+    </p>
+    `
+    }
+}
+
+displayRecipies(recipesArray);
 
 
 allIngredients.forEach((ingredient) => {
     var template = `
-        <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ingredient}">${ingredient}</p>
+        <p class="filter__element_name" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
     `;
     document.getElementById('ingredientsList').innerHTML += template;
-    const elementName = document.getElementsByClassName('filter__element_name');
-    for (let element of elementName) {
-        element.addEventListener('click', (e) => {
-            const value = e.target.dataset.id;
-            const type = e.target.title;
-            let object = { "value": value, "type": type };
-            if (filtersArray.indexOf(object) == -1) {
-                filtersArray.push(object);
-            }
-            console.log(filtersArray);
-        })
-    }
+})
+
+allAppliance.forEach((appliance) => {
+    var template = `
+        <p class="filter__element_name" id="element_name" title="appareils" data-id="${appliance}">${appliance}</p>
+    `;
+    document.getElementById('appareilsList').innerHTML += template;
 })
 
 allUstensils.forEach((ustensiles) => {
@@ -64,39 +120,7 @@ allUstensils.forEach((ustensiles) => {
         <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensiles}">${ustensiles}</p>
     `;
     document.getElementById('ustensilesList').innerHTML += template;
-    const elementName = document.getElementsByClassName('filter__element_name');
-    for (let element of elementName) {
-        element.addEventListener('click', (e) => {
-            const value = e.target.dataset.id;
-            const type = e.target.title;
-            let object = { "value": value, "type": type };
-            if (filtersArray.indexOf(object) == -1) {
-                filtersArray.push(object);
-            }
-            console.log(filtersArray);
-        })
-    }
 })
-
-allAppliance.forEach((appliance) => {
-    var template = `
-        <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${appliance}">${appliance}</p>
-    `;
-    document.getElementById('appareilsList').innerHTML += template;
-    const elementName = document.getElementsByClassName('filter__element_name');
-    for (let element of elementName) {
-        element.addEventListener('click', (e) => {
-            const value = e.target.dataset.id;
-            const type = e.target.title;
-            let object = { "value": value, "type": type };
-            if (filtersArray.indexOf(object) == -1) {
-                filtersArray.push(object);
-            }
-            console.log(filtersArray);
-        })
-    }
-})
-
 
 document.getElementById('search').addEventListener('input', (e) => {
     const value = e.target.value.toLowerCase();
@@ -104,18 +128,18 @@ document.getElementById('search').addEventListener('input', (e) => {
     var resultRecipes = [];
     if (length >= 3) {
         recipesArray.forEach((recipe) => {
-            if (recipe.name.toLowerCase().includes(value) || recipe.description.toLowerCase().includes(value) || recipe.ingredients.toLowerCase().some(a => a.ingredient.includes(value))) {
+            if (recipe.name.toLowerCase().includes(value) || recipe.description.toLowerCase().includes(value) || recipe.ingredients.some(a => a.ingredient.includes(value))) {
                 resultRecipes.push(recipe);
             }
         })
     } else {
         resultRecipes = recipesArray;
     }
-    Service.loadRecipes(resultRecipes, recipesList);
+    displayRecipies(resultRecipes)
 })
 
 // evenements ingredients
-ingredientsFilter.addEventListener('click', (e) => {
+ingredientsFilter.addEventListener('click', () => {
     if (filterOpen == false) {
         filterOpen = true;
         ingredients_button.style.display = "none"
@@ -123,7 +147,7 @@ ingredientsFilter.addEventListener('click', (e) => {
         document.getElementById('ingredientsList').innerHTML = ``;
         ingredientsArray.forEach((ingredient) => {
             var template = `
-                <p class="filter__element_name" id="element_name" title="ingredient" data-id="${ingredient}">${ingredient}</p>
+                <p class="filter__element_name" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
             `;
             document.getElementById('ingredientsList').innerHTML += template;
         })
@@ -132,9 +156,10 @@ ingredientsFilter.addEventListener('click', (e) => {
     }
 })
 
-chevron1.addEventListener('click', (e) => {
+chevron1.addEventListener('click', () => {
     ingredients_button.style.display = "flex";
     ingredientsListDropdown.style.display = "none";
+    inputIngredient.value="";
     document.getElementById('ingredientsList').innerHTML = ``;
 })
 
@@ -154,14 +179,14 @@ inputIngredient.addEventListener('input', (e) => {
     }
     resultIngredients.forEach((ingredient) => {
         var template = `
-        <p class="filter__element_name" id="element_name" title="ingredient" data-id="${ingredient}">${ingredient}</p>
+        <p class="filter__element_name" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
         `;
         document.getElementById('ingredientsList').innerHTML += template;
     })
 });
 
 // evenements appareils
-appareilsFilter.addEventListener('click', (e) => {
+appareilsFilter.addEventListener('click', () => {
     if (filterOpen == false) {
         filterOpen = true;
         appareils_button.style.display = "none";
@@ -169,7 +194,7 @@ appareilsFilter.addEventListener('click', (e) => {
         document.getElementById('appareilsList').innerHTML = ``;
         appreilsArray.forEach((appareil) => {
             var template = `
-                <p class="filter__element_name" id="element_name" title="appareil" data-id="${appareil}">${appareil}</p>
+                <p class="filter__element_name" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
             `;
             document.getElementById('appareilsList').innerHTML += template;
         })
@@ -178,9 +203,10 @@ appareilsFilter.addEventListener('click', (e) => {
     }
 })
 
-chevron2.addEventListener('click', (e) => {
+chevron2.addEventListener('click', () => {
     appareils_button.style.display = "flex";
     appareilsListDropdown.style.display = "none";
+    inputAppareil.value="";
     document.getElementById('appareilsList').innerHTML = ``;
 })
 
@@ -200,26 +226,34 @@ inputAppareil.addEventListener('input', (e) => {
     }
     resultAppareils.forEach((appareil) => {
         var template = `
-        <p class="filter__element_name" id="element_name" title="ingredient" data-id="${appareil}">${appareil}</p>
+        <p class="filter__element_name" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
         `;
         document.getElementById('appareilsList').innerHTML += template;
     })
 })
 
 // evenements ustensiles
-ustensilesFilter.addEventListener('click', (e) => {
+ustensilesFilter.addEventListener('click', () => {
     if (filterOpen == false) {
         filterOpen = true;
         ustensiles_button.style.display = "none";
         ustensilesListDropdown.style.display = "block";
+        document.getElementById('ustensilesList').innerHTML = ``;
+        ustensilesArray.forEach((ustensil)=>{
+            var template = `
+                <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
+            `;
+            document.getElementById('ustensilesList').innerHTML += template;
+        })
     } else {
         filterOpen = false;
     }
 })
 
-chevron3.addEventListener('click', (e) => {
+chevron3.addEventListener('click', () => {
     ustensiles_button.style.display = "flex";
     ustensilesListDropdown.style.display = "none";
+    inputUstensiles.value="";
     document.getElementById('ustensilesList').innerHTML = ``;
 })
 
@@ -239,8 +273,53 @@ inputUstensiles.addEventListener('input', (e) => {
     }
     resultUstensiles.forEach((ustensil) => {
         var template = `
-            <p class="filter__element_name" id="element_name" title="ustensile" data-id="${ustensil}">${ustensil}</p>
+            <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
             `;
         document.getElementById('ustensilesList').innerHTML += template;
     })
+});
+
+//vérifie si un objet est contenu dans un tableau
+function containsObject(obj, list) {
+    return list.some(elem => elem.value === obj.value && elem.type==obj.type)
+}
+
+//evenement récuperation filtre et son affichage
+document.addEventListener('click',(e)=>{
+    const value = e.target.dataset.id;
+    const type = e.target.title;
+    let object={"value" : value, "type" : type}
+    if(value!==undefined && type!==''){
+        if(containsObject(object,filtersArray)==false){
+            filtersArray.push(object);
+            var className;
+            if(type=="ingredients"){
+                className="filter__1"
+            }else if(type=="appareils"){
+                className="filter__2"
+            }else if(type=="ustensiles"){
+                className="filter__3"
+            }
+            var template =`
+            <button class="filter__result ${className}">
+                ${value}
+                <i class="far fa-times-circle filter__close" data-value="${object.value}" data-type="${object.type}"></i>
+            </button>
+            `
+            filtersTemplate.innerHTML+=template;
+        }
+    }
+    
+    const data_value=e.target.dataset.value;
+    const data_type=e.target.dataset.type;
+    if(data_value!==undefined && data_type!==undefined){
+        //console.log(e.target.dataset);
+        for(var i=0;i<filtersArray.length;i++){
+            if(filtersArray[i].value==data_value && filtersArray[i].type==data_type){
+                console.log("suppression de l'objet : " + filtersArray[i].value + " : " + filtersArray[i].type);
+                filtersArray.splice(i);
+                console.log(filtersArray);
+            }
+        }
+    }
 })

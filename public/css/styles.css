@@ -84,12 +84,15 @@
   color: white;
   opacity: 50%;
 }
+.filter__results {
+  display: flex;
+  column-gap: 1rem;
+}
 .filter__result {
   display: flex;
   justify-content: space-between;
   column-gap: 1rem;
   align-items: center;
-  background: #3282F7;
   border: 0;
   border-radius: 5px;
   padding: 0.7rem;
