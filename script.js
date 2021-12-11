@@ -53,7 +53,7 @@ function displayRecipies(recipes) {
             })
             var template = `
             <article class="recipes__recipe">
-            <img src="/public/images/img.png" alt="image" class="recipes__image">
+            <img src="public/images/img.png" alt="image" class="recipes__image">
             <div class="recipes__details">
                 <div class="recipes__title_time">
                     <div class="recipes__title">
@@ -286,6 +286,7 @@ function containsObject(obj, list) {
 
 //evenement récuperation filtre et son affichage
 document.addEventListener('click',(e)=>{
+    //sélectionner filtre + l'ajouter
     const value = e.target.dataset.id;
     const type = e.target.title;
     let object={"value" : value, "type" : type}
@@ -301,7 +302,7 @@ document.addEventListener('click',(e)=>{
                 className="filter__3"
             }
             var template =`
-            <button class="filter__result ${className}">
+            <button class="filter__result ${className}" id="button_${object.value}_${object.type}" data-parent-value="${object.value}" data-parent-type="${object.type}">
                 ${value}
                 <i class="far fa-times-circle filter__close" data-value="${object.value}" data-type="${object.type}"></i>
             </button>
@@ -310,16 +311,18 @@ document.addEventListener('click',(e)=>{
         }
     }
     
+    //supprimer filtre sélectionné
     const data_value=e.target.dataset.value;
     const data_type=e.target.dataset.type;
+    
     if(data_value!==undefined && data_type!==undefined){
-        //console.log(e.target.dataset);
         for(var i=0;i<filtersArray.length;i++){
             if(filtersArray[i].value==data_value && filtersArray[i].type==data_type){
-                console.log("suppression de l'objet : " + filtersArray[i].value + " : " + filtersArray[i].type);
+                console.log(data_value + " " +data_type)
+                document.getElementById('button_'+data_value+'_'+data_type).remove();
                 filtersArray.splice(i);
-                console.log(filtersArray);
             }
         }
     }
+    e.preventDefault()
 })
