@@ -29,7 +29,7 @@ let chevron3 = document.getElementById('chevron3');
 
 let filterOpen = false;
 var filtersArray = [];
-var filtersTemplate = document.getElementById('results')
+var filtersTemplate = document.getElementById('results');
 
 var recipesArray = Service.loadRecipes();
 var allAppliance = Service.getAppliance();
@@ -38,20 +38,21 @@ var allIngredients = Service.getIngredients();
 
 
 
-function displayRecipies(recipes) {
+function displayRecipes(recipes, filterArr) {
     recipesList.innerHTML = ``;
-    if (recipes.length > 0) {
-        recipesList.style.display = "grid";
-        for (var i = 0; i < recipes.length; i++) {
-            recipes[i].ingredients.map((a) => {
-                if (a.unit == undefined) {
-                    a.unit = "";
-                }
-                if (a.quantity == undefined) {
-                    a.quantity = "";
-                }
-            })
-            var template = `
+    if (filterArr.length == 0) {
+        if (recipes.length > 0) {
+            recipesList.style.display = "grid";
+            for (var i = 0; i < recipes.length; i++) {
+                recipes[i].ingredients.map((a) => {
+                    if (a.unit == undefined) {
+                        a.unit = "";
+                    }
+                    if (a.quantity == undefined) {
+                        a.quantity = "";
+                    }
+                })
+                var template = `
             <article class="recipes__recipe">
             <img src="public/images/img.png" alt="image" class="recipes__image">
             <div class="recipes__details">
@@ -96,9 +97,61 @@ function displayRecipies(recipes) {
     </p>
     `
     }
+    }else if(filterArr.length>0){
+        for(var i=0;i<recipes.length;i++){
+            recipes[i].ingredients.map((a) => {
+                if (a.unit == undefined) {
+                    a.unit = "";
+                }
+                if (a.quantity == undefined) {
+                    a.quantity = "";
+                }
+            })
+            for(var j=0;j<filterArr.length;j++){
+                if(recipes[i].appliance.includes(filterArr[j].value) || recipes[i].ingredients.some(a=>a.ingredient.includes(filterArr[j].value)) || recipes[i].ustensils.some(us=>us.includes(filterArr[j].value))){
+                    var template = `
+            <article class="recipes__recipe">
+            <img src="public/images/img.png" alt="image" class="recipes__image">
+            <div class="recipes__details">
+                <div class="recipes__title_time">
+                    <div class="recipes__title">
+                        ${recipes[i].name}
+                    </div>
+                    <div class="recipes__time">
+                        <i class="far fa-clock recipes__icon"></i>
+                        <div class="recipes__time_value">
+                            ${recipes[i].time} min
+                        </div>
+                    </div>
+                </div>
+                <div class="recipes__ingredients_description">
+                    <div class="recipes__ingredients">
+                            ${recipes[i].ingredients.map((a) => `
+                            <label for="ingredient" class="recipes__ingredient">
+                                <p class="recipes__ingredient_name">
+                                ${a.ingredient} : 
+                            </p>
+                            <p class="recipes__ingredient_value">
+                                ${a.quantity} ${a.unit}
+                            </p>
+                            </label>
+                            `).join('')}
+                    </div>
+                    <label class="recipes__description">
+                        ${recipes[i].description}
+                    </label>
+                </div>
+            </div>
+            </article>
+            `
+            recipesList.innerHTML += template;
+                }
+            } 
+        }
+    }
 }
 
-displayRecipies(recipesArray);
+displayRecipes(recipesArray,filtersArray);
 
 
 allIngredients.forEach((ingredient) => {
@@ -122,6 +175,7 @@ allUstensils.forEach((ustensiles) => {
     document.getElementById('ustensilesList').innerHTML += template;
 })
 
+//recherche d'une recette au clavier
 document.getElementById('search').addEventListener('input', (e) => {
     const value = e.target.value.toLowerCase();
     var length = value.length;
@@ -135,7 +189,7 @@ document.getElementById('search').addEventListener('input', (e) => {
     } else {
         resultRecipes = recipesArray;
     }
-    displayRecipies(resultRecipes)
+    displayRecipes(resultRecipes)
 })
 
 // evenements ingredients
@@ -302,27 +356,26 @@ document.addEventListener('click',(e)=>{
                 className="filter__3"
             }
             var template =`
-            <button class="filter__result ${className}" id="button_${object.value}_${object.type}" data-parent-value="${object.value}" data-parent-type="${object.type}">
+            <button class="filter__result ${className}" id="button_${object.value}_${object.type}">
                 ${value}
                 <i class="far fa-times-circle filter__close" data-value="${object.value}" data-type="${object.type}"></i>
             </button>
             `
             filtersTemplate.innerHTML+=template;
+            displayRecipes(recipesArray,filtersArray);
         }
     }
     
     //supprimer filtre sélectionné
     const data_value=e.target.dataset.value;
     const data_type=e.target.dataset.type;
-    
     if(data_value!==undefined && data_type!==undefined){
         for(var i=0;i<filtersArray.length;i++){
             if(filtersArray[i].value==data_value && filtersArray[i].type==data_type){
-                console.log(data_value + " " +data_type)
                 document.getElementById('button_'+data_value+'_'+data_type).remove();
                 filtersArray.splice(i);
+                displayRecipes(recipesArray,filtersArray);
             }
         }
     }
-    e.preventDefault()
 })
