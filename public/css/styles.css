@@ -24,6 +24,7 @@
 .filter__dropdown {
   width: 30rem;
   display: none;
+  border-radius: 5px;
 }
 .filter__button[open=true] {
   width: 100%;
@@ -56,6 +57,7 @@
   grid-template-columns: repeat(3, 1fr);
   width: auto;
   border-radius: 0 0 5px 5px;
+  padding: 1rem;
 }
 .filter__filters[open=true] {
   width: 30rem;
@@ -65,8 +67,9 @@
 }
 .filter__element_name {
   cursor: pointer;
-  text-align: center;
+  text-align: start;
   color: white;
+  margin-top: 0;
 }
 .filter__element_name:hover {
   text-decoration: underline;

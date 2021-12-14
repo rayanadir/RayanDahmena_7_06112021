@@ -59,7 +59,7 @@ function displayRecipes(recipes, filterArr, input_value) {
                             a.quantity = "";
                         }
                     })
-                    //if input_value
+                    //affichage des recettes en fonction de la valeur de recherche
                 if (input_value == '' || input_value == undefined || input_value == null) {
                     var template = `
             <article class="recipes__recipe">
@@ -350,7 +350,16 @@ inputIngredient.addEventListener('input', (e) => {
         `;
         document.getElementById('ingredientsList').innerHTML += template;
         })
-    
+    if(resultIngredients.length==1){
+        ingredientsListDropdown.style.width="14rem";
+        inputIngredient.style.width="130px";
+    }else if(resultIngredients.length==2){
+        ingredientsListDropdown.style.width="23rem";
+        inputIngredient.style.width="auto";
+    }else if(resultIngredients.length>=3){
+        ingredientsListDropdown.style.width="30rem";
+        inputIngredient.style.width="auto";
+    }
 });
 
 // evenements appareils
@@ -393,7 +402,6 @@ chevron2.addEventListener('click', () => {
 inputAppareil.addEventListener('input', (e) => {
     const value = e.target.value;
     const length = value.length;
-    console.log(appreilsArray)
     resultAppareils=[];
     document.getElementById('appareilsList').innerHTML = ``;
     if (length > 0) {
@@ -410,7 +418,17 @@ inputAppareil.addEventListener('input', (e) => {
         <p class="filter__element_name" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
         `;
         document.getElementById('appareilsList').innerHTML += template;
-    })
+    });
+    if(resultAppareils.length==1){
+        appareilsListDropdown.style.width="14rem";
+        inputAppareil.style.width="130px";
+    }else if(resultAppareils.length==2){
+        appareilsListDropdown.style.width="23rem";
+        inputAppareil.style.width="auto";
+    }else if(resultAppareils.length>=3){
+        appareilsListDropdown.style.width="30rem";
+        inputAppareil.style.width="auto";
+    }
 })
 
 
@@ -475,6 +493,16 @@ inputUstensiles.addEventListener('input', (e) => {
             `;
         document.getElementById('ustensilesList').innerHTML += template;
     })
+    if(resultUstensiles.length==1){
+        ustensilesListDropdown.style.width="14rem";
+        inputUstensiles.style.width="130px";
+    }else if(resultUstensiles.length==2){
+        ustensilesListDropdown.style.width="23rem";
+        inputUstensiles.style.width="auto";
+    }else if(resultUstensiles.length>=3){
+        ustensilesListDropdown.style.width="30rem";
+        inputUstensiles.style.width="auto";
+    }
 });
 
 

@@ -23,6 +23,7 @@
     &__dropdown {
         width: 30rem;
         display: none;
+        border-radius: 5px;
     }
     &__button[open="true"] {
         width: 100%;
@@ -55,6 +56,7 @@
         grid-template-columns: repeat(3, 1fr);
         width: auto;
         border-radius: 0 0 5px 5px;
+        padding: 1rem;
     }
     &__filters[open="true"] {
         width: 30rem;
@@ -64,8 +66,9 @@
     }
     &__element_name {
         cursor: pointer;
-        text-align: center;
+        text-align: start;
         color: white;
+        margin-top: 0;
     }
     &__element_name:hover {
         text-decoration: underline;
