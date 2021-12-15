@@ -33,9 +33,9 @@ let filterOpen = false;
 var filtersArray = [];
 var filtersTemplate = document.getElementById('results');
 var resultRecipes = [];
-var resultIngredients = [];
-var resultAppareils = [];
-var resultUstensiles = [];
+//var resultIngredients = [];
+//var resultAppareils = [];
+//var resultUstensiles = [];
 
 var recipesArray = Service.loadRecipes();
 var allAppliance = Service.getAppliance();
@@ -331,10 +331,10 @@ chevron1.addEventListener('click', () => {
 
 inputIngredient.addEventListener('input', (e) => {
     const value = e.target.value;
-    const length = value.length;
-    resultIngredients=[];
+    //const length = value.length;
+    //resultIngredients=[];
     document.getElementById('ingredientsList').innerHTML = ``;
-    if (length > 0) {
+    /*if (length > 0) {
         ingredientsArray.forEach((ingredient) => {
             if (ingredient.includes(value)) {
                 resultIngredients.push(ingredient);
@@ -342,7 +342,8 @@ inputIngredient.addEventListener('input', (e) => {
         })
     } else {
         resultIngredients = ingredientsArray;
-    }
+    }*/
+    const resultIngredients=Service.getIngredients(value);
 
         resultIngredients.forEach((ingredient) => {
         var template = `
@@ -401,10 +402,10 @@ chevron2.addEventListener('click', () => {
 
 inputAppareil.addEventListener('input', (e) => {
     const value = e.target.value;
-    const length = value.length;
-    resultAppareils=[];
+    //const length = value.length;
+    //resultAppareils=[];
     document.getElementById('appareilsList').innerHTML = ``;
-    if (length > 0) {
+    /*if (length > 0) {
         appreilsArray.forEach((appareil) => {
             if (appareil.includes(value)) {
                 resultAppareils.push(appareil);
@@ -412,7 +413,8 @@ inputAppareil.addEventListener('input', (e) => {
         })
     } else {
         resultAppareils = appreilsArray;
-    }
+    }*/
+    const resultAppareils=Service.getAppliance(value);
     resultAppareils.forEach((appareil) => {
         var template = `
         <p class="filter__element_name" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
@@ -475,10 +477,10 @@ chevron3.addEventListener('click', () => {
 
 inputUstensiles.addEventListener('input', (e) => {
     const value = e.target.value;
-    const length = value.length;
-    resultUstensiles=[];
+    //const length = value.length;
+    //resultUstensiles=[];
     document.getElementById('ustensilesList').innerHTML = ``;
-    if (length > 0) {
+    /*if (length > 0) {
         ustensilesArray.forEach((ustensil) => {
             if (ustensil.includes(value)) {
                 resultUstensiles.push(ustensil);
@@ -486,7 +488,8 @@ inputUstensiles.addEventListener('input', (e) => {
         })
     } else if(length==0) {
         resultUstensiles = ustensilesArray;
-    }
+    }*/
+    const resultUstensiles=Service.getUstensils(value);
     resultUstensiles.forEach((ustensil) => {
         var template = `
             <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
