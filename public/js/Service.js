@@ -5,7 +5,7 @@ export default class Service {
     }
     static getIngredients(filter) {
         let ingredients = [
-            ...new Set(recipes.map(recipe => recipe.ingredients).flat())
+            ...new Set(recipes.map(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient)).flat())
         ];
         if (filter) {
             ingredients = ingredients.filter(ingredient => ingredient.toLowerCase().indexOf(filter.toLowerCase()) > -1);
@@ -40,7 +40,7 @@ export default class Service {
     }
     static getUstensils(filter) {
         let ustensils = [
-            ...new Set(recipes.map(recipe => recipe.ustensils).flat())
+            ...new Set(recipes.map(recipe => recipe.ustensils.map(ustensil => ustensil)).flat())
         ];
         if (filter) {
             ustensils = ustensils
