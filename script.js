@@ -304,6 +304,9 @@ ingredientsFilter.addEventListener('click', () => {
         ingredientsListDropdown.style.display = "block";
         var template;
         document.getElementById('ingredientsList').innerHTML = ``;
+        ingredientsFilter.style.position="absolute";
+        appareilsFilter.style.position="relative";
+        ustensilesFilter.style.position="relative";
         //afficher les filtres et empêcher le redéclenchement de l'événement
         if (inputIngredientsLength == undefined || inputIngredient.value=="") {
             ingredientsArray.forEach((ingredient) => {
@@ -315,12 +318,15 @@ ingredientsFilter.addEventListener('click', () => {
             if (ingredientsArray.length == 1) {
                 ingredientsListDropdown.style.width = "14rem";
                 inputIngredient.style.width = "130px";
+                appareilsFilter.style.marginLeft="15rem";
             } else if (ingredientsArray.length == 2) {
                 ingredientsListDropdown.style.width = "23rem";
                 inputIngredient.style.width = "auto";
+                appareilsFilter.style.marginLeft="24rem";
             } else if (ingredientsArray.length >= 3) {
                 ingredientsListDropdown.style.width = "30rem";
                 inputIngredient.style.width = "auto";
+                appareilsFilter.style.marginLeft="31rem";
             }
         } else {
             resultIngredients.forEach((ingredient) => {
@@ -332,12 +338,15 @@ ingredientsFilter.addEventListener('click', () => {
             if (resultIngredients.length == 1) {
                 ingredientsListDropdown.style.width = "14rem";
                 inputIngredient.style.width = "130px";
+                appareilsFilter.style.marginLeft="15rem";
             } else if (resultIngredients.length == 2) {
                 ingredientsListDropdown.style.width = "23rem";
                 inputIngredient.style.width = "auto";
+                appareilsFilter.style.marginLeft="24rem";
             } else if (resultIngredients.length >= 3) {
                 ingredientsListDropdown.style.width = "30rem";
                 inputIngredient.style.width = "auto";
+                appareilsFilter.style.marginLeft="31rem";
             }
         }
     } else {
@@ -348,6 +357,11 @@ ingredientsFilter.addEventListener('click', () => {
 chevron1.addEventListener('click', () => {
     ingredients_button.style.display = "flex";
     ingredientsListDropdown.style.display = "none";
+    ingredientsFilter.style.position="relative";
+    appareilsFilter.style.position="relative";
+    appareilsFilter.style.marginLeft="0";
+    ustensilesFilter.style.position="relative";
+    ustensilesFilter.style.marginLeft="0";
     inputIngredient.value = "";
     document.getElementById('ingredientsList').innerHTML = ``;
 })
@@ -364,15 +378,21 @@ inputIngredient.addEventListener('input', (e) => {
         `;
         document.getElementById('ingredientsList').innerHTML += template;
     })
+    ingredientsFilter.style.position="absolute";
+    appareilsFilter.style.position="relative";
+    ustensilesFilter.style.position="relative";
     if (resultIngredients.length == 1) {
         ingredientsListDropdown.style.width = "14rem";
         inputIngredient.style.width = "130px";
+        appareilsFilter.style.marginLeft="15rem";
     } else if (resultIngredients.length == 2) {
         ingredientsListDropdown.style.width = "23rem";
         inputIngredient.style.width = "auto";
+        appareilsFilter.style.marginLeft="24rem";
     } else if (resultIngredients.length >= 3) {
         ingredientsListDropdown.style.width = "30rem";
         inputIngredient.style.width = "auto";
+        appareilsFilter.style.marginLeft="31rem";
     }
 });
 
@@ -382,8 +402,12 @@ appareilsFilter.addEventListener('click', () => {
         filterOpen = true;
         appareils_button.style.display = "none";
         appareilsListDropdown.style.display = "block";
-        var template
+        var template;
         document.getElementById('appareilsList').innerHTML = ``;
+        appareilsFilter.style.position="absolute";
+        ingredientsFilter.style.position="relative";
+        ustensilesFilter.style.position="relative";
+        appareilsFilter.style.marginLeft="9rem";
         //afficher les filtres et empêcher le redéclenchement de l'événement
         if (inputAppareilLength == undefined || inputAppareil.value=="") {
             appreilsArray.forEach((appareil) => {
@@ -395,12 +419,15 @@ appareilsFilter.addEventListener('click', () => {
             if (appreilsArray.length == 1) {
                 appareilsListDropdown.style.width = "14rem";
                 inputAppareil.style.width = "130px";
+                ustensilesFilter.style.marginLeft="15rem";
             } else if (appreilsArray.length == 2) {
                 appareilsListDropdown.style.width = "23rem";
                 inputAppareil.style.width = "auto";
+                ustensilesFilter.style.marginLeft="24rem";
             } else if (appreilsArray.length >= 3) {
                 appareilsListDropdown.style.width = "30rem";
                 inputAppareil.style.width = "auto";
+                ustensilesFilter.style.marginLeft="31rem";
             }
         } else {
             resultAppareils.forEach((appareil) => {
@@ -412,12 +439,15 @@ appareilsFilter.addEventListener('click', () => {
             if (resultAppareils.length == 1) {
                 appareilsListDropdown.style.width = "14rem";
                 inputAppareil.style.width = "130px";
+                ustensilesFilter.style.marginLeft="15rem";
             } else if (resultAppareils.length == 2) {
                 appareilsListDropdown.style.width = "23rem";
                 inputAppareil.style.width = "auto";
+                ustensilesFilter.style.marginLeft="24rem";
             } else if (resultAppareils.length >= 3) {
                 appareilsListDropdown.style.width = "30rem";
                 inputAppareil.style.width = "auto";
+                ustensilesFilter.style.marginLeft="31rem";
             }
         }
     } else {
@@ -428,6 +458,10 @@ appareilsFilter.addEventListener('click', () => {
 chevron2.addEventListener('click', () => {
     appareilsListDropdown.style.display = "none";
     appareils_button.style.display = "flex";
+    appareilsFilter.style.position="relative";
+    ustensilesFilter.style.position="relative";
+    appareilsFilter.style.marginLeft="0";
+    ustensilesFilter.style.marginLeft="0";
     inputAppareil.value = "";
     document.getElementById('appareilsList').innerHTML = ``;
 })
@@ -443,15 +477,21 @@ inputAppareil.addEventListener('input', (e) => {
         `;
         document.getElementById('appareilsList').innerHTML += template;
     });
+    ingredientsFilter.style.position="relative";
+    appareilsFilter.style.position="absolute";
+    ustensilesFilter.style.position="relative";
     if (resultAppareils.length == 1) {
         appareilsListDropdown.style.width = "14rem";
         inputAppareil.style.width = "130px";
+        ustensilesFilter.style.marginLeft="15rem";
     } else if (resultAppareils.length == 2) {
         appareilsListDropdown.style.width = "23rem";
         inputAppareil.style.width = "auto";
+        ustensilesFilter.style.marginLeft="24rem";
     } else if (resultAppareils.length >= 3) {
         appareilsListDropdown.style.width = "30rem";
         inputAppareil.style.width = "auto";
+        ustensilesFilter.style.marginLeft="31rem";
     }
 })
 
@@ -462,6 +502,10 @@ ustensilesFilter.addEventListener('click', () => {
         ustensiles_button.style.display = "none";
         ustensilesListDropdown.style.display = "block";
         var template;
+        ingredientsFilter.style.position="relative";
+        appareilsFilter.style.position="relative";
+        ustensilesFilter.style.position="absolute";
+        ustensilesFilter.style.marginLeft="17rem";
         document.getElementById('ustensilesList').innerHTML = ``;
         //afficher les filtres et empêcher le redéclenchement de l'événement
         if (inputUstensilsLength == undefined || inputUstensiles.value=="") {
@@ -507,6 +551,8 @@ ustensilesFilter.addEventListener('click', () => {
 chevron3.addEventListener('click', () => {
     ustensiles_button.style.display = "flex";
     ustensilesListDropdown.style.display = "none";
+    ustensilesFilter.style.position="relative";
+    ustensilesFilter.style.marginLeft="0";
     inputUstensiles.value = "";
     document.getElementById('ustensilesList').innerHTML = ``;
 })
