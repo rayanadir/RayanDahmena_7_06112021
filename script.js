@@ -295,80 +295,393 @@ function getUstensilsFilters(arr) {
     return resultUstensiles;
 }
 
-
-// evenements ingredients
-ingredientsFilter.addEventListener('click', () => {
-    if (filterOpen == false) {
-        filterOpen = true;
-        ingredients_button.style.display = "none"
-        ingredientsListDropdown.style.display = "block";
-        var template;
-        document.getElementById('ingredientsList').innerHTML = ``;
-        ingredientsFilter.style.position="absolute";
-        appareilsFilter.style.position="relative";
-        ustensilesFilter.style.position="relative";
-        //afficher les filtres et empêcher le redéclenchement de l'événement
-        if (inputIngredientsLength == undefined || inputIngredient.value=="") {
-            ingredientsArray.forEach((ingredient) => {
-                template = `
-                <p class="filter__element_name" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
-            `;
-                document.getElementById('ingredientsList').innerHTML += template;
-            });
-            if (ingredientsArray.length == 1) {
-                ingredientsListDropdown.style.width = "14rem";
-                inputIngredient.style.width = "130px";
-                appareilsFilter.style.marginLeft="15rem";
-            } else if (ingredientsArray.length == 2) {
-                ingredientsListDropdown.style.width = "23rem";
-                inputIngredient.style.width = "auto";
-                appareilsFilter.style.marginLeft="24rem";
-            } else if (ingredientsArray.length >= 3) {
-                ingredientsListDropdown.style.width = "30rem";
-                inputIngredient.style.width = "auto";
-                appareilsFilter.style.marginLeft="31rem";
+document.addEventListener("click", (e) => {
+    var id=e.target.id;
+    console.log(id);
+    if(id=="ingredients_button" || id=="name_ingredients"){
+        if (filterOpen == false) {
+            filterOpen = true;
+            ingredients_button.style.display = "none"
+            ingredientsListDropdown.style.display = "block";
+            var template;
+            document.getElementById('ingredientsList').innerHTML = ``;
+            ingredientsFilter.style.position = "absolute";
+            appareilsFilter.style.position = "relative";
+            ustensilesFilter.style.position = "relative";
+            //afficher les filtres et empêcher le redéclenchement de l'événement
+            if (inputIngredientsLength == undefined || inputIngredient.value == "") {
+                ingredientsArray.forEach((ingredient) => {
+                    template = `
+                    <p class="filter__element_name" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
+                `;
+                    document.getElementById('ingredientsList').innerHTML += template;
+                });
+                if (ingredientsArray.length == 1) {
+                    ingredientsListDropdown.style.width = "14rem";
+                    inputIngredient.style.width = "130px";
+                    appareilsFilter.style.marginLeft = "15rem";
+                } else if (ingredientsArray.length == 2) {
+                    ingredientsListDropdown.style.width = "23rem";
+                    inputIngredient.style.width = "auto";
+                    appareilsFilter.style.marginLeft = "24rem";
+                } else if (ingredientsArray.length >= 3) {
+                    ingredientsListDropdown.style.width = "30rem";
+                    inputIngredient.style.width = "auto";
+                    appareilsFilter.style.marginLeft = "31rem";
+                }
+            } else {
+                resultIngredients.forEach((ingredient) => {
+                    var template = `
+                        <p class="filter__element_name" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
+                        `;
+                    document.getElementById('ingredientsList').innerHTML += template;
+                });
+                if (resultIngredients.length == 1) {
+                    ingredientsListDropdown.style.width = "14rem";
+                    inputIngredient.style.width = "130px";
+                    appareilsFilter.style.marginLeft = "15rem";
+                } else if (resultIngredients.length == 2) {
+                    ingredientsListDropdown.style.width = "23rem";
+                    inputIngredient.style.width = "auto";
+                    appareilsFilter.style.marginLeft = "24rem";
+                } else if (resultIngredients.length >= 3) {
+                    ingredientsListDropdown.style.width = "30rem";
+                    inputIngredient.style.width = "auto";
+                    appareilsFilter.style.marginLeft = "31rem";
+                }
             }
         } else {
-            resultIngredients.forEach((ingredient) => {
-                var template = `
-                    <p class="filter__element_name" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
-                    `;
-                document.getElementById('ingredientsList').innerHTML += template;
-            });
-            if (resultIngredients.length == 1) {
-                ingredientsListDropdown.style.width = "14rem";
-                inputIngredient.style.width = "130px";
-                appareilsFilter.style.marginLeft="15rem";
-            } else if (resultIngredients.length == 2) {
-                ingredientsListDropdown.style.width = "23rem";
-                inputIngredient.style.width = "auto";
-                appareilsFilter.style.marginLeft="24rem";
-            } else if (resultIngredients.length >= 3) {
-                ingredientsListDropdown.style.width = "30rem";
-                inputIngredient.style.width = "auto";
-                appareilsFilter.style.marginLeft="31rem";
-            }
+            filterOpen = false;
         }
-    } else {
-        filterOpen = false;
+    }else if(id=="appareils_button" || id=="name_appareil"){
+        if (filterOpen == false) {
+            filterOpen = true;
+            appareils_button.style.display = "none";
+            appareilsListDropdown.style.display = "block";
+            var template;
+            document.getElementById('appareilsList').innerHTML = ``;
+            appareilsFilter.style.position = "absolute";
+            ingredientsFilter.style.position = "relative";
+            ustensilesFilter.style.position = "relative";
+            appareilsFilter.style.marginLeft = "9rem";
+            //ustensilesFilter.style.marginLeft="31rem"
+            //afficher les filtres et empêcher le redéclenchement de l'événement
+            if (inputAppareilLength == undefined || inputAppareil.value == "") {
+                appreilsArray.forEach((appareil) => {
+                    template = `
+                    <p class="filter__element_name" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
+                `;
+                    document.getElementById('appareilsList').innerHTML += template;
+                })
+                if (appreilsArray.length == 1) {
+                    appareilsListDropdown.style.width = "14rem";
+                    inputAppareil.style.width = "130px";
+                    ustensilesFilter.style.marginLeft = "15rem";
+                } else if (appreilsArray.length == 2) {
+                    appareilsListDropdown.style.width = "23rem";
+                    inputAppareil.style.width = "auto";
+                    ustensilesFilter.style.marginLeft = "24rem";
+                } else if (appreilsArray.length >= 3) {
+                    appareilsListDropdown.style.width = "30rem";
+                    inputAppareil.style.width = "auto";
+                    ustensilesFilter.style.marginLeft = "31rem";
+                }
+            } else {
+                resultAppareils.forEach((appareil) => {
+                    var template = `
+                        <p class="filter__element_name" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
+                        `;
+                    document.getElementById('appareilsList').innerHTML += template;
+                });
+                if (resultAppareils.length == 1) {
+                    appareilsListDropdown.style.width = "14rem";
+                    inputAppareil.style.width = "130px";
+                    ustensilesFilter.style.marginLeft = "15rem";
+                } else if (resultAppareils.length == 2) {
+                    appareilsListDropdown.style.width = "23rem";
+                    inputAppareil.style.width = "auto";
+                    ustensilesFilter.style.marginLeft = "24rem";
+                } else if (resultAppareils.length >= 3) {
+                    appareilsListDropdown.style.width = "30rem";
+                    inputAppareil.style.width = "auto";
+                    ustensilesFilter.style.marginLeft = "31rem";
+                }
+            }
+        } else {
+            filterOpen = false;
+        }
+    }else if(id="ustensiles_button" || id=="name_ustensiles"){
+        if (filterOpen == false) {
+            filterOpen = true;
+            ustensiles_button.style.display = "none";
+            ustensilesListDropdown.style.display = "block";
+            var template;
+            ingredientsFilter.style.position = "relative";
+            appareilsFilter.style.position = "relative";
+            ustensilesFilter.style.position = "absolute";
+            ustensilesFilter.style.marginLeft = "17rem";
+            document.getElementById('ustensilesList').innerHTML = ``;
+            //afficher les filtres et empêcher le redéclenchement de l'événement
+            if (inputUstensilsLength == undefined || inputUstensiles.value == "") {
+                ustensilesArray.forEach((ustensil) => {
+                    template = `
+                    <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
+                `;
+                    document.getElementById('ustensilesList').innerHTML += template;
+                })
+                if (ustensilesArray.length == 1) {
+                    ustensilesListDropdown.style.width = "14rem";
+                    inputUstensiles.style.width = "130px";
+                } else if (ustensilesArray.length == 2) {
+                    ustensilesListDropdown.style.width = "23rem";
+                    inputUstensiles.style.width = "auto";
+                } else if (ustensilesArray.length >= 3) {
+                    ustensilesListDropdown.style.width = "30rem";
+                    inputUstensiles.style.width = "auto";
+                }
+            } else {
+                resultUstensiles.forEach((ustensil) => {
+                    var template = `
+                            <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
+                            `;
+                    document.getElementById('ustensilesList').innerHTML += template;
+                });
+                if (resultUstensiles.length == 1) {
+                    ustensilesListDropdown.style.width = "14rem";
+                    inputUstensiles.style.width = "130px";
+                } else if (resultUstensiles.length == 2) {
+                    ustensilesListDropdown.style.width = "23rem";
+                    inputUstensiles.style.width = "auto";
+                } else if (resultUstensiles.length >= 3) {
+                    ustensilesListDropdown.style.width = "30rem";
+                    inputUstensiles.style.width = "auto";
+                }
+            }
+        } else {
+            filterOpen = false;
+        }
+    }else{
+        console.log("fermer")
+        
+        ingredients_button.style.display="flex";
+        ingredientsListDropdown.style.display="none";
+        ingredientsFilter.style.position = "relative";
+        appareilsListDropdown.style.display = "none";
+        appareils_button.style.display = "flex";
+        appareilsFilter.style.position = "relative";
+        ustensiles_button.style.display = "flex";
+        ustensilesListDropdown.style.display = "none";
+        ustensilesFilter.style.position = "relative";
+        ingredientsFilter.style.marginLeft="0";
+        appareilsFilter.style.marginLeft="0";
+        ustensilesFilter.style.marginLeft="0"
     }
+    /*var insideIngredientsClick = ingredientsListDropdown.contains(e.target);
+    var ingredientsButtonClick=ingredientsFilter.contains(e.target);
+    var insideAppareilsClick= appareilsListDropdown.contains(e.target);
+    var appareilsButtonClick=appareilsFilter.contains(e.target);
+    var insideUstensilsClick=ustensilesListDropdown.contains(e.target);
+    var ustensilButtonClick=ustensilesFilter.contains(e.target);
+    if (!insideIngredientsClick) {
+        ingredients_button.style.display = "flex";
+        ingredientsListDropdown.style.display = "none";
+        ingredientsFilter.style.position = "relative";
+        appareilsFilter.style.position = "relative";
+        appareilsFilter.style.marginLeft = "0";
+        ustensilesFilter.style.position = "relative";
+        ustensilesFilter.style.marginLeft = "0";
+        inputIngredient.value = "";
+        document.getElementById('ingredientsList').innerHTML = ``;
+    } 
+    if(ingredientsButtonClick){
+        if (filterOpen == false) {
+            filterOpen = true;
+            ingredients_button.style.display = "none"
+            ingredientsListDropdown.style.display = "block";
+            var template;
+            document.getElementById('ingredientsList').innerHTML = ``;
+            ingredientsFilter.style.position = "absolute";
+            appareilsFilter.style.position = "relative";
+            ustensilesFilter.style.position = "relative";
+            //afficher les filtres et empêcher le redéclenchement de l'événement
+            if (inputIngredientsLength == undefined || inputIngredient.value == "") {
+                ingredientsArray.forEach((ingredient) => {
+                    template = `
+                    <p class="filter__element_name" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
+                `;
+                    document.getElementById('ingredientsList').innerHTML += template;
+                });
+                if (ingredientsArray.length == 1) {
+                    ingredientsListDropdown.style.width = "14rem";
+                    inputIngredient.style.width = "130px";
+                    appareilsFilter.style.marginLeft = "15rem";
+                } else if (ingredientsArray.length == 2) {
+                    ingredientsListDropdown.style.width = "23rem";
+                    inputIngredient.style.width = "auto";
+                    appareilsFilter.style.marginLeft = "24rem";
+                } else if (ingredientsArray.length >= 3) {
+                    ingredientsListDropdown.style.width = "30rem";
+                    inputIngredient.style.width = "auto";
+                    appareilsFilter.style.marginLeft = "31rem";
+                }
+            } else {
+                resultIngredients.forEach((ingredient) => {
+                    var template = `
+                        <p class="filter__element_name" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
+                        `;
+                    document.getElementById('ingredientsList').innerHTML += template;
+                });
+                if (resultIngredients.length == 1) {
+                    ingredientsListDropdown.style.width = "14rem";
+                    inputIngredient.style.width = "130px";
+                    appareilsFilter.style.marginLeft = "15rem";
+                } else if (resultIngredients.length == 2) {
+                    ingredientsListDropdown.style.width = "23rem";
+                    inputIngredient.style.width = "auto";
+                    appareilsFilter.style.marginLeft = "24rem";
+                } else if (resultIngredients.length >= 3) {
+                    ingredientsListDropdown.style.width = "30rem";
+                    inputIngredient.style.width = "auto";
+                    appareilsFilter.style.marginLeft = "31rem";
+                }
+            }
+        } else {
+            filterOpen = false;
+        }
+    }
+    if(!insideAppareilsClick){
+        appareilsListDropdown.style.display = "none";
+        appareils_button.style.display = "flex";
+        appareilsFilter.style.position = "relative";
+        ustensilesFilter.style.position = "relative";
+        appareilsFilter.style.marginLeft = "0";
+        ustensilesFilter.style.marginLeft = "0";
+        inputAppareil.value = "";
+        document.getElementById('appareilsList').innerHTML = ``;
+    }
+    if(appareilsButtonClick){
+        if (filterOpen == false) {
+            filterOpen = true;
+            appareils_button.style.display = "none";
+            appareilsListDropdown.style.display = "block";
+            var template;
+            document.getElementById('appareilsList').innerHTML = ``;
+            appareilsFilter.style.position = "absolute";
+            ingredientsFilter.style.position = "relative";
+            ustensilesFilter.style.position = "relative";
+            appareilsFilter.style.marginLeft = "9rem";
+            //ustensilesFilter.style.marginLeft="31rem"
+            //afficher les filtres et empêcher le redéclenchement de l'événement
+            if (inputAppareilLength == undefined || inputAppareil.value == "") {
+                appreilsArray.forEach((appareil) => {
+                    template = `
+                    <p class="filter__element_name" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
+                `;
+                    document.getElementById('appareilsList').innerHTML += template;
+                })
+                if (appreilsArray.length == 1) {
+                    appareilsListDropdown.style.width = "14rem";
+                    inputAppareil.style.width = "130px";
+                    ustensilesFilter.style.marginLeft = "15rem";
+                } else if (appreilsArray.length == 2) {
+                    appareilsListDropdown.style.width = "23rem";
+                    inputAppareil.style.width = "auto";
+                    ustensilesFilter.style.marginLeft = "24rem";
+                } else if (appreilsArray.length >= 3) {
+                    appareilsListDropdown.style.width = "30rem";
+                    inputAppareil.style.width = "auto";
+                    ustensilesFilter.style.marginLeft = "31rem";
+                }
+            } else {
+                resultAppareils.forEach((appareil) => {
+                    var template = `
+                        <p class="filter__element_name" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
+                        `;
+                    document.getElementById('appareilsList').innerHTML += template;
+                });
+                if (resultAppareils.length == 1) {
+                    appareilsListDropdown.style.width = "14rem";
+                    inputAppareil.style.width = "130px";
+                    ustensilesFilter.style.marginLeft = "15rem";
+                } else if (resultAppareils.length == 2) {
+                    appareilsListDropdown.style.width = "23rem";
+                    inputAppareil.style.width = "auto";
+                    ustensilesFilter.style.marginLeft = "24rem";
+                } else if (resultAppareils.length >= 3) {
+                    appareilsListDropdown.style.width = "30rem";
+                    inputAppareil.style.width = "auto";
+                    ustensilesFilter.style.marginLeft = "31rem";
+                }
+            }
+        } else {
+            filterOpen = false;
+        }
+    }
+    if(!insideUstensilsClick){
+        ustensiles_button.style.display = "flex";
+        ustensilesListDropdown.style.display = "none";
+        ustensilesFilter.style.position = "relative";
+        //ustensilesFilter.style.marginLeft = "0";
+        inputUstensiles.value = "";
+        document.getElementById('ustensilesList').innerHTML = ``;
+    }
+    if(ustensilButtonClick){
+        if (filterOpen == false) {
+            filterOpen = true;
+            ustensiles_button.style.display = "none";
+            ustensilesListDropdown.style.display = "block";
+            var template;
+            ingredientsFilter.style.position = "relative";
+            appareilsFilter.style.position = "relative";
+            ustensilesFilter.style.position = "absolute";
+            ustensilesFilter.style.marginLeft = "17rem";
+            document.getElementById('ustensilesList').innerHTML = ``;
+            //afficher les filtres et empêcher le redéclenchement de l'événement
+            if (inputUstensilsLength == undefined || inputUstensiles.value == "") {
+                ustensilesArray.forEach((ustensil) => {
+                    template = `
+                    <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
+                `;
+                    document.getElementById('ustensilesList').innerHTML += template;
+                })
+                if (ustensilesArray.length == 1) {
+                    ustensilesListDropdown.style.width = "14rem";
+                    inputUstensiles.style.width = "130px";
+                } else if (ustensilesArray.length == 2) {
+                    ustensilesListDropdown.style.width = "23rem";
+                    inputUstensiles.style.width = "auto";
+                } else if (ustensilesArray.length >= 3) {
+                    ustensilesListDropdown.style.width = "30rem";
+                    inputUstensiles.style.width = "auto";
+                }
+            } else {
+                resultUstensiles.forEach((ustensil) => {
+                    var template = `
+                            <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
+                            `;
+                    document.getElementById('ustensilesList').innerHTML += template;
+                });
+                if (resultUstensiles.length == 1) {
+                    ustensilesListDropdown.style.width = "14rem";
+                    inputUstensiles.style.width = "130px";
+                } else if (resultUstensiles.length == 2) {
+                    ustensilesListDropdown.style.width = "23rem";
+                    inputUstensiles.style.width = "auto";
+                } else if (resultUstensiles.length >= 3) {
+                    ustensilesListDropdown.style.width = "30rem";
+                    inputUstensiles.style.width = "auto";
+                }
+            }
+        } else {
+            filterOpen = false;
+        }
+    }*/
 })
 
-chevron1.addEventListener('click', () => {
-    ingredients_button.style.display = "flex";
-    ingredientsListDropdown.style.display = "none";
-    ingredientsFilter.style.position="relative";
-    appareilsFilter.style.position="relative";
-    appareilsFilter.style.marginLeft="0";
-    ustensilesFilter.style.position="relative";
-    ustensilesFilter.style.marginLeft="0";
-    inputIngredient.value = "";
-    document.getElementById('ingredientsList').innerHTML = ``;
-})
-
+// evenements ingredients
 inputIngredient.addEventListener('input', (e) => {
     const value = e.target.value;
-    inputIngredientsLength=value.length;
+    inputIngredientsLength = value.length;
     resultIngredients = [];
     document.getElementById('ingredientsList').innerHTML = ``;
     resultIngredients = Service.getIngredients(value);
@@ -378,94 +691,25 @@ inputIngredient.addEventListener('input', (e) => {
         `;
         document.getElementById('ingredientsList').innerHTML += template;
     })
-    ingredientsFilter.style.position="absolute";
-    appareilsFilter.style.position="relative";
-    ustensilesFilter.style.position="relative";
+    ingredientsFilter.style.position = "absolute";
+    appareilsFilter.style.position = "relative";
+    ustensilesFilter.style.position = "relative";
     if (resultIngredients.length == 1) {
         ingredientsListDropdown.style.width = "14rem";
         inputIngredient.style.width = "130px";
-        appareilsFilter.style.marginLeft="15rem";
+        appareilsFilter.style.marginLeft = "15rem";
     } else if (resultIngredients.length == 2) {
         ingredientsListDropdown.style.width = "23rem";
         inputIngredient.style.width = "auto";
-        appareilsFilter.style.marginLeft="24rem";
+        appareilsFilter.style.marginLeft = "24rem";
     } else if (resultIngredients.length >= 3) {
         ingredientsListDropdown.style.width = "30rem";
         inputIngredient.style.width = "auto";
-        appareilsFilter.style.marginLeft="31rem";
+        appareilsFilter.style.marginLeft = "31rem";
     }
 });
 
 // evenements appareils
-appareilsFilter.addEventListener('click', () => {
-    if (filterOpen == false) {
-        filterOpen = true;
-        appareils_button.style.display = "none";
-        appareilsListDropdown.style.display = "block";
-        var template;
-        document.getElementById('appareilsList').innerHTML = ``;
-        appareilsFilter.style.position="absolute";
-        ingredientsFilter.style.position="relative";
-        ustensilesFilter.style.position="relative";
-        appareilsFilter.style.marginLeft="9rem";
-        //afficher les filtres et empêcher le redéclenchement de l'événement
-        if (inputAppareilLength == undefined || inputAppareil.value=="") {
-            appreilsArray.forEach((appareil) => {
-                template = `
-                <p class="filter__element_name" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
-            `;
-                document.getElementById('appareilsList').innerHTML += template;
-            })
-            if (appreilsArray.length == 1) {
-                appareilsListDropdown.style.width = "14rem";
-                inputAppareil.style.width = "130px";
-                ustensilesFilter.style.marginLeft="15rem";
-            } else if (appreilsArray.length == 2) {
-                appareilsListDropdown.style.width = "23rem";
-                inputAppareil.style.width = "auto";
-                ustensilesFilter.style.marginLeft="24rem";
-            } else if (appreilsArray.length >= 3) {
-                appareilsListDropdown.style.width = "30rem";
-                inputAppareil.style.width = "auto";
-                ustensilesFilter.style.marginLeft="31rem";
-            }
-        } else {
-            resultAppareils.forEach((appareil) => {
-                var template = `
-                    <p class="filter__element_name" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
-                    `;
-                document.getElementById('appareilsList').innerHTML += template;
-            });
-            if (resultAppareils.length == 1) {
-                appareilsListDropdown.style.width = "14rem";
-                inputAppareil.style.width = "130px";
-                ustensilesFilter.style.marginLeft="15rem";
-            } else if (resultAppareils.length == 2) {
-                appareilsListDropdown.style.width = "23rem";
-                inputAppareil.style.width = "auto";
-                ustensilesFilter.style.marginLeft="24rem";
-            } else if (resultAppareils.length >= 3) {
-                appareilsListDropdown.style.width = "30rem";
-                inputAppareil.style.width = "auto";
-                ustensilesFilter.style.marginLeft="31rem";
-            }
-        }
-    } else {
-        filterOpen = false;
-    }
-})
-
-chevron2.addEventListener('click', () => {
-    appareilsListDropdown.style.display = "none";
-    appareils_button.style.display = "flex";
-    appareilsFilter.style.position="relative";
-    ustensilesFilter.style.position="relative";
-    appareilsFilter.style.marginLeft="0";
-    ustensilesFilter.style.marginLeft="0";
-    inputAppareil.value = "";
-    document.getElementById('appareilsList').innerHTML = ``;
-})
-
 inputAppareil.addEventListener('input', (e) => {
     const value = e.target.value;
     inputAppareilLength = value.length;
@@ -477,89 +721,28 @@ inputAppareil.addEventListener('input', (e) => {
         `;
         document.getElementById('appareilsList').innerHTML += template;
     });
-    ingredientsFilter.style.position="relative";
-    appareilsFilter.style.position="absolute";
-    ustensilesFilter.style.position="relative";
+    ingredientsFilter.style.position = "relative";
+    appareilsFilter.style.position = "absolute";
+    ustensilesFilter.style.position = "relative";
     if (resultAppareils.length == 1) {
         appareilsListDropdown.style.width = "14rem";
         inputAppareil.style.width = "130px";
-        ustensilesFilter.style.marginLeft="15rem";
+        ustensilesFilter.style.marginLeft = "15rem";
     } else if (resultAppareils.length == 2) {
         appareilsListDropdown.style.width = "23rem";
         inputAppareil.style.width = "auto";
-        ustensilesFilter.style.marginLeft="24rem";
+        ustensilesFilter.style.marginLeft = "24rem";
     } else if (resultAppareils.length >= 3) {
         appareilsListDropdown.style.width = "30rem";
         inputAppareil.style.width = "auto";
-        ustensilesFilter.style.marginLeft="31rem";
+        ustensilesFilter.style.marginLeft = "31rem";
     }
 })
 
 // evenements ustensiles
-ustensilesFilter.addEventListener('click', () => {
-    if (filterOpen == false) {
-        filterOpen = true;
-        ustensiles_button.style.display = "none";
-        ustensilesListDropdown.style.display = "block";
-        var template;
-        ingredientsFilter.style.position="relative";
-        appareilsFilter.style.position="relative";
-        ustensilesFilter.style.position="absolute";
-        ustensilesFilter.style.marginLeft="17rem";
-        document.getElementById('ustensilesList').innerHTML = ``;
-        //afficher les filtres et empêcher le redéclenchement de l'événement
-        if (inputUstensilsLength == undefined || inputUstensiles.value=="") {
-            ustensilesArray.forEach((ustensil) => {
-                template = `
-                <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
-            `;
-                document.getElementById('ustensilesList').innerHTML += template;
-            })
-            if (ustensilesArray.length == 1) {
-                ustensilesListDropdown.style.width = "14rem";
-                inputUstensiles.style.width = "130px";
-            } else if (ustensilesArray.length == 2) {
-                ustensilesListDropdown.style.width = "23rem";
-                inputUstensiles.style.width = "auto";
-            } else if (ustensilesArray.length >= 3) {
-                ustensilesListDropdown.style.width = "30rem";
-                inputUstensiles.style.width = "auto";
-            }
-        } else {
-            resultUstensiles.forEach((ustensil) => {
-                var template = `
-                        <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
-                        `;
-                document.getElementById('ustensilesList').innerHTML += template;
-            });
-            if (resultUstensiles.length == 1) {
-                ustensilesListDropdown.style.width = "14rem";
-                inputUstensiles.style.width = "130px";
-            } else if (resultUstensiles.length == 2) {
-                ustensilesListDropdown.style.width = "23rem";
-                inputUstensiles.style.width = "auto";
-            } else if (resultUstensiles.length >= 3) {
-                ustensilesListDropdown.style.width = "30rem";
-                inputUstensiles.style.width = "auto";
-            }
-        }
-    } else {
-        filterOpen = false;
-    }
-})
-
-chevron3.addEventListener('click', () => {
-    ustensiles_button.style.display = "flex";
-    ustensilesListDropdown.style.display = "none";
-    ustensilesFilter.style.position="relative";
-    ustensilesFilter.style.marginLeft="0";
-    inputUstensiles.value = "";
-    document.getElementById('ustensilesList').innerHTML = ``;
-})
-
 inputUstensiles.addEventListener('input', (e) => {
     const value = e.target.value;
-    inputUstensilsLength=value.length;
+    inputUstensilsLength = value.length;
     resultUstensiles = [];
     document.getElementById('ustensilesList').innerHTML = ``;
     resultUstensiles = Service.getUstensils(value);
