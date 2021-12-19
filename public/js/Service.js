@@ -8,7 +8,7 @@ export default class Service {
             ...new Set(recipes.map(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient)).flat())
         ];
         if (filter) {
-            ingredients = ingredients.filter(ingredient => ingredient.toLowerCase().indexOf(filter.toLowerCase()) > -1);
+            ingredients = ingredients.filter(ingredient => ingredient.toLowerCase().indexOf(filter) > -1);
         }
         return ingredients;
     }
@@ -18,7 +18,7 @@ export default class Service {
         ];
         if (filter) {
             appliances = appliances
-                .filter(appliance => appliance.toLowerCase().indexOf(filter.toLowerCase()) > -1)
+                .filter(appliance => appliance.toLowerCase().indexOf(filter) > -1)
         }
         return appliances;
     }
@@ -28,7 +28,7 @@ export default class Service {
         ];
         if (filter) {
             ustensils = ustensils
-                .filter(ustensil => ustensil.toLowerCase().indexOf(filter.toLowerCase()) > -1)
+                .filter(ustensil => ustensil.toLowerCase().indexOf(filter) > -1)
         }
         return ustensils
     }

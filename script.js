@@ -17,7 +17,7 @@ let appareilsFilter = document.getElementById('appareils');
 let appareilsListDropdown = document.getElementById('appareilsListDropdown');
 let appareils_button = document.getElementById('appareils_button');
 let inputAppareil = document.getElementById('inputAppareil');
-var appreilsArray = Service.getAppliance();
+var appareilsArray = Service.getAppliance();
 let chevron2 = document.getElementById('chevron2');
 var inputAppareilLength;
 
@@ -252,18 +252,20 @@ document.getElementById('search').addEventListener('input', (e) => {
                 resultRecipes.push(recipe);
             }
         })
-        ingredientsArray = getIngredientsFilters(resultRecipes);
-        appreilsArray = getAppareilsFilters(resultRecipes);
-        ustensilesArray = getUstensilsFilters(resultRecipes);
+        ingredientsArray = Service.getIngredients(resultRecipes);
+        appareilsArray = Service.getAppliance(resultRecipes);
+        ustensilesArray =Service.getUstensils(resultRecipes);
     } else {
         ingredientsArray = Service.getIngredients();
-        appreilsArray = Service.getAppliance();
+        appareilsArray = Service.getAppliance();
         ustensilesArray = Service.getUstensils();
         resultRecipes = recipesArray;
     }
+    console.log(appareilsArray)
     displayRecipes(resultRecipes, filtersArray, input_main_value)
 })
 
+/*
 function getIngredientsFilters(arr) {
     arr.forEach((recipe) => {
         recipe.ingredients.forEach((ingredient) => {
@@ -293,7 +295,7 @@ function getUstensilsFilters(arr) {
         })
     });
     return resultUstensiles;
-}
+}*/
 
 // evenements ingredients
 inputIngredient.addEventListener('input', (e) => {
@@ -429,7 +431,6 @@ document.addEventListener('click', (e) => {
 
     //ouvrir et fermer liste des filtres
     var id=e.target.id;
-    //console.log(id);
     if(id=="ingredients_button" || id=="name_ingredients" || id=="inputIngredients"){
             ingredients_button.style.display = "none"
             ingredientsListDropdown.style.display = "block";
@@ -544,8 +545,8 @@ document.addEventListener('click', (e) => {
                     ustensilesFilter.style.marginLeft = "31rem";
                 }
             }
-    }
-    else if(id=="ustensiles_button" || id=="name_ustensiles" || id=="inputUstensiles"){
+    
+    }else if(id=="ustensiles_button" || id=="name_ustensiles" || id=="inputUstensiles"){
             ustensiles_button.style.display = "none";
             ustensilesListDropdown.style.display = "block";
             var template;
@@ -596,8 +597,8 @@ document.addEventListener('click', (e) => {
                     inputUstensiles.style.width = "auto";
                 }
             }
-    }
-    else{
+    
+    }else{
         ingredients_button.style.display="flex";
         ingredientsListDropdown.style.display="none";
         ingredientsFilter.style.position = "relative";
