@@ -21,7 +21,6 @@ var appareilsArray = Service.getAppliance();
 let chevron2 = document.getElementById('chevron2');
 var inputAppareilLength;
 
-
 //Ustensiles DOM elements
 let ustensilesFilter = document.getElementById('ustensiles');
 let ustensilesListDropdown = document.getElementById('ustensilesListDropdown');
@@ -41,12 +40,7 @@ var resultIngredients = [];
 var resultAppareils = [];
 var resultUstensiles = [];
 
-var recipesArray = Service.loadRecipes();
-var allAppliance = Service.getAppliance();
-var allUstensils = Service.getUstensils();
-var allIngredients = Service.getIngredients();
-
-
+var recipesArray = Service.loadRecipesAndFilters();
 
 
 function displayRecipes(recipes, filterArr, input_value) {
@@ -202,41 +196,40 @@ function displayRecipes(recipes, filterArr, input_value) {
     }
 }
 
-function displayAllIngredients() {
-    document.getElementById('ingredientsList').innerHTML = ``
-    allIngredients.forEach((ingredient) => {
+
+/*function displayFilters(parameter) {
+    if(parameter==null || parameter==undefined){
+        parameter=''
+    }
+document.getElementById('ingredientsList').innerHTML = ``
+    Service.loadRecipesAndFilters(parameter).ingredients.forEach((ingredient) => {
         var template = `
         <p class="filter__element_name" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
     `;
         document.getElementById('ingredientsList').innerHTML += template;
     })
-}
 
-function displayAllAppliance() {
-    document.getElementById('appareilsList').innerHTML = ``
-    allAppliance.forEach((appliance) => {
+document.getElementById('appareilsList').innerHTML = ``
+    Service.loadRecipesAndFilters(parameter).appliances.forEach((appliance) => {
         var template = `
         <p class="filter__element_name" id="element_name" title="appareils" data-id="${appliance}">${appliance}</p>
     `;
         document.getElementById('appareilsList').innerHTML += template;
     })
-}
 
-function displayAllUstensils() {
-    document.getElementById('ustensilesList').innerHTML = ``
-    allUstensils.forEach((ustensiles) => {
+document.getElementById('ustensilesList').innerHTML = ``
+    Service.loadRecipesAndFilters(parameter).ustensils.forEach((ustensiles) => {
         var template = `
         <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensiles}">${ustensiles}</p>
     `;
         document.getElementById('ustensilesList').innerHTML += template;
     })
-}
+}*/
 
+//console.log(Service.loadRecipesAndFilters())
 
-displayRecipes(recipesArray, filtersArray, input_main_value);
-displayAllIngredients();
-displayAllAppliance();
-displayAllUstensils();
+//displayFilters()
+displayRecipes(Service.loadRecipesAndFilters().recipesArr, filtersArray, input_main_value);
 
 
 
@@ -247,55 +240,30 @@ document.getElementById('search').addEventListener('input', (e) => {
     inputLength = value.length;
     resultRecipes = [];
     if (inputLength >= 3) {
-        recipesArray.forEach((recipe) => {
+        recipesArray.recipesArr.forEach((recipe) => {
             if (recipe.name.includes(value) || recipe.description.includes(value) || recipe.ingredients.some(a => a.ingredient.includes(value))) {
                 resultRecipes.push(recipe);
             }
         })
-        ingredientsArray = Service.getIngredients(resultRecipes);
-        appareilsArray = Service.getAppliance(resultRecipes);
-        ustensilesArray =Service.getUstensils(resultRecipes);
+        ingredientsArray=Service.loadRecipesAndFilters(resultRecipes).ingredients
+        appareilsArray = Service.loadRecipesAndFilters(resultRecipes).appliances
+        ustensilesArray =Service.loadRecipesAndFilters(resultRecipes).ustensils;
+        displayRecipes(Service.loadRecipesAndFilters(resultRecipes).recipesArr, filtersArray, input_main_value);
     } else {
         ingredientsArray = Service.getIngredients();
         appareilsArray = Service.getAppliance();
         ustensilesArray = Service.getUstensils();
         resultRecipes = recipesArray;
+        displayRecipes(Service.loadRecipesAndFilters().recipesArr, filtersArray, input_main_value);
     }
-    console.log(appareilsArray)
-    displayRecipes(resultRecipes, filtersArray, input_main_value)
+    //console.log(Service.loadRecipesAndFilters(resultRecipes))
+    
+    //displayFilters(Service.loadRecipesAndFilters(resultRecipes));
+    /*console.log(Service.loadRecipesAndFilters(resultRecipes).ingredients)
+    const ingredients=Service.loadRecipesAndFilters(resultRecipes).ingredients
+    displayIngredients(ingredients);*/
 })
 
-/*
-function getIngredientsFilters(arr) {
-    arr.forEach((recipe) => {
-        recipe.ingredients.forEach((ingredient) => {
-            if (resultIngredients.indexOf(ingredient.ingredient) == -1) {
-                resultIngredients.push(ingredient.ingredient);
-            }
-        })
-    })
-    return resultIngredients;
-}
-
-function getAppareilsFilters(arr) {
-    arr.forEach((recipe) => {
-        if (resultAppareils.indexOf(recipe.appliance) == -1) {
-            resultAppareils.push(recipe.appliance);
-        }
-    })
-    return resultAppareils;
-}
-
-function getUstensilsFilters(arr) {
-    arr.forEach((recipe) => {
-        recipe.ustensils.forEach((ustensil) => {
-            if (resultUstensiles.indexOf(ustensil) == -1) {
-                resultUstensiles.push(ustensil);
-            }
-        })
-    });
-    return resultUstensiles;
-}*/
 
 // evenements ingredients
 inputIngredient.addEventListener('input', (e) => {
@@ -303,8 +271,8 @@ inputIngredient.addEventListener('input', (e) => {
     inputIngredientsLength = value.length;
     resultIngredients = [];
     document.getElementById('ingredientsList').innerHTML = ``;
-    resultIngredients = Service.getIngredients(value);
-    resultIngredients.forEach((ingredient) => {
+    //resultIngredients =ingredientsArray
+    ingredientsArray.forEach((ingredient) => {
         var template = `
         <p class="filter__element_name" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
         `;
@@ -468,7 +436,7 @@ document.addEventListener('click', (e) => {
                     appareilsFilter.style.marginLeft = "31rem";
                 }
             } else {
-                resultIngredients.forEach((ingredient) => {
+                ingredientsArray.forEach((ingredient) => {
                     var template = `
                         <p class="filter__element_name" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
                         `;
@@ -505,21 +473,21 @@ document.addEventListener('click', (e) => {
             appareilsFilter.style.marginLeft = "9rem";
             //afficher les filtres et empêcher le redéclenchement de l'événement
             if (inputAppareilLength == undefined || inputAppareil.value == "") {
-                appreilsArray.forEach((appareil) => {
+                appareilsArray.forEach((appareil) => {
                     template = `
                     <p class="filter__element_name" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
                 `;
                     document.getElementById('appareilsList').innerHTML += template;
                 })
-                if (appreilsArray.length == 1) {
+                if (appareilsArray.length == 1) {
                     appareilsListDropdown.style.width = "14rem";
                     inputAppareil.style.width = "130px";
                     ustensilesFilter.style.marginLeft = "15rem";
-                } else if (appreilsArray.length == 2) {
+                } else if (appareilsArray.length == 2) {
                     appareilsListDropdown.style.width = "23rem";
                     inputAppareil.style.width = "auto";
                     ustensilesFilter.style.marginLeft = "24rem";
-                } else if (appreilsArray.length >= 3) {
+                } else if (appareilsArray.length >= 3) {
                     appareilsListDropdown.style.width = "30rem";
                     inputAppareil.style.width = "auto";
                     ustensilesFilter.style.marginLeft = "31rem";
