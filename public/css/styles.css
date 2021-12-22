@@ -22,9 +22,13 @@
   flex-direction: inherit;
 }
 .filter__dropdown {
-  width: 30rem;
+  min-width: 14rem;
+  max-width: 30rem;
   display: none;
   border-radius: 5px;
+}
+.filter__dropdown[closed=true] {
+  display: none;
 }
 .filter__button[open=true] {
   width: 100%;
@@ -58,6 +62,7 @@
   width: auto;
   border-radius: 0 0 5px 5px;
   padding: 1rem;
+  column-gap: 1rem;
 }
 .filter__filters[open=true] {
   width: 30rem;
@@ -114,6 +119,75 @@
 }
 .filter__3 {
   background: #ED6454;
+}
+.filter__filters_class[closed=true] {
+  display: none;
+}
+.filter__button[closed_buttons=true] {
+  display: flex;
+}
+.filter__filters_class[filters_initial_state=true] {
+  position: relative;
+  margin-left: 0;
+}
+.filter__ingredients_button[hidden=true] {
+  display: none;
+}
+.filter__ingredients_button[hidden=false] {
+  display: flex;
+}
+.filter__appareils_button[hidden=true] {
+  display: none;
+}
+.filter__appareils_button[hidden=false] {
+  display: flex;
+}
+.filter__ustensiles_button[hidden=true] {
+  display: none;
+}
+.filter__ustensiles_button[hidden=false] {
+  display: flex;
+}
+.filter__ingredients[open=true] {
+  display: block;
+}
+.filter__ingredients[open=false] {
+  display: none;
+}
+.filter__appareils[open=true] {
+  display: block;
+}
+.filter__appareils[open=false] {
+  display: none;
+}
+.filter__ustensiles[open=true] {
+  display: block;
+}
+.filter__ustensiles[open=false] {
+  display: none;
+}
+.filter__class_ingredients[filter_open=true] {
+  position: absolute;
+}
+.filter__class_ingredients[filter_open=false] {
+  position: relative;
+  margin-left: 0;
+}
+.filter__class_appareils[filter_open=true] {
+  position: absolute;
+  margin-left: 9rem;
+}
+.filter__class_appareils[filter_open=false] {
+  position: relative;
+  margin-left: 0;
+}
+.filter__class_ustensiles[filter_open=true] {
+  position: absolute;
+  margin-left: 17rem;
+}
+.filter__class_ustensiles[filter_open=false] {
+  position: relative;
+  margin-left: 0;
 }
 
 body {

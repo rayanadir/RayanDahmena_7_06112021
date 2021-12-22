@@ -21,9 +21,13 @@
         flex-direction: inherit;
     }
     &__dropdown {
-        width: 30rem;
+        min-width: 14rem;
+        max-width: 30rem;
         display: none;
         border-radius: 5px;
+    }
+    &__dropdown[closed="true"] {
+        display: none;
     }
     &__button[open="true"] {
         width: 100%;
@@ -57,6 +61,7 @@
         width: auto;
         border-radius: 0 0 5px 5px;
         padding: 1rem;
+        column-gap: 1rem;
     }
     &__filters[open="true"] {
         width: 30rem;
@@ -113,5 +118,74 @@
     }
     &__3 {
         background: #ED6454;
+    }
+    &__filters_class[closed="true"] {
+        display: none;
+    }
+    &__button[closed_buttons="true"] {
+        display: flex;
+    }
+    &__filters_class[filters_initial_state="true"] {
+        position: relative;
+        margin-left: 0;
+    }
+    &__ingredients_button[hidden="true"] {
+        display: none;
+    }
+    &__ingredients_button[hidden="false"] {
+        display: flex;
+    }
+    &__appareils_button[hidden="true"] {
+        display: none;
+    }
+    &__appareils_button[hidden="false"] {
+        display: flex;
+    }
+    &__ustensiles_button[hidden="true"] {
+        display: none;
+    }
+    &__ustensiles_button[hidden="false"] {
+        display: flex;
+    }
+    &__ingredients[open="true"] {
+        display: block;
+    }
+    &__ingredients[open="false"] {
+        display: none;
+    }
+    &__appareils[open="true"] {
+        display: block;
+    }
+    &__appareils[open="false"] {
+        display: none;
+    }
+    &__ustensiles[open="true"] {
+        display: block;
+    }
+    &__ustensiles[open="false"] {
+        display: none;
+    }
+    &__class_ingredients[filter_open="true"] {
+        position: absolute;
+    }
+    &__class_ingredients[filter_open="false"] {
+        position: relative;
+        margin-left: 0;
+    }
+    &__class_appareils[filter_open="true"] {
+        position: absolute;
+        margin-left: 9rem;
+    }
+    &__class_appareils[filter_open="false"] {
+        position: relative;
+        margin-left: 0;
+    }
+    &__class_ustensiles[filter_open="true"] {
+        position: absolute;
+        margin-left: 17rem;
+    }
+    &__class_ustensiles[filter_open="false"] {
+        position: relative;
+        margin-left: 0;
     }
 }
