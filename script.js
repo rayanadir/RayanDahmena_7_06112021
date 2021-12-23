@@ -1,4 +1,5 @@
 import Service from './public/js/Service.js';
+import { setInitialStateFilterList, refreshFilterListWidth, setFilterPosition, openFilter, displayFilters } from "./public/js/ControllerFilter.js";
 
 //var recipesrecipies = recipes.recipes;
 let recipesList = document.getElementById('recipes');
@@ -240,23 +241,9 @@ inputIngredient.addEventListener('input', (e) => {
         `;
         document.getElementById('ingredientsList').innerHTML += template;
         }
-    })
-    ingredientsFilter.style.position = "absolute";
-    appareilsFilter.style.position = "relative";
-    ustensilesFilter.style.position = "relative";
-    if (resultIngredients.length == 1) {
-        //ingredientsListDropdown.style.width = "14rem";
-        //inputIngredient.style.width = "130px";
-        //appareilsFilter.style.marginLeft = "15rem";
-    } else if (resultIngredients.length == 2) {
-        //ingredientsListDropdown.style.width = "23rem";
-        //inputIngredient.style.width = "auto";
-        //appareilsFilter.style.marginLeft = "24rem";
-    } else if (resultIngredients.length >= 3) {
-        //ingredientsListDropdown.style.width = "30rem";
-        //inputIngredient.style.width = "auto";
-        //appareilsFilter.style.marginLeft = "31rem";
-    }
+    });
+    setFilterPosition('ingredients');
+    refreshFilterListWidth('ingredients',resultIngredients.length);
 });
 
 // evenements appareils
@@ -274,22 +261,8 @@ inputAppareil.addEventListener('input', (e) => {
         document.getElementById('appareilsList').innerHTML += template;
         }
     });
-    ingredientsFilter.style.position = "relative";
-    appareilsFilter.style.position = "absolute";
-    ustensilesFilter.style.position = "relative";
-    if (resultAppareils.length == 1) {
-        //appareilsListDropdown.style.width = "14rem";
-        //inputAppareil.style.width = "130px";
-        //ustensilesFilter.style.marginLeft = "16rem";
-    } else if (resultAppareils.length == 2) {
-        //appareilsListDropdown.style.width = "23rem";
-        //inputAppareil.style.width = "auto";
-        //ustensilesFilter.style.marginLeft = "20rem";
-    } else if (resultAppareils.length >= 3) {
-        //appareilsListDropdown.style.width = "30rem";
-        //inputAppareil.style.width = "auto";
-        //ustensilesFilter.style.marginLeft = "23rem";
-    }
+    setFilterPosition('appareils');
+    refreshFilterListWidth('appareils',resultAppareils.length);
 })
 
 // evenements ustensiles
@@ -307,16 +280,6 @@ inputUstensiles.addEventListener('input', (e) => {
         document.getElementById('ustensilesList').innerHTML += template;
         }
     })
-    if (resultUstensiles.length == 1) {
-        //ustensilesListDropdown.style.width = "14rem";
-        //inputUstensiles.style.width = "130px";
-    } else if (resultUstensiles.length == 2) {
-        //ustensilesListDropdown.style.width = "23rem";
-        //inputUstensiles.style.width = "auto";
-    } else if (resultUstensiles.length >= 3) {
-        //ustensilesListDropdown.style.width = "30rem";
-        //inputUstensiles.style.width = "auto";
-    }
 });
 
 //vérifie si un objet est contenu dans un tableau
@@ -368,193 +331,21 @@ document.addEventListener('click', (e) => {
     //ouvrir et fermer liste des filtres
     var id=e.target.id;
     if(id=="ingredients_button" || id=="name_ingredients" || id=="inputIngredients"){
-            var template;
-            document.getElementById('ingredientsList').innerHTML = ``;
-            ingredients_button.setAttribute('hidden',true);
-            ingredientsListDropdown.setAttribute('open',true);
-            ingredientsFilter.setAttribute('filter_open',true);
-            appareils_button.removeAttribute('hidden');
-            appareilsListDropdown.removeAttribute('open');
-            appareilsFilter.removeAttribute('filter_open');
-            ustensiles_button.removeAttribute('hidden');
-            ustensilesListDropdown.removeAttribute('open');
-            ustensilesFilter.removeAttribute('filter_open');
-            /*ingredients_button.style.display = "none"
-            ingredientsListDropdown.style.display = "block";
-            ingredientsFilter.style.position = "absolute";
-            appareilsFilter.style.position = "relative";
-            appareils_button.style.display = "flex";
-            appareilsListDropdown.style.display = "none";
-            appareilsFilter.style.position = "relative";
-            appareilsFilter.style.marginLeft="0";
-            ustensiles_button.style.display = "flex";
-            ustensilesListDropdown.style.display = "none";
-            ustensilesFilter.style.position = "relative";
-            ustensilesFilter.style.marginLeft="0"*/
-            //afficher les filtres et empêcher le redéclenchement de l'événement
-            if (inputIngredientsLength == undefined || inputIngredient.value == "") {
-                ingredientsArray.forEach((ingredient) => {
-                    template = `
-                    <p class="filter__element_name" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
-                `;
-                    document.getElementById('ingredientsList').innerHTML += template;
-                });
-                if (ingredientsArray.length == 1) {
-                    //ingredientsListDropdown.style.width = "14rem";
-                    //inputIngredient.style.width = "130px";
-                    //appareilsFilter.style.marginLeft = "15rem";
-                } else if (ingredientsArray.length == 2) {
-                    //ingredientsListDropdown.style.width = "23rem";
-                    //inputIngredient.style.width = "auto";
-                    //appareilsFilter.style.marginLeft = "24rem";
-                } else if (ingredientsArray.length >= 3) {
-                    //ingredientsListDropdown.style.width = "30rem";
-                    //inputIngredient.style.width = "auto";
-                    //appareilsFilter.style.marginLeft = "31rem";
-                }
-            } else {
-                ingredientsArray.forEach((ingredient) => {
-                    var template = `
-                        <p class="filter__element_name" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
-                        `;
-                    document.getElementById('ingredientsList').innerHTML += template;
-                });
-                if (resultIngredients.length == 1) {
-                    //ingredientsListDropdown.style.width = "14rem";
-                    //inputIngredient.style.width = "130px";
-                    //appareilsFilter.style.marginLeft = "15rem";
-                } else if (resultIngredients.length == 2) {
-                    //ingredientsListDropdown.style.width = "23rem";
-                    //inputIngredient.style.width = "auto";
-                    //appareilsFilter.style.marginLeft = "24rem";
-                } else if (resultIngredients.length >= 3) {
-                    //ingredientsListDropdown.style.width = "30rem";
-                    //inputIngredient.style.width = "auto";
-                    //appareilsFilter.style.marginLeft = "31rem";
-                }
-            }
+        document.getElementById('ingredientsList').innerHTML = ``;
+        setInitialStateFilterList();
+        openFilter('ingredients');
+        displayFilters('ingredients',inputIngredientsLength,inputIngredient.value,ingredientsArray,resultIngredients);
     }else if(id=="appareils_button" || id=="name_appareil" || id=="inputAppareil"){
         document.getElementById('appareilsList').innerHTML = ``;
-        var template;
-        ingredients_button.removeAttribute('hidden');
-        ingredientsListDropdown.removeAttribute('open');
-        ingredientsFilter.removeAttribute('filter_open');
-        appareils_button.setAttribute('hidden',true);
-        appareilsListDropdown.setAttribute('open',true);
-        appareilsFilter.setAttribute('filter_open',true);
-        ustensiles_button.removeAttribute('hidden');
-        ustensilesListDropdown.removeAttribute('open');
-        ustensilesFilter.removeAttribute('filter_open');
-        /*appareils_button.style.display = "none";
-            appareilsListDropdown.style.display = "block";
-            appareilsFilter.style.position = "absolute";
-            ingredients_button.style.display="flex";
-            ingredientsListDropdown.style.display="none";
-            ingredientsFilter.style.position = "relative";
-            ingredientsFilter.style.marginLeft="0";
-            ustensiles_button.style.display = "flex";
-            ustensilesListDropdown.style.display = "none";
-            ustensilesFilter.style.position = "relative";
-            ustensilesFilter.style.marginLeft="0"
-            appareilsFilter.style.marginLeft = "9rem";*/
-            //afficher les filtres et empêcher le redéclenchement de l'événement
-            if (inputAppareilLength == undefined || inputAppareil.value == "") {
-                appareilsArray.forEach((appareil) => {
-                    template = `
-                    <p class="filter__element_name" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
-                `;
-                    document.getElementById('appareilsList').innerHTML += template;
-                })
-                if (appareilsArray.length == 1) {
-                    //appareilsListDropdown.style.width = "14rem";
-                    //inputAppareil.style.width = "130px";
-                    //ustensilesFilter.style.marginLeft = "16rem";
-                } else if (appareilsArray.length == 2) {
-                    //appareilsListDropdown.style.width = "23rem";
-                    //inputAppareil.style.width = "auto";
-                    //ustensilesFilter.style.marginLeft = "20rem";
-                } else if (appareilsArray.length >= 3) {
-                    //appareilsListDropdown.style.width = "30rem";
-                    //inputAppareil.style.width = "auto";
-                    //ustensilesFilter.style.marginLeft = "23rem";
-                }
-            } else {
-                resultAppareils.forEach((appareil) => {
-                    var template = `
-                        <p class="filter__element_name" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
-                        `;
-                    document.getElementById('appareilsList').innerHTML += template;
-                });
-                if (resultAppareils.length == 1) {
-                    //appareilsListDropdown.style.width = "14rem";
-                    //inputAppareil.style.width = "130px";
-                    //ustensilesFilter.style.marginLeft = "16rem";
-                } else if (resultAppareils.length == 2) {
-                    //appareilsListDropdown.style.width = "23rem";
-                    //inputAppareil.style.width = "auto";
-                    //ustensilesFilter.style.marginLeft = "20rem";
-                } else if (resultAppareils.length >= 3) {
-                    //appareilsListDropdown.style.width = "30rem";
-                    //inputAppareil.style.width = "auto";
-                    //ustensilesFilter.style.marginLeft = "23rem";
-                }
-            }
-    
+        setInitialStateFilterList()
+        openFilter('appareils');
+        displayFilters('appareils',inputUstensilsLength,inputUstensiles.value,appareilsArray,resultAppareils)   
     }else if(id=="ustensiles_button" || id=="name_ustensiles" || id=="inputUstensiles"){
         document.getElementById('ustensilesList').innerHTML = ``;
-        var template;
-        ingredients_button.removeAttribute('hidden');
-        ingredientsListDropdown.removeAttribute('open');
-        ingredientsFilter.removeAttribute('filter_open');
-        appareils_button.removeAttribute('hidden');
-        appareilsListDropdown.removeAttribute('open');
-        appareilsFilter.removeAttribute('filter_open');
-        ustensiles_button.setAttribute('hidden',true);
-        ustensilesListDropdown.setAttribute('open',true);
-        ustensilesFilter.setAttribute('filter_open',true);
-            //afficher les filtres et empêcher le redéclenchement de l'événement
-            if (inputUstensilsLength == undefined || inputUstensiles.value == "") {
-                ustensilesArray.forEach((ustensil) => {
-                    template = `
-                    <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
-                `;
-                    document.getElementById('ustensilesList').innerHTML += template;
-                })
-                if (ustensilesArray.length == 1) {
-                    //ustensilesListDropdown.style.width = "14rem";
-                    //inputUstensiles.style.width = "130px";
-                } else if (ustensilesArray.length == 2) {
-                    //ustensilesListDropdown.style.width = "23rem";
-                    //inputUstensiles.style.width = "auto";
-                } else if (ustensilesArray.length >= 3) {
-                    //ustensilesListDropdown.style.width = "30rem";
-                    //inputUstensiles.style.width = "auto";
-                }
-            } else {
-                resultUstensiles.forEach((ustensil) => {
-                    var template = `
-                            <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
-                            `;
-                    document.getElementById('ustensilesList').innerHTML += template;
-                });
-                if (resultUstensiles.length == 1) {
-                    //ustensilesListDropdown.style.width = "14rem";
-                    //inputUstensiles.style.width = "130px";
-                } else if (resultUstensiles.length == 2) {
-                    //ustensilesListDropdown.style.width = "23rem";
-                    //inputUstensiles.style.width = "auto";
-                } else if (resultUstensiles.length >= 3) {
-                    //ustensilesListDropdown.style.width = "30rem";
-                    //inputUstensiles.style.width = "auto";
-                }
-            }
-    
+        setInitialStateFilterList()
+        openFilter('ustensiles')
+        displayFilters('ustensiles',inputUstensilsLength,inputUstensiles.value,ustensilesArray,resultUstensiles)
     }else{
-        let dropDowns=document.getElementsByClassName('filter__dropdown')
-        for(let drop of dropDowns){drop.removeAttribute('open');}
-        let filterButton=document.getElementsByClassName('filter__button');
-        for(let button of filterButton){button.removeAttribute('hidden')};
-        let filtersClass=document.getElementsByClassName('filter__filters_class');
-        for(let filter of filtersClass){filter.removeAttribute('filter_open',true)}
+        setInitialStateFilterList()
     }
 })
