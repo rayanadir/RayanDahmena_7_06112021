@@ -1,6 +1,6 @@
 import recipes from '../../recipes.js'
 export default class Service {
-    static loadRecipesAndFilters(search) {
+    static loadRecipesAndFilters(search, filtersArray) {
         let recipesArr = recipes;
         if (search) {
             recipesArr = search;
@@ -20,6 +20,13 @@ export default class Service {
                 recipesArr,
             }
             return result;
+        }
+        if (filtersArray) {
+            console.log(filtersArray);
+            const resultRecipes = [];
+            recipesArr.forEach((recipe) => {
+
+            })
         }
         const initArr = {
             ingredients: this.getIngredients(),

@@ -4,6 +4,9 @@
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
+  /*&__element_name[hide_selected_filter="true"] {
+      display: none;
+  }*/
 }
 .filter__buttons {
   display: flex;
@@ -79,6 +82,9 @@
 }
 .filter__element_name:hover {
   text-decoration: underline;
+}
+.filter__hide_selected_filter {
+  display: none;
 }
 .filter__filters_class {
   z-index: 1;

@@ -5,201 +5,89 @@ import { setInitialStateFilterList, refreshFilterListWidth, setFilterPosition, o
 let recipesList = document.getElementById('recipes');
 
 //Ingredients DOM elements
-let ingredientsFilter = document.getElementById('ingredients');
-let ingredientsListDropdown = document.getElementById('ingredientsListDropdown');
-let ingredients_button = document.getElementById('ingredients_button');
 let inputIngredient = document.getElementById('inputIngredients')
 var ingredientsArray = Service.getIngredients();
-let chevron1 = document.getElementById('chevron1');
 var inputIngredientsLength;
 
 //Appareils DOM elements
-let appareilsFilter = document.getElementById('appareils');
-let appareilsListDropdown = document.getElementById('appareilsListDropdown');
-let appareils_button = document.getElementById('appareils_button');
 let inputAppareil = document.getElementById('inputAppareil');
 var appareilsArray = Service.getAppliance();
-let chevron2 = document.getElementById('chevron2');
-var inputAppareilLength;
 
 //Ustensiles DOM elements
-let ustensilesFilter = document.getElementById('ustensiles');
-let ustensilesListDropdown = document.getElementById('ustensilesListDropdown');
-let ustensiles_button = document.getElementById('ustensiles_button');
 let inputUstensiles = document.getElementById('inputUstensiles');
 var ustensilesArray = Service.getUstensils();
-let chevron3 = document.getElementById('chevron3');
 var inputUstensilsLength;
 
 var inputLength = 0;
-var input_main_value;
-//let filterOpen = false;
 var filtersArray = [];
 var filtersTemplate = document.getElementById('results');
 var resultRecipes = [];
 var resultIngredients = [];
 var resultAppareils = [];
 var resultUstensiles = [];
-
 var recipesArray = Service.loadRecipesAndFilters();
 
 
-function displayRecipes(recipes, filterArr, input_value) {
+function displayRecipes(recipes) {
     recipesList.innerHTML = ``;
-    if (filterArr.length == 0) {
-        if (recipes.length > 0) {
-            recipesList.style.display = "grid";
-            for (var i = 0; i < recipes.length; i++) {
-                recipes[i].ingredients.map((a) => {
-                        if (a.unit == undefined) {
-                            a.unit = "";
-                        }
-                        if (a.quantity == undefined) {
-                            a.quantity = "";
-                        }
-                    })
-                    //affichage des recettes en fonction de la valeur de recherche
-                if (input_value == '' || input_value == undefined || input_value == null) {
-                    var template = `
-            <article class="recipes__recipe">
-            <img src="public/images/img.png" alt="image" class="recipes__image">
-            <div class="recipes__details">
-                <div class="recipes__title_time">
-                    <div class="recipes__title">
-                        ${recipes[i].name}
-                    </div>
-                    <div class="recipes__time">
-                        <i class="far fa-clock recipes__icon"></i>
-                        <div class="recipes__time_value">
-                            ${recipes[i].time} min
-                        </div>
-                    </div>
-                </div>
-                <div class="recipes__ingredients_description">
-                    <div class="recipes__ingredients">
-                            ${recipes[i].ingredients.map((a) => `
-                            <label for="ingredient" class="recipes__ingredient">
-                                <p class="recipes__ingredient_name">
-                                ${a.ingredient} : 
-                            </p>
-                            <p class="recipes__ingredient_value">
-                                ${a.quantity} ${a.unit}
-                            </p>
-                            </label>
-                            `).join('')}
-                    </div>
-                    <label class="recipes__description">
-                        ${recipes[i].description}
-                    </label>
-                </div>
-            </div>
-            </article>
-            `
-                    recipesList.innerHTML += template;
-                } else if (recipes[i].name.includes(input_value) || recipes[i].description.includes(input_value) || recipes[i].ingredients.some(a => a.ingredient.includes(input_value))) {
-                    var template = `
-            <article class="recipes__recipe">
-            <img src="public/images/img.png" alt="image" class="recipes__image">
-            <div class="recipes__details">
-                <div class="recipes__title_time">
-                    <div class="recipes__title">
-                        ${recipes[i].name}
-                    </div>
-                    <div class="recipes__time">
-                        <i class="far fa-clock recipes__icon"></i>
-                        <div class="recipes__time_value">
-                            ${recipes[i].time} min
-                        </div>
-                    </div>
-                </div>
-                <div class="recipes__ingredients_description">
-                    <div class="recipes__ingredients">
-                            ${recipes[i].ingredients.map((a) => `
-                            <label for="ingredient" class="recipes__ingredient">
-                                <p class="recipes__ingredient_name">
-                                ${a.ingredient} : 
-                            </p>
-                            <p class="recipes__ingredient_value">
-                                ${a.quantity} ${a.unit}
-                            </p>
-                            </label>
-                            `).join('')}
-                    </div>
-                    <label class="recipes__description">
-                        ${recipes[i].description}
-                    </label>
-                </div>
-            </div>
-            </article>
-            `
-                    recipesList.innerHTML += template;
-                }
+    recipesList.style.display = "grid";
+    for (var i = 0; i < recipes.length; i++) {
+        recipes[i].ingredients.map((a) => {
+            if (a.unit == undefined) {
+                a.unit = "";
             }
-        } else {
-            recipesList.style.display = "block";
-            recipesList.innerHTML = `
-    <p class="recipes__no_result">
-        Aucune rectette ne correspond à votre critère ... vous pouvez chercher "tarte aux pommes","poisson", etc ...
-    </p>
-    `
-        }
-    } else if (filterArr.length > 0) {
-        for (var i = 0; i < recipes.length; i++) {
-            recipes[i].ingredients.map((a) => {
-                if (a.unit == undefined) {
-                    a.unit = "";
-                }
-                if (a.quantity == undefined) {
-                    a.quantity = "";
-                }
-            })
-            for (var j = 0; j < filterArr.length; j++) {
-                if (recipes[i].appliance.includes(filterArr[j].value) || recipes[i].ingredients.some(a => a.ingredient.includes(filterArr[j].value)) || recipes[i].ustensils.some(us => us.includes(filterArr[j].value))) {
-                    var template = `
-            <article class="recipes__recipe">
-            <img src="public/images/img.png" alt="image" class="recipes__image">
-            <div class="recipes__details">
-                <div class="recipes__title_time">
-                    <div class="recipes__title">
-                        ${recipes[i].name}
-                    </div>
-                    <div class="recipes__time">
-                        <i class="far fa-clock recipes__icon"></i>
-                        <div class="recipes__time_value">
-                            ${recipes[i].time} min
+            if (a.quantity == undefined) {
+                a.quantity = "";
+            }
+        })
+        var template = `
+                <article class="recipes__recipe">
+                <img src="public/images/img.png" alt="image" class="recipes__image">
+                <div class="recipes__details">
+                    <div class="recipes__title_time">
+                        <div class="recipes__title">
+                            ${recipes[i].name}
+                        </div>
+                        <div class="recipes__time">
+                            <i class="far fa-clock recipes__icon"></i>
+                            <div class="recipes__time_value">
+                                ${recipes[i].time} min
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="recipes__ingredients_description">
-                    <div class="recipes__ingredients">
-                            ${recipes[i].ingredients.map((a) => `
-                            <label for="ingredient" class="recipes__ingredient">
-                                <p class="recipes__ingredient_name">
-                                ${a.ingredient} : 
-                            </p>
-                            <p class="recipes__ingredient_value">
-                                ${a.quantity} ${a.unit}
-                            </p>
-                            </label>
-                            `).join('')}
+                    <div class="recipes__ingredients_description">
+                        <div class="recipes__ingredients">
+                                ${recipes[i].ingredients.map((a) => `
+                                <label for="ingredient" class="recipes__ingredient">
+                                    <p class="recipes__ingredient_name">
+                                    ${a.ingredient} : 
+                                </p>
+                                <p class="recipes__ingredient_value">
+                                    ${a.quantity} ${a.unit}
+                                </p>
+                                </label>
+                                `).join('')}
+                        </div>
+                        <label class="recipes__description">
+                            ${recipes[i].description}
+                        </label>
                     </div>
-                    <label class="recipes__description">
-                        ${recipes[i].description}
-                    </label>
                 </div>
-            </div>
-            </article>
-            `
-                    recipesList.innerHTML += template;
-                }
-            }
-        }
+                </article>
+                `
+        recipesList.innerHTML += template;
+    }
+    if(recipes.length==0){
+        recipesList.style.display = "block";
+                recipesList.innerHTML = `
+        <p class="recipes__no_result">
+            Aucune rectette ne correspond à votre critère ... vous pouvez chercher "tarte aux pommes","poisson", etc ...
+        </p>
+        `
     }
 }
 
-displayRecipes(Service.loadRecipesAndFilters().recipesArr, filtersArray, input_main_value);
-
-
+displayRecipes(Service.loadRecipesAndFilters().recipesArr);
 
 //recherche d'une recette au clavier
 document.getElementById('search').addEventListener('input', (e) => {
@@ -213,19 +101,18 @@ document.getElementById('search').addEventListener('input', (e) => {
                 resultRecipes.push(recipe);
             }
         })
-        ingredientsArray=Service.loadRecipesAndFilters(resultRecipes).ingredients
+        ingredientsArray = Service.loadRecipesAndFilters(resultRecipes).ingredients
         appareilsArray = Service.loadRecipesAndFilters(resultRecipes).appliances
-        ustensilesArray =Service.loadRecipesAndFilters(resultRecipes).ustensils;
-        displayRecipes(Service.loadRecipesAndFilters(resultRecipes).recipesArr, filtersArray, input_main_value);
+        ustensilesArray = Service.loadRecipesAndFilters(resultRecipes).ustensils;
+        displayRecipes(Service.loadRecipesAndFilters(resultRecipes).recipesArr);
     } else {
         ingredientsArray = Service.getIngredients();
         appareilsArray = Service.getAppliance();
         ustensilesArray = Service.getUstensils();
         resultRecipes = recipesArray;
-        displayRecipes(Service.loadRecipesAndFilters().recipesArr, filtersArray, input_main_value);
+        displayRecipes(Service.loadRecipesAndFilters().recipesArr);
     }
 })
-
 
 // evenements ingredients
 inputIngredient.addEventListener('input', (e) => {
@@ -234,16 +121,22 @@ inputIngredient.addEventListener('input', (e) => {
     resultIngredients = [];
     document.getElementById('ingredientsList').innerHTML = ``;
     ingredientsArray.forEach((ingredient) => {
-        if(ingredient.toLowerCase().includes(value.toLowerCase())){
-            resultIngredients.push(ingredient)
+        if (ingredient.toLowerCase().includes(value.toLowerCase())) {
+            resultIngredients.push(ingredient);
+            const found = filtersArray.some(element => element.value == ingredient && element.type == "ingredients")
+                if (found) {
+                    attribute = "filter__hide_selected_filter";
+                } else {
+                    attribute = ""
+                }
             var template = `
-        <p class="filter__element_name" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
+        <p class="filter__element_name ${attribute}" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
         `;
-        document.getElementById('ingredientsList').innerHTML += template;
+            document.getElementById('ingredientsList').innerHTML += template;
         }
     });
     setFilterPosition('ingredients');
-    refreshFilterListWidth('ingredients',resultIngredients.length);
+    refreshFilterListWidth('ingredients', resultIngredients.length);
 });
 
 // evenements appareils
@@ -251,18 +144,25 @@ inputAppareil.addEventListener('input', (e) => {
     const value = e.target.value;
     inputAppareilLength = value.length;
     document.getElementById('appareilsList').innerHTML = ``;
-    resultAppareils=[];
+    resultAppareils = [];
     appareilsArray.forEach((appareil) => {
-        if(appareil.toLowerCase().includes(value.toLowerCase())){
+        if (appareil.toLowerCase().includes(value.toLowerCase())) {
             resultAppareils.push(appareil);
+            var attribute;
+            const found = filtersArray.some(element => element.value == appareil && element.type == "appareils")
+                if (found) {
+                    attribute = "filter__hide_selected_filter";
+                } else {
+                    attribute = ""
+                }
             var template = `
-        <p class="filter__element_name" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
+        <p class="filter__element_name ${attribute}" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
         `;
-        document.getElementById('appareilsList').innerHTML += template;
+            document.getElementById('appareilsList').innerHTML += template;
         }
     });
     setFilterPosition('appareils');
-    refreshFilterListWidth('appareils',resultAppareils.length);
+    refreshFilterListWidth('appareils', resultAppareils.length);
 })
 
 // evenements ustensiles
@@ -272,12 +172,19 @@ inputUstensiles.addEventListener('input', (e) => {
     resultUstensiles = [];
     document.getElementById('ustensilesList').innerHTML = ``;
     ustensilesArray.forEach((ustensil) => {
-        if(ustensil.toLowerCase().includes(value.toLowerCase())){
+        if (ustensil.toLowerCase().includes(value.toLowerCase())) {
             resultUstensiles.push(ustensil);
-        var template = `
-            <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
+            var attribute;
+            const found = filtersArray.some(element => element.value == ustensil && element.type == "ustensiles")
+                if (found) {
+                    attribute = "filter__hide_selected_filter";
+                } else {
+                    attribute = ""
+                }
+            var template = `
+            <p class="filter__element_name ${attribute}" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
             `;
-        document.getElementById('ustensilesList').innerHTML += template;
+            document.getElementById('ustensilesList').innerHTML += template;
         }
     })
 });
@@ -296,6 +203,8 @@ document.addEventListener('click', (e) => {
     if (value !== undefined && type !== '') {
         if (containsObject(object, filtersArray) == false) {
             filtersArray.push(object);
+            var element=document.querySelector(`[data-id="${value}"]`);
+            element.classList.add('filter__hide_selected_filter');
             var className;
             if (type == "ingredients") {
                 className = "filter__1"
@@ -311,7 +220,8 @@ document.addEventListener('click', (e) => {
             </button>
             `
             filtersTemplate.innerHTML += template;
-            displayRecipes(recipesArray, filtersArray, input_main_value);
+            Service.loadRecipesAndFilters(null,filtersArray).recipesArr;
+            displayRecipes(recipesArray);
         }
     }
 
@@ -321,31 +231,33 @@ document.addEventListener('click', (e) => {
     if (data_value !== undefined && data_type !== undefined) {
         for (var i = 0; i < filtersArray.length; i++) {
             if (filtersArray[i].value == data_value && filtersArray[i].type == data_type) {
+                var element=document.querySelector(`[data-id="${data_value}"]`);
+                element.classList.remove('filter__hide_selected_filter')
                 document.getElementById('button_' + data_value + '_' + data_type).remove();
                 filtersArray.splice(i);
-                displayRecipes(recipesArray, filtersArray, input_main_value);
+                displayRecipes(recipesArray);
             }
         }
     }
 
     //ouvrir et fermer liste des filtres
-    var id=e.target.id;
-    if(id=="ingredients_button" || id=="name_ingredients" || id=="inputIngredients"){
+    var id = e.target.id;
+    if (id == "ingredients_button" || id == "name_ingredients" || id == "inputIngredients" || id=="chevron1") {
         document.getElementById('ingredientsList').innerHTML = ``;
         setInitialStateFilterList();
         openFilter('ingredients');
-        displayFilters('ingredients',inputIngredientsLength,inputIngredient.value,ingredientsArray,resultIngredients);
-    }else if(id=="appareils_button" || id=="name_appareil" || id=="inputAppareil"){
+        displayFilters('ingredients', inputIngredientsLength, inputIngredient.value, ingredientsArray, resultIngredients,filtersArray);
+    } else if (id == "appareils_button" || id == "name_appareil" || id == "inputAppareil" || id=="chevron2") {
         document.getElementById('appareilsList').innerHTML = ``;
         setInitialStateFilterList()
         openFilter('appareils');
-        displayFilters('appareils',inputUstensilsLength,inputUstensiles.value,appareilsArray,resultAppareils)   
-    }else if(id=="ustensiles_button" || id=="name_ustensiles" || id=="inputUstensiles"){
+        displayFilters('appareils', inputUstensilsLength, inputUstensiles.value, appareilsArray, resultAppareils,filtersArray)
+    } else if (id == "ustensiles_button" || id == "name_ustensiles" || id == "inputUstensiles" || id=="chevron3") {
         document.getElementById('ustensilesList').innerHTML = ``;
         setInitialStateFilterList()
         openFilter('ustensiles')
-        displayFilters('ustensiles',inputUstensilsLength,inputUstensiles.value,ustensilesArray,resultUstensiles)
-    }else{
+        displayFilters('ustensiles', inputUstensilsLength, inputUstensiles.value, ustensilesArray, resultUstensiles,filtersArray)
+    } else {
         setInitialStateFilterList()
     }
 })

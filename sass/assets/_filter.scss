@@ -79,6 +79,12 @@
     &__element_name:hover {
         text-decoration: underline;
     }
+    /*&__element_name[hide_selected_filter="true"] {
+        display: none;
+    }*/
+    &__hide_selected_filter {
+        display: none;
+    }
     &__filters_class {
         z-index: 1;
     }

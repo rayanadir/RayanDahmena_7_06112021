@@ -13,6 +13,7 @@ let ustensilesFilter = document.getElementById('ustensiles');
 let ustensilesListDropdown = document.getElementById('ustensilesListDropdown');
 let ustensiles_button = document.getElementById('ustensiles_button');
 
+var attribute;
 
 /**
  * afficher tous les boutons de filtres à l'état initial
@@ -90,6 +91,10 @@ export function setFilterPosition(filter) {
         ingredientsFilter.setAttribute('relative', true);
         appareilsFilter.setAttribute('absolute', true);
         ustensilesFilter.setAttribute('relative', true);
+    } else if (filter == "ustensiles") {
+        ingredientsFilter.setAttribute('relative', true);
+        appareilsFilter.setAttribute('relative', true);
+        ustensilesFilter.setAttribute('absolute', true);
     }
 }
 
@@ -146,13 +151,19 @@ export function openFilter(filter) {
 /**
  * affiche la liste des filtres et empêche le redéclenchement de l'événement, les filtres ne seront pas à nouveau ajoutés
  */
-export function displayFilters(list, input_length, input_value, array, result) {
+export function displayFilters(list, input_length, input_value, array, result, filtersArray) {
     var template;
     if (list == "ingredients") {
         if (input_length == undefined || input_value == "") {
             array.forEach((ingredient) => {
+                const found = filtersArray.some(element => element.value == ingredient && element.type == "ingredients")
+                if (found) {
+                    attribute = "filter__hide_selected_filter";
+                } else {
+                    attribute = ""
+                }
                 template = `
-                <p class="filter__element_name" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
+                <p class="filter__element_name ${attribute}" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
             `;
                 document.getElementById('ingredientsList').innerHTML += template;
             });
@@ -165,8 +176,14 @@ export function displayFilters(list, input_length, input_value, array, result) {
             }
         } else {
             result.forEach((ingredient) => {
+                const found = filtersArray.some(element => element.value == ingredient && element.type == "ingredients")
+                if (found) {
+                    attribute = "filter__hide_selected_filter";
+                } else {
+                    attribute = ""
+                }
                 var template = `
-                    <p class="filter__element_name" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
+                    <p class="filter__element_name ${attribute}" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
                     `;
                 document.getElementById('ingredientsList').innerHTML += template;
             });
@@ -174,8 +191,14 @@ export function displayFilters(list, input_length, input_value, array, result) {
     } else if (list == "appareils") {
         if (input_length == undefined || input_value == "") {
             array.forEach((appareil) => {
+                const found = filtersArray.some(element => element.value == appareil && element.type == "appareils")
+                if (found) {
+                    attribute = "filter__hide_selected_filter";
+                } else {
+                    attribute = ""
+                }
                 template = `
-                <p class="filter__element_name" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
+                <p class="filter__element_name ${attribute}" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
             `;
                 document.getElementById('appareilsList').innerHTML += template;
             })
@@ -188,8 +211,14 @@ export function displayFilters(list, input_length, input_value, array, result) {
             }
         } else {
             result.forEach((appareil) => {
+                const found = filtersArray.some(element => element.value == appareil && element.type == "appareils")
+                if (found) {
+                    attribute = "filter__hide_selected_filter";
+                } else {
+                    attribute = ""
+                }
                 var template = `
-                    <p class="filter__element_name" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
+                    <p class="filter__element_name ${attribute}" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
                     `;
                 document.getElementById('appareilsList').innerHTML += template;
             });
@@ -204,15 +233,27 @@ export function displayFilters(list, input_length, input_value, array, result) {
     } else if (list == "ustensiles") {
         if (input_length == undefined || input_value == "") {
             array.forEach((ustensil) => {
+                const found = filtersArray.some(element => element.value == ustensil && element.type == "ustensiles")
+                if (found) {
+                    attribute = "filter__hide_selected_filter";
+                } else {
+                    attribute = ""
+                }
                 template = `
-                <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
+                <p class="filter__element_name ${attribute}" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
             `;
                 document.getElementById('ustensilesList').innerHTML += template;
             })
         } else {
             result.forEach((ustensil) => {
-                var template = `
-                        <p class="filter__element_name" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
+                const found = filtersArray.some(element => element.value == ustensil && element.type == "ustensiles")
+                if (found) {
+                    attribute = "filter__hide_selected_filter";
+                } else {
+                    attribute = ""
+                }
+                template = `
+                        <p class="filter__element_name ${attribute}" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
                         `;
                 document.getElementById('ustensilesList').innerHTML += template;
             });
