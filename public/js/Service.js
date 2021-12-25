@@ -22,11 +22,30 @@ export default class Service {
             return result;
         }
         if (filtersArray) {
-            console.log(filtersArray);
             const resultRecipes = [];
             recipesArr.forEach((recipe) => {
-
+                recipe.ingredients.map((ingredient) => {
+                    const ingredientFound = filtersArray.some(filter => filter.value == ingredient.ingredient.toLowerCase() && filter.type == "ingredients");
+                    if (ingredientFound) {
+                        resultRecipes.push(recipe);
+                    }
+                });
+                const applianceFound = filtersArray.some(filter => filter.value == recipe.appliance.toLowerCase() && filter.type == "appareils");
+                if (applianceFound) {
+                    resultRecipes.push(recipe);
+                }
+                recipe.ustensils.map((ustensil) => {
+                    const ustensilFound = filtersArray.some(filter => filter.value == ustensil.toLowerCase() && filter.type == "ustensiles");
+                    if (ustensilFound) {
+                        resultRecipes.push(recipe);
+                    }
+                })
             })
+            console.log(resultRecipes)
+            if (resultRecipes.length == 0) {
+                return recipesArr;
+            }
+            return resultRecipes;
         }
         const initArr = {
             ingredients: this.getIngredients(),

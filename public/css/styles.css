@@ -4,9 +4,6 @@
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
-  /*&__element_name[hide_selected_filter="true"] {
-      display: none;
-  }*/
 }
 .filter__buttons {
   display: flex;
@@ -113,11 +110,11 @@
   border-radius: 5px;
   padding: 0.7rem;
   color: white;
-  cursor: pointer;
 }
 .filter__close {
   color: white;
   font-size: 18px;
+  cursor: pointer;
 }
 .filter__1 {
   background: #3282F7;

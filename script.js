@@ -12,6 +12,7 @@ var inputIngredientsLength;
 //Appareils DOM elements
 let inputAppareil = document.getElementById('inputAppareil');
 var appareilsArray = Service.getAppliance();
+var inputAppareilLength;
 
 //Ustensiles DOM elements
 let inputUstensiles = document.getElementById('inputUstensiles');
@@ -92,7 +93,7 @@ displayRecipes(Service.loadRecipesAndFilters().recipesArr);
 //recherche d'une recette au clavier
 document.getElementById('search').addEventListener('input', (e) => {
     const value = e.target.value;
-    input_main_value = value;
+    //input_main_value = value;
     inputLength = value.length;
     resultRecipes = [];
     if (inputLength >= 3) {
@@ -194,6 +195,11 @@ function containsObject(obj, list) {
     return list.some(elem => elem.value === obj.value && elem.type == obj.type)
 }
 
+document.addEventListener('click', (e)=>{
+    
+    
+})
+
 //evenements au clic 
 document.addEventListener('click', (e) => {
     //sélectionner filtre + l'ajouter
@@ -220,7 +226,7 @@ document.addEventListener('click', (e) => {
             </button>
             `
             filtersTemplate.innerHTML += template;
-            Service.loadRecipesAndFilters(null,filtersArray).recipesArr;
+            recipesArray=Service.loadRecipesAndFilters(null,filtersArray);
             displayRecipes(recipesArray);
         }
     }
@@ -231,10 +237,13 @@ document.addEventListener('click', (e) => {
     if (data_value !== undefined && data_type !== undefined) {
         for (var i = 0; i < filtersArray.length; i++) {
             if (filtersArray[i].value == data_value && filtersArray[i].type == data_type) {
+                var button=document.getElementById('button_' + data_value + '_' + data_type);
+                button.remove();
                 var element=document.querySelector(`[data-id="${data_value}"]`);
-                element.classList.remove('filter__hide_selected_filter')
-                document.getElementById('button_' + data_value + '_' + data_type).remove();
-                filtersArray.splice(i);
+                element.classList.remove('filter__hide_selected_filter');
+                filtersArray.splice(i,1);
+                recipesArray=Service.loadRecipesAndFilters(null,filtersArray)
+                console.log(recipesArray)
                 displayRecipes(recipesArray);
             }
         }

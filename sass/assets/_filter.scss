@@ -79,9 +79,6 @@
     &__element_name:hover {
         text-decoration: underline;
     }
-    /*&__element_name[hide_selected_filter="true"] {
-        display: none;
-    }*/
     &__hide_selected_filter {
         display: none;
     }
@@ -112,11 +109,11 @@
         border-radius: 5px;
         padding: .7rem;
         color: white;
-        cursor: pointer;
     }
     &__close {
         color: white;
         font-size: 18px;
+        cursor: pointer;
     }
     &__1 {
         background: #3282F7;
