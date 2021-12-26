@@ -26,8 +26,9 @@ var resultRecipes = [];
 var resultIngredients = [];
 var resultAppareils = [];
 var resultUstensiles = [];
-var recipesArray = Service.loadRecipesAndFilters();
+var recipesArray = Service.loadRecipesAndFilters().recipesArr;
 
+var attribute;
 
 function displayRecipes(recipes) {
     recipesList.innerHTML = ``;
@@ -97,7 +98,7 @@ document.getElementById('search').addEventListener('input', (e) => {
     inputLength = value.length;
     resultRecipes = [];
     if (inputLength >= 3) {
-        recipesArray.recipesArr.forEach((recipe) => {
+        recipesArray.forEach((recipe) => {
             if (recipe.name.toLowerCase().includes(value.toLowerCase()) || recipe.description.toLowerCase().includes(value.toLowerCase()) || recipe.ingredients.some(a => a.ingredient.toLowerCase().includes(value.toLowerCase()))) {
                 resultRecipes.push(recipe);
             }
@@ -195,11 +196,6 @@ function containsObject(obj, list) {
     return list.some(elem => elem.value === obj.value && elem.type == obj.type)
 }
 
-document.addEventListener('click', (e)=>{
-    
-    
-})
-
 //evenements au clic 
 document.addEventListener('click', (e) => {
     //sélectionner filtre + l'ajouter
@@ -213,11 +209,14 @@ document.addEventListener('click', (e) => {
             element.classList.add('filter__hide_selected_filter');
             var className;
             if (type == "ingredients") {
-                className = "filter__1"
+                className = "filter__1";
+                inputIngredient.value="";    
             } else if (type == "appareils") {
-                className = "filter__2"
+                className = "filter__2";
+                inputAppareil.value="";
             } else if (type == "ustensiles") {
-                className = "filter__3"
+                className = "filter__3";
+                inputUstensiles.value="";
             }
             var template = `
             <button class="filter__result ${className}" id="button_${object.value}_${object.type}">
@@ -226,7 +225,15 @@ document.addEventListener('click', (e) => {
             </button>
             `
             filtersTemplate.innerHTML += template;
-            recipesArray=Service.loadRecipesAndFilters(null,filtersArray);
+            resultRecipes = resultRecipes !==undefined ? resultRecipes : recipesArray;
+            console.log(resultRecipes)
+            recipesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).resultRecipes;
+            ingredientsArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
+            resultIngredients=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
+            appareilsArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).appliances;
+            resultAppareils=Service.loadRecipesAndFilters(resultRecipes,filtersArray).appliances;
+            ustensilesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
+            resultUstensiles=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
             displayRecipes(recipesArray);
         }
     }
@@ -242,8 +249,15 @@ document.addEventListener('click', (e) => {
                 var element=document.querySelector(`[data-id="${data_value}"]`);
                 element.classList.remove('filter__hide_selected_filter');
                 filtersArray.splice(i,1);
-                recipesArray=Service.loadRecipesAndFilters(null,filtersArray)
-                console.log(recipesArray)
+                resultRecipes = resultRecipes !==undefined ? resultRecipes : recipesArray;
+                console.log(resultRecipes)
+                recipesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).resultRecipes;
+                ingredientsArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
+                resultIngredients=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
+                appareilsArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).appliances;
+                resultAppareils=Service.loadRecipesAndFilters(resultRecipes,filtersArray).appliances;
+                ustensilesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
+                resultUstensiles=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
                 displayRecipes(recipesArray);
             }
         }
@@ -260,7 +274,7 @@ document.addEventListener('click', (e) => {
         document.getElementById('appareilsList').innerHTML = ``;
         setInitialStateFilterList()
         openFilter('appareils');
-        displayFilters('appareils', inputUstensilsLength, inputUstensiles.value, appareilsArray, resultAppareils,filtersArray)
+        displayFilters('appareils', inputAppareilLength, inputAppareil.value, appareilsArray, resultAppareils,filtersArray)
     } else if (id == "ustensiles_button" || id == "name_ustensiles" || id == "inputUstensiles" || id=="chevron3") {
         document.getElementById('ustensilesList').innerHTML = ``;
         setInitialStateFilterList()
