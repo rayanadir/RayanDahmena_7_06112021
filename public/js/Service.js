@@ -66,14 +66,29 @@ export default class Service {
             }
             return result;
         } else if (search !== undefined && filtersArray) {
-            console.log(filtersArray)
+            //console.log(filtersArray)
             let resultRecipes = [];
             search.forEach((recipe) => {
-
+                let ingredients = [
+                    ...new Set(recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()))
+                ];
+                let appliance = recipe.appliance.toLowerCase();
+                let ustensils = [
+                        ...new Set(recipe.ustensils.map(ustensil => ustensil.toLowerCase()))
+                    ]
+                    //let applianceFound = filtersArray.every(filter => filter.value == appliance && filter.type == "appareils");
+                    //let ingredientsFound = filtersArray.every(filter => filter.value == ingredients && filter.type == "ingredients");
+                    //let ustensilsFound = filtersArray.every(filter => filter.value == ustensils && filter.type == "ustensiles");
+                let found = filtersArray.every(filter => recipe.ingredients.includes(filter.value) || recipe.ustensils.includes(filter.value) || recipe.appliance == filter.value)
+                if (found) {
+                    resultRecipes.push(recipe)
+                }
             })
+            console.log(resultRecipes)
             const result = {
-
+                resultRecipes
             }
+            return result;
         }
         const initArr = {
             ingredients: this.getIngredients(),

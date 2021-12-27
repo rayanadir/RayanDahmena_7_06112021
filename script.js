@@ -226,7 +226,7 @@ document.addEventListener('click', (e) => {
             `
             filtersTemplate.innerHTML += template;
             resultRecipes = resultRecipes !==undefined ? resultRecipes : recipesArray;
-            console.log(resultRecipes)
+            //console.log(resultRecipes)
             recipesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).resultRecipes;
             ingredientsArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
             resultIngredients=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
@@ -250,7 +250,7 @@ document.addEventListener('click', (e) => {
                 element.classList.remove('filter__hide_selected_filter');
                 filtersArray.splice(i,1);
                 resultRecipes = resultRecipes !==undefined ? resultRecipes : recipesArray;
-                console.log(resultRecipes)
+                //console.log(resultRecipes)
                 recipesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).resultRecipes;
                 ingredientsArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
                 resultIngredients=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
