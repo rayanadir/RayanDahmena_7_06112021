@@ -106,6 +106,7 @@ document.getElementById('search').addEventListener('input', (e) => {
         ingredientsArray = Service.loadRecipesAndFilters(resultRecipes).ingredients
         appareilsArray = Service.loadRecipesAndFilters(resultRecipes).appliances
         ustensilesArray = Service.loadRecipesAndFilters(resultRecipes).ustensils;
+        Service.loadRecipesAndFilters(resultRecipes,null,true)
         displayRecipes(Service.loadRecipesAndFilters(resultRecipes).recipesArr);
     } else {
         ingredientsArray = Service.getIngredients();
@@ -234,6 +235,7 @@ document.addEventListener('click', (e) => {
             resultAppareils=Service.loadRecipesAndFilters(resultRecipes,filtersArray).appliances;
             ustensilesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
             resultUstensiles=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
+            Service.loadRecipesAndFilters(resultRecipes,filtersArray,true)
             displayRecipes(recipesArray);
         }
     }
@@ -258,6 +260,7 @@ document.addEventListener('click', (e) => {
                 resultAppareils=Service.loadRecipesAndFilters(resultRecipes,filtersArray).appliances;
                 ustensilesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
                 resultUstensiles=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
+                Service.loadRecipesAndFilters(resultRecipes,filtersArray,true)
                 displayRecipes(recipesArray);
             }
         }
