@@ -4,7 +4,6 @@ export default class Service {
         let recipesArr = recipes;
         // RECHERCHE PRINCIPALE ET SANS FILTRE
         if (search && !filtersArray) {
-            if (arg == true) { console.log("1e condition") }
             recipesArr = search;
             let ingredients = [
                 ...new Set(recipesArr.map(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase())).flat())
@@ -25,50 +24,39 @@ export default class Service {
         }
         // RECHERCHE AVEC FILTRE
         else if (filtersArray && search !== undefined) {
-            let tempArr = [];
             let resultRecipes = []
                 //obtenir recettes à partir des filtres choisis
             recipesArr.forEach((recipe) => {
-                    recipe.ingredients.map((ingredient) => {
-                        const ingredientFound = filtersArray.some(filter => filter.value == ingredient.ingredient.toLowerCase() && filter.type == "ingredients");
-                        if (ingredientFound) {
-                            tempArr.push(recipe);
-                        }
-                    });
-                    const applianceFound = filtersArray.some(filter => filter.value == recipe.appliance.toLowerCase() && filter.type == "appareils");
-                    if (applianceFound) {
-                        tempArr.push(recipe);
+                recipe.ingredients.map((ingredient) => {
+                    const ingredientFound = filtersArray.some(filter => filter.value == ingredient.ingredient.toLowerCase() && filter.type == "ingredients");
+                    if (ingredientFound) {
+                        resultRecipes.push(recipe);
                     }
-                    recipe.ustensils.map((ustensil) => {
-                        const ustensilFound = filtersArray.some(filter => filter.value == ustensil.toLowerCase() && filter.type == "ustensiles");
-                        if (ustensilFound) {
-                            tempArr.push(recipe);
-                        }
-                    })
-                })
-                // effectuer l'intersection des recettes à partir des filtres 
-            tempArr.forEach((recipe) => {
-                    const applianceFound = filtersArray.every((filter) => recipe.appliance.toLowerCase() == filter.value)
-                    const ingredientFound = filtersArray.every((filter) => {
-                        //recipe.ingredients.includes(filter.value)
-                        recipe.ingredients.map((ingredient) => {
-                            ingredient.ingredient.toLowerCase().includes(filter.value)
-                        })
-                    })
-                    const ustensilFound = filtersArray.every((filter) => {
-                        //recipe.ustensils.includes(filter.value);
-                        recipe.ustensils.map((ustensil) => {
-                            ustensil.toLowerCase().includes(filter.value)
-                        })
-                    })
-                    if (arg == true) {
-                        console.log(ingredientFound + ' ' + applianceFound + ' ' + +ustensilFound)
-                    }
-                    if (ingredientFound || applianceFound || ustensilFound) {
-                        resultRecipes.push(recipe)
+                });
+                const applianceFound = filtersArray.some(filter => filter.value == recipe.appliance.toLowerCase() && filter.type == "appareils");
+                if (applianceFound) {
+                    resultRecipes.push(recipe);
+                }
+                recipe.ustensils.map((ustensil) => {
+                    const ustensilFound = filtersArray.some(filter => filter.value == ustensil.toLowerCase() && filter.type == "ustensiles");
+                    if (ustensilFound) {
+                        resultRecipes.push(recipe);
                     }
                 })
-                //actualiser les filtres à partir des nouvelles recettes obtenues
+            })
+            if (arg == true) {
+                //resultRecipes = resultRecipes.filter(recipe => this.filterRecipes(recipe, filtersArray))
+                //console.log(resultRecipes)
+                let ingredients = [];
+                let appliance = [];
+                let ustensiles = []
+                for (let i = 0; i < filtersArray.length; i++) {
+                    if (filtersArray[i].type == "ingredients") { ingredients.push(filtersArray[i].value) } else if (filtersArray[i].type == "appareils") { appliance.push(filtersArray[i].value) } else if (filtersArray[i].type == "ustensiles") { ustensiles.push(filtersArray[i].value) }
+                }
+                const filters = { ingredients, appliance, ustensiles }
+                console.log(filters)
+            }
+            //actualiser les filtres à partir des nouvelles recettes obtenues
             let ingredients = [
                 ...new Set(resultRecipes.map(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase())).flat())
             ];
@@ -90,7 +78,6 @@ export default class Service {
                 ustensils,
                 resultRecipes
             }
-            if (arg == true) { console.log(result) }
             return result;
         }
         const initArr = {
@@ -129,5 +116,27 @@ export default class Service {
                 .filter(ustensil => ustensil.toLowerCase().indexOf(filter) > -1)
         }
         return ustensils
+    }
+
+    static filterRecipes(recipesArr, filtersArr) {
+        let filterIngredient = true,
+            filterAppliance = true,
+            filterUstensil = true;
+        for (let i = 0; i < filtersArr.length; i++) {
+            const mappedIngredients = recipesArr.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
+            if (mappedIngredients.indexOf(filtersArr[i].value) == -1 && filtersArr[i].type == "ingredients") {
+                filterIngredient = false;
+                break;
+            }
+            if (recipesArr.appliance.toLowerCase() !== filtersArr[i].appliance && filtersArr[i].type == "appareils") {
+                filterAppliance = false;
+                break;
+            }
+            if (recipesArr.ustensils.map(ustensil => ustensil.toLowerCase().indexOf(filtersArr[i].value) == -1 && filtersArr[i].type == "ustensiles")) {
+                filterUstensil = false;
+                break;
+            }
+        }
+        return filterIngredient && filterAppliance && filterUstensil;
     }
 }
