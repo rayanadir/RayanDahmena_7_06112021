@@ -1,6 +1,6 @@
 import recipes from '../../recipes.js'
 export default class Service {
-    static loadRecipesAndFilters(search, filtersArray, arg) {
+    static loadRecipesAndFilters(search, filtersArray) {
         let recipesArr = recipes;
         // RECHERCHE PRINCIPALE ET SANS FILTRE
         if (search && !filtersArray) {
@@ -24,38 +24,38 @@ export default class Service {
         }
         // RECHERCHE AVEC FILTRE
         else if (filtersArray && search !== undefined) {
-            let resultRecipes = []
-                //obtenir recettes à partir des filtres choisis
+            let recipes = [];
+            //obtenir recettes à partir des filtres choisis
             recipesArr.forEach((recipe) => {
-                recipe.ingredients.map((ingredient) => {
-                    const ingredientFound = filtersArray.some(filter => filter.value == ingredient.ingredient.toLowerCase() && filter.type == "ingredients");
-                    if (ingredientFound) {
-                        resultRecipes.push(recipe);
+                    recipe.ingredients.map((ingredient) => {
+                        const ingredientFound = filtersArray.some(filter => filter.value == ingredient.ingredient.toLowerCase() && filter.type == "ingredients");
+                        if (ingredientFound) {
+                            recipes.push(recipe);
+                        }
+                    });
+                    const applianceFound = filtersArray.some(filter => filter.value == recipe.appliance.toLowerCase() && filter.type == "appareils");
+                    if (applianceFound) {
+                        recipes.push(recipe);
                     }
-                });
-                const applianceFound = filtersArray.some(filter => filter.value == recipe.appliance.toLowerCase() && filter.type == "appareils");
-                if (applianceFound) {
-                    resultRecipes.push(recipe);
-                }
-                recipe.ustensils.map((ustensil) => {
-                    const ustensilFound = filtersArray.some(filter => filter.value == ustensil.toLowerCase() && filter.type == "ustensiles");
-                    if (ustensilFound) {
-                        resultRecipes.push(recipe);
-                    }
+                    recipe.ustensils.map((ustensil) => {
+                        const ustensilFound = filtersArray.some(filter => filter.value == ustensil.toLowerCase() && filter.type == "ustensiles");
+                        if (ustensilFound) {
+                            recipes.push(recipe);
+                        }
+                    })
                 })
-            })
-            if (arg == true) {
-                //resultRecipes = resultRecipes.filter(recipe => this.filterRecipes(recipe, filtersArray))
-                //console.log(resultRecipes)
-                let ingredients = [];
-                let appliance = [];
-                let ustensiles = []
-                for (let i = 0; i < filtersArray.length; i++) {
-                    if (filtersArray[i].type == "ingredients") { ingredients.push(filtersArray[i].value) } else if (filtersArray[i].type == "appareils") { appliance.push(filtersArray[i].value) } else if (filtersArray[i].type == "ustensiles") { ustensiles.push(filtersArray[i].value) }
-                }
-                const filters = { ingredients, appliance, ustensiles }
-                console.log(filters)
+                // obtention des filtres séléctionnés
+            let ingredientsSelected = [];
+            let applianceSelected = [];
+            let ustensilesSelected = []
+            for (let i = 0; i < filtersArray.length; i++) {
+                if (filtersArray[i].type == "ingredients") { ingredientsSelected.push(filtersArray[i].value) } else if (filtersArray[i].type == "appareils") { applianceSelected.push(filtersArray[i].value) } else if (filtersArray[i].type == "ustensiles") { ustensilesSelected.push(filtersArray[i].value) }
             }
+            const filters = { ingredientsSelected, applianceSelected, ustensilesSelected };
+
+            let resultRecipes = recipes.filter(recipe => this.filterRecipes(recipe, filters));
+            resultRecipes = [...new Set(resultRecipes)];
+
             //actualiser les filtres à partir des nouvelles recettes obtenues
             let ingredients = [
                 ...new Set(resultRecipes.map(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase())).flat())
@@ -118,21 +118,27 @@ export default class Service {
         return ustensils
     }
 
-    static filterRecipes(recipesArr, filtersArr) {
+    static filterRecipes(recipe, filters) {
         let filterIngredient = true,
             filterAppliance = true,
             filterUstensil = true;
-        for (let i = 0; i < filtersArr.length; i++) {
-            const mappedIngredients = recipesArr.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
-            if (mappedIngredients.indexOf(filtersArr[i].value) == -1 && filtersArr[i].type == "ingredients") {
+        for (let i = 0; i < filters.ingredientsSelected.length; i++) {
+            const mappedIngredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
+            if (mappedIngredients.indexOf(filters.ingredientsSelected[i]) === -1) {
                 filterIngredient = false;
                 break;
             }
-            if (recipesArr.appliance.toLowerCase() !== filtersArr[i].appliance && filtersArr[i].type == "appareils") {
+        }
+
+        for (let i = 0; i < filters.applianceSelected.length; i++) {
+            if (recipe.appliance.toLowerCase() !== filters.applianceSelected[i]) {
                 filterAppliance = false;
                 break;
             }
-            if (recipesArr.ustensils.map(ustensil => ustensil.toLowerCase().indexOf(filtersArr[i].value) == -1 && filtersArr[i].type == "ustensiles")) {
+        }
+
+        for (let i = 0; i < filters.ustensilesSelected.length; i++) {
+            if (recipe.ustensils.map(ustensil => ustensil.toLowerCase()).indexOf(filters.ustensilesSelected[i]) === -1) {
                 filterUstensil = false;
                 break;
             }

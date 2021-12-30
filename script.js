@@ -94,10 +94,9 @@ displayRecipes(Service.loadRecipesAndFilters().recipesArr);
 //recherche d'une recette au clavier
 document.getElementById('search').addEventListener('input', (e) => {
     const value = e.target.value;
-    //input_main_value = value;
     inputLength = value.length;
     resultRecipes = [];
-    if (inputLength >= 3) {
+    if (inputLength >= 3 ) {
         recipesArray.forEach((recipe) => {
             if (recipe.name.toLowerCase().includes(value.toLowerCase()) || recipe.description.toLowerCase().includes(value.toLowerCase()) || recipe.ingredients.some(a => a.ingredient.toLowerCase().includes(value.toLowerCase()))) {
                 resultRecipes.push(recipe);
@@ -106,7 +105,6 @@ document.getElementById('search').addEventListener('input', (e) => {
         ingredientsArray = Service.loadRecipesAndFilters(resultRecipes).ingredients
         appareilsArray = Service.loadRecipesAndFilters(resultRecipes).appliances
         ustensilesArray = Service.loadRecipesAndFilters(resultRecipes).ustensils;
-        Service.loadRecipesAndFilters(resultRecipes,null,true)
         displayRecipes(Service.loadRecipesAndFilters(resultRecipes).recipesArr);
     } else {
         ingredientsArray = Service.getIngredients();
@@ -227,7 +225,6 @@ document.addEventListener('click', (e) => {
             `
             filtersTemplate.innerHTML += template;
             resultRecipes = resultRecipes !==undefined ? resultRecipes : recipesArray;
-            //console.log(resultRecipes)
             recipesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).resultRecipes;
             ingredientsArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
             resultIngredients=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
@@ -235,7 +232,6 @@ document.addEventListener('click', (e) => {
             resultAppareils=Service.loadRecipesAndFilters(resultRecipes,filtersArray).appliances;
             ustensilesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
             resultUstensiles=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
-            Service.loadRecipesAndFilters(resultRecipes,filtersArray,true)
             displayRecipes(recipesArray);
         }
     }
@@ -252,7 +248,6 @@ document.addEventListener('click', (e) => {
                 element.classList.remove('filter__hide_selected_filter');
                 filtersArray.splice(i,1);
                 resultRecipes = resultRecipes !==undefined ? resultRecipes : recipesArray;
-                //console.log(resultRecipes)
                 recipesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).resultRecipes;
                 ingredientsArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
                 resultIngredients=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
@@ -260,7 +255,7 @@ document.addEventListener('click', (e) => {
                 resultAppareils=Service.loadRecipesAndFilters(resultRecipes,filtersArray).appliances;
                 ustensilesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
                 resultUstensiles=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
-                Service.loadRecipesAndFilters(resultRecipes,filtersArray,true)
+                Service.loadRecipesAndFilters(resultRecipes,filtersArray)
                 displayRecipes(recipesArray);
             }
         }
