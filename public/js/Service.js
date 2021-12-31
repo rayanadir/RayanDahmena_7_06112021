@@ -1,9 +1,10 @@
 import recipes from '../../recipes.js'
 export default class Service {
-    static loadRecipesAndFilters(search, filtersArray) {
+    static loadRecipesAndFilters(search, filtersArray, arg) {
         let recipesArr = recipes;
         // RECHERCHE PRINCIPALE ET SANS FILTRE
         if (search && !filtersArray) {
+            if (arg == true) { console.log("1e condition") }
             recipesArr = search;
             let ingredients = [
                 ...new Set(recipesArr.map(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase())).flat())
@@ -24,6 +25,8 @@ export default class Service {
         }
         // RECHERCHE AVEC FILTRE
         else if (filtersArray && search !== undefined) {
+            if (arg == true) { console.log("2e condition") }
+
             let recipes = [];
             //obtenir recettes à partir des filtres choisis
             recipesArr.forEach((recipe) => {
@@ -88,16 +91,21 @@ export default class Service {
         }
         return initArr;
     }
-    static getIngredients(filter) {
+    static getIngredients(filter, resultArr) {
         let ingredients = [
             ...new Set(recipes.map(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase())).flat())
         ];
         if (filter) {
             ingredients = ingredients.filter(ingredient => ingredient.toLowerCase().indexOf(filter) > -1);
         }
+        if (resultArr) {
+            ingredients = [
+                ...new Set(resultArr.map(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase())).flat())
+            ];
+        }
         return ingredients;
     }
-    static getAppliance(filter) {
+    static getAppliance(filter, resultArr) {
         let appliances = [
             ...new Set(recipes.map(recipe => recipe.appliance.toLowerCase()))
         ];
@@ -105,9 +113,14 @@ export default class Service {
             appliances = appliances
                 .filter(appliance => appliance.toLowerCase().indexOf(filter) > -1)
         }
+        if (resultArr) {
+            appliances = [
+                ...new Set(resultArr.map(recipe => recipe.appliance.toLowerCase()))
+            ];
+        }
         return appliances;
     }
-    static getUstensils(filter) {
+    static getUstensils(filter, resultArr) {
         let ustensils = [
             ...new Set(recipes.map(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase())).flat())
         ];
@@ -115,9 +128,13 @@ export default class Service {
             ustensils = ustensils
                 .filter(ustensil => ustensil.toLowerCase().indexOf(filter) > -1)
         }
+        if (resultArr) {
+            ustensils = [
+                ...new Set(resultArr.map(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase())).flat())
+            ];
+        }
         return ustensils
     }
-
     static filterRecipes(recipe, filters) {
         let filterIngredient = true,
             filterAppliance = true,
@@ -144,5 +161,14 @@ export default class Service {
             }
         }
         return filterIngredient && filterAppliance && filterUstensil;
+    }
+    static mainInputSearch(recipesArray, resultRecipes, value) {
+        resultRecipes = []
+        recipesArray.forEach((recipe) => {
+            if (recipe.name.toLowerCase().includes(value.toLowerCase()) || recipe.description.toLowerCase().includes(value.toLowerCase()) || recipe.ingredients.some(a => a.ingredient.toLowerCase().includes(value.toLowerCase()))) {
+                resultRecipes.push(recipe);
+            }
+        });
+        return resultRecipes;
     }
 }
