@@ -97,19 +97,31 @@ document.getElementById('search').addEventListener('input', (e) => {
     const value = e.target.value;
     inputLength = value.length;
     inputMainValue=value;
+    recipesArray=Service.loadRecipesAndFilters().recipesArr
     if (inputLength >= 3) {
         resultRecipes= Service.mainInputSearch(recipesArray,resultRecipes,inputMainValue);
         ingredientsArray = Service.loadRecipesAndFilters(resultRecipes).ingredients
         appareilsArray = Service.loadRecipesAndFilters(resultRecipes).appliances
         ustensilesArray = Service.loadRecipesAndFilters(resultRecipes).ustensils;
         displayRecipes(Service.loadRecipesAndFilters(resultRecipes).recipesArr);
-    } else {
+    } else if(inputLength<3 && filtersArray.length>0){
+        //resultRecipes = resultRecipes !==undefined ? resultRecipes : recipesArray;
+            recipesArray=Service.loadRecipesAndFilters(recipesArray,filtersArray).resultRecipes;
+            ingredientsArray=Service.loadRecipesAndFilters(recipesArray,filtersArray).ingredients;
+            resultIngredients=Service.loadRecipesAndFilters(recipesArray,filtersArray).ingredients;
+            appareilsArray=Service.loadRecipesAndFilters(recipesArray,filtersArray).appliances;
+            resultAppareils=Service.loadRecipesAndFilters(recipesArray,filtersArray).appliances;
+            ustensilesArray=Service.loadRecipesAndFilters(recipesArray,filtersArray).ustensils;
+            resultUstensiles=Service.loadRecipesAndFilters(recipesArray,filtersArray).ustensils;
+            displayRecipes(recipesArray);
+    }else if(inputLength<3 && filtersArray.length!==0) {
         ingredientsArray = Service.getIngredients();
         appareilsArray = Service.getAppliance();
         ustensilesArray = Service.getUstensils();
         resultRecipes = recipesArray;
         displayRecipes(Service.loadRecipesAndFilters().recipesArr);
-    }
+    } 
+    //console.log(resultRecipes)
 })
 
 // evenements ingredients
@@ -244,26 +256,45 @@ document.addEventListener('click', (e) => {
                 var element=document.querySelector(`[data-id="${data_value}"]`);
                 element.classList.remove('filter__hide_selected_filter');
                 filtersArray.splice(i,1);
-                resultRecipes = resultRecipes !==undefined ? resultRecipes : recipesArray;
-                if(inputLength>0){
-                    resultRecipes=Service.mainInputSearch(recipesArray,resultRecipes,inputMainValue)
-                    ingredientsArray=Service.getIngredients(null,resultRecipes);
-                    resultIngredients=Service.getIngredients(null,resultRecipes)
-                    appareilsArray=Service.getAppliance(null,resultRecipes)
-                    resultAppareils=Service.getAppliance(null,resultRecipes)
-                    ustensilesArray=Service.getUstensils(null,resultRecipes)
-                    resultUstensiles=Service.getUstensils(null,resultRecipes)
-                    displayRecipes(resultRecipes);
-                }else if(inputLength==0){
-                    recipesArray=Service.mainInputSearch(recipesArray,resultRecipes,inputMainValue)
-                    recipesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).resultRecipes;
+                //resultRecipes = resultRecipes !==undefined ? resultRecipes : recipesArray;
+                if(inputLength>=3){
+                    if(filtersArray.length==0){
+                        recipesArray=Service.loadRecipesAndFilters().recipesArr.filter(recipe=>{
+                           return recipe.name.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.description.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.ingredients.some(a => a.ingredient.toLowerCase().includes(inputMainValue.toLowerCase()))
+                        })
+                        console.log(recipesArray)
+                        ingredientsArray=Service.getIngredients(null,recipesArray);
+                        resultIngredients=Service.getIngredients(null,recipesArray)
+                        appareilsArray=Service.getAppliance(null,recipesArray)
+                        resultAppareils=Service.getAppliance(null,recipesArray)
+                        ustensilesArray=Service.getUstensils(null,recipesArray)
+                        resultUstensiles=Service.getUstensils(null,recipesArray);
+                        displayRecipes(recipesArray);
+                    }else if(filtersArray.length>0){
+                        resultRecipes=Service.loadRecipesAndFilters(resultRecipes,filtersArray).resultRecipes;
+                        recipesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).resultRecipes;
+                        console.log(resultRecipes)
+                        console.log(recipesArray)
+                        ingredientsArray=Service.getIngredients(null,resultRecipes);
+                        resultIngredients=Service.getIngredients(null,resultRecipes)
+                        appareilsArray=Service.getAppliance(null,resultRecipes)
+                        resultAppareils=Service.getAppliance(null,resultRecipes)
+                        ustensilesArray=Service.getUstensils(null,resultRecipes)
+                        resultUstensiles=Service.getUstensils(null,resultRecipes);
+                        displayRecipes(resultRecipes);
+                    }
+                }else if(inputLength<3){
+                    // NE PAS CHANGER
+                    resultRecipes=Service.loadRecipesAndFilters(resultRecipes,filtersArray).resultRecipes
                     ingredientsArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
                     resultIngredients=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
                     appareilsArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).appliances;
                     resultAppareils=Service.loadRecipesAndFilters(resultRecipes,filtersArray).appliances;
                     ustensilesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
                     resultUstensiles=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
-                    displayRecipes(recipesArray);
+                    const result={resultRecipes,recipesArray}
+                    console.log(result)
+                    displayRecipes(resultRecipes);
                 }
             }
         }

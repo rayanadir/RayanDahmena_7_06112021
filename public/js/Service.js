@@ -60,15 +60,9 @@ export default class Service {
             resultRecipes = [...new Set(resultRecipes)];
 
             //actualiser les filtres à partir des nouvelles recettes obtenues
-            let ingredients = [
-                ...new Set(resultRecipes.map(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase())).flat())
-            ];
-            let appliances = [
-                ...new Set(resultRecipes.map(recipe => recipe.appliance.toLowerCase()))
-            ];
-            let ustensils = [
-                ...new Set(resultRecipes.map(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase())).flat())
-            ];
+            let ingredients = this.getIngredients(null, resultRecipes)
+            let appliances = this.getAppliance(null, resultRecipes)
+            let ustensils = this.getUstensils(null, resultRecipes)
             if (filtersArray.length == 0) {
                 resultRecipes = recipesArr;
                 ingredients = this.getIngredients();
