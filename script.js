@@ -104,7 +104,7 @@ document.getElementById('search').addEventListener('input', (e) => {
         appareilsArray = Service.loadRecipesAndFilters(resultRecipes).appliances
         ustensilesArray = Service.loadRecipesAndFilters(resultRecipes).ustensils;
         displayRecipes(Service.loadRecipesAndFilters(resultRecipes).recipesArr);
-    } else if(inputLength<3 && filtersArray.length>0){
+    }else if(inputLength<3 && filtersArray.length>0){
         //resultRecipes = resultRecipes !==undefined ? resultRecipes : recipesArray;
             recipesArray=Service.loadRecipesAndFilters(recipesArray,filtersArray).resultRecipes;
             ingredientsArray=Service.loadRecipesAndFilters(recipesArray,filtersArray).ingredients;
@@ -114,7 +114,7 @@ document.getElementById('search').addEventListener('input', (e) => {
             ustensilesArray=Service.loadRecipesAndFilters(recipesArray,filtersArray).ustensils;
             resultUstensiles=Service.loadRecipesAndFilters(recipesArray,filtersArray).ustensils;
             displayRecipes(recipesArray);
-    }else if(inputLength<3 && filtersArray.length!==0) {
+    }else if(inputLength<3 && filtersArray.length==0) {
         ingredientsArray = Service.getIngredients();
         appareilsArray = Service.getAppliance();
         ustensilesArray = Service.getUstensils();
@@ -256,7 +256,6 @@ document.addEventListener('click', (e) => {
                 var element=document.querySelector(`[data-id="${data_value}"]`);
                 element.classList.remove('filter__hide_selected_filter');
                 filtersArray.splice(i,1);
-                //resultRecipes = resultRecipes !==undefined ? resultRecipes : recipesArray;
                 if(inputLength>=3){
                     if(filtersArray.length==0){
                         recipesArray=Service.loadRecipesAndFilters().recipesArr.filter(recipe=>{
@@ -271,10 +270,11 @@ document.addEventListener('click', (e) => {
                         resultUstensiles=Service.getUstensils(null,recipesArray);
                         displayRecipes(recipesArray);
                     }else if(filtersArray.length>0){
-                        resultRecipes=Service.loadRecipesAndFilters(resultRecipes,filtersArray).resultRecipes;
-                        recipesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).resultRecipes;
-                        console.log(resultRecipes)
-                        console.log(recipesArray)
+                        const result=Service.loadRecipesAndFilters().recipesArr.filter(recipe=>{
+                            return recipe.name.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.description.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.ingredients.some(a => a.ingredient.toLowerCase().includes(inputMainValue.toLowerCase()))
+                         })
+                         const filtersSelected=Service.getFiltersSelected(filtersArray);
+                         resultRecipes=result.filter(recipe => Service.filterRecipes(recipe,filtersSelected));
                         ingredientsArray=Service.getIngredients(null,resultRecipes);
                         resultIngredients=Service.getIngredients(null,resultRecipes)
                         appareilsArray=Service.getAppliance(null,resultRecipes)

@@ -165,4 +165,22 @@ export default class Service {
         });
         return resultRecipes;
     }
+    static getFiltersSelected(filtersArray) {
+        let ingredientsSelected = [];
+        let applianceSelected = [];
+        let ustensilesSelected = []
+        for (let i = 0; i < filtersArray.length; i++) {
+            if (filtersArray[i].type == "ingredients") { ingredientsSelected.push(filtersArray[i].value) } else if (filtersArray[i].type == "appareils") { applianceSelected.push(filtersArray[i].value) } else if (filtersArray[i].type == "ustensiles") { ustensilesSelected.push(filtersArray[i].value) }
+        }
+        const filters = { ingredientsSelected, applianceSelected, ustensilesSelected };
+        return filters
+    }
+    static mainInputSearchAndFilters(inputMainValue, filtersArray) {
+        let search = recipes.filter(recipe => {
+            recipe.name.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.description.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.ingredients.some(a => a.ingredient.toLowerCase().includes(inputMainValue.toLowerCase()))
+        })
+        let filters = this.getFiltersSelected(filtersArray);
+        let result = this.filterRecipes(search, filters)
+        return result;
+    }
 }
