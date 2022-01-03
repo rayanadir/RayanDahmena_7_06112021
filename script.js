@@ -80,9 +80,9 @@ function displayRecipes(recipes) {
                 `
         recipesList.innerHTML += template;
     }
-    if(recipes.length==0){
+    if (recipes.length == 0) {
         recipesList.style.display = "block";
-                recipesList.innerHTML = `
+        recipesList.innerHTML = `
         <p class="recipes__no_result">
             Aucune rectette ne correspond à votre critère ... vous pouvez chercher "tarte aux pommes","poisson", etc ...
         </p>
@@ -96,32 +96,44 @@ displayRecipes(Service.loadRecipesAndFilters().recipesArr);
 document.getElementById('search').addEventListener('input', (e) => {
     const value = e.target.value;
     inputLength = value.length;
-    inputMainValue=value;
-    recipesArray=Service.loadRecipesAndFilters().recipesArr
-    if (inputLength >= 3) {
-        resultRecipes= Service.mainInputSearch(recipesArray,resultRecipes,inputMainValue);
+    inputMainValue = value;
+    recipesArray = Service.loadRecipesAndFilters().recipesArr;
+    if (inputLength >= 3 && filtersArray.length == 0) {
+        resultRecipes = Service.mainInputSearch(recipesArray, resultRecipes, inputMainValue);
         ingredientsArray = Service.loadRecipesAndFilters(resultRecipes).ingredients
         appareilsArray = Service.loadRecipesAndFilters(resultRecipes).appliances
         ustensilesArray = Service.loadRecipesAndFilters(resultRecipes).ustensils;
         displayRecipes(Service.loadRecipesAndFilters(resultRecipes).recipesArr);
-    }else if(inputLength<3 && filtersArray.length>0){
-        //resultRecipes = resultRecipes !==undefined ? resultRecipes : recipesArray;
-            recipesArray=Service.loadRecipesAndFilters(recipesArray,filtersArray).resultRecipes;
-            ingredientsArray=Service.loadRecipesAndFilters(recipesArray,filtersArray).ingredients;
-            resultIngredients=Service.loadRecipesAndFilters(recipesArray,filtersArray).ingredients;
-            appareilsArray=Service.loadRecipesAndFilters(recipesArray,filtersArray).appliances;
-            resultAppareils=Service.loadRecipesAndFilters(recipesArray,filtersArray).appliances;
-            ustensilesArray=Service.loadRecipesAndFilters(recipesArray,filtersArray).ustensils;
-            resultUstensiles=Service.loadRecipesAndFilters(recipesArray,filtersArray).ustensils;
-            displayRecipes(recipesArray);
-    }else if(inputLength<3 && filtersArray.length==0) {
+    } else if (inputLength >= 3 && filtersArray.length > 0) {
+        const result = Service.loadRecipesAndFilters().recipesArr.filter(recipe => {
+            return recipe.name.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.description.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.ingredients.some(a => a.ingredient.toLowerCase().includes(inputMainValue.toLowerCase()))
+        })
+        const filtersSelected = Service.getFiltersSelected(filtersArray);
+        resultRecipes = result.filter(recipe => Service.filterRecipes(recipe, filtersSelected));
+        ingredientsArray = Service.getIngredients(null, resultRecipes);
+        resultIngredients = Service.getIngredients(null, resultRecipes);
+        appareilsArray = Service.getAppliance(null, resultRecipes);
+        resultAppareils = Service.getAppliance(null, resultRecipes);
+        ustensilesArray = Service.getUstensils(null, resultRecipes);
+        resultUstensiles = Service.getUstensils(null, resultRecipes)
+        displayRecipes(resultRecipes)
+    }
+    else if (inputLength < 3 && filtersArray.length > 0) {
+        recipesArray = Service.loadRecipesAndFilters(recipesArray, filtersArray).resultRecipes;
+        ingredientsArray = Service.loadRecipesAndFilters(recipesArray, filtersArray).ingredients;
+        resultIngredients = Service.loadRecipesAndFilters(recipesArray, filtersArray).ingredients;
+        appareilsArray = Service.loadRecipesAndFilters(recipesArray, filtersArray).appliances;
+        resultAppareils = Service.loadRecipesAndFilters(recipesArray, filtersArray).appliances;
+        ustensilesArray = Service.loadRecipesAndFilters(recipesArray, filtersArray).ustensils;
+        resultUstensiles = Service.loadRecipesAndFilters(recipesArray, filtersArray).ustensils;
+        displayRecipes(recipesArray);
+    } else if (inputLength < 3 && filtersArray.length == 0) {
         ingredientsArray = Service.getIngredients();
         appareilsArray = Service.getAppliance();
         ustensilesArray = Service.getUstensils();
         resultRecipes = recipesArray;
         displayRecipes(Service.loadRecipesAndFilters().recipesArr);
-    } 
-    //console.log(resultRecipes)
+    }
 })
 
 // evenements ingredients
@@ -134,11 +146,11 @@ inputIngredient.addEventListener('input', (e) => {
         if (ingredient.toLowerCase().includes(value.toLowerCase())) {
             resultIngredients.push(ingredient);
             const found = filtersArray.some(element => element.value == ingredient && element.type == "ingredients")
-                if (found) {
-                    attribute = "filter__hide_selected_filter";
-                } else {
-                    attribute = ""
-                }
+            if (found) {
+                attribute = "filter__hide_selected_filter";
+            } else {
+                attribute = ""
+            }
             var template = `
         <p class="filter__element_name ${attribute}" id="element_name" title="ingredients" data-id="${ingredient}">${ingredient}</p>
         `;
@@ -160,11 +172,11 @@ inputAppareil.addEventListener('input', (e) => {
             resultAppareils.push(appareil);
             var attribute;
             const found = filtersArray.some(element => element.value == appareil && element.type == "appareils")
-                if (found) {
-                    attribute = "filter__hide_selected_filter";
-                } else {
-                    attribute = ""
-                }
+            if (found) {
+                attribute = "filter__hide_selected_filter";
+            } else {
+                attribute = ""
+            }
             var template = `
         <p class="filter__element_name ${attribute}" id="element_name" title="appareils" data-id="${appareil}">${appareil}</p>
         `;
@@ -186,11 +198,11 @@ inputUstensiles.addEventListener('input', (e) => {
             resultUstensiles.push(ustensil);
             var attribute;
             const found = filtersArray.some(element => element.value == ustensil && element.type == "ustensiles")
-                if (found) {
-                    attribute = "filter__hide_selected_filter";
-                } else {
-                    attribute = ""
-                }
+            if (found) {
+                attribute = "filter__hide_selected_filter";
+            } else {
+                attribute = ""
+            }
             var template = `
             <p class="filter__element_name ${attribute}" id="element_name" title="ustensiles" data-id="${ustensil}">${ustensil}</p>
             `;
@@ -213,18 +225,18 @@ document.addEventListener('click', (e) => {
     if (value !== undefined && type !== '') {
         if (containsObject(object, filtersArray) == false) {
             filtersArray.push(object);
-            var element=document.querySelector(`[data-id="${value}"]`);
+            var element = document.querySelector(`[data-id="${value}"]`);
             element.classList.add('filter__hide_selected_filter');
             var className;
             if (type == "ingredients") {
                 className = "filter__1";
-                inputIngredient.value="";    
+                inputIngredient.value = "";
             } else if (type == "appareils") {
                 className = "filter__2";
-                inputAppareil.value="";
+                inputAppareil.value = "";
             } else if (type == "ustensiles") {
                 className = "filter__3";
-                inputUstensiles.value="";
+                inputUstensiles.value = "";
             }
             var template = `
             <button class="filter__result ${className}" id="button_${object.value}_${object.type}">
@@ -233,15 +245,30 @@ document.addEventListener('click', (e) => {
             </button>
             `
             filtersTemplate.innerHTML += template;
-            resultRecipes = resultRecipes !==undefined ? resultRecipes : recipesArray;
-            recipesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).resultRecipes;
-            ingredientsArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
-            resultIngredients=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
-            appareilsArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).appliances;
-            resultAppareils=Service.loadRecipesAndFilters(resultRecipes,filtersArray).appliances;
-            ustensilesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
-            resultUstensiles=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
-            displayRecipes(recipesArray);
+            if (inputLength >= 3) {
+                const result = Service.loadRecipesAndFilters().recipesArr.filter(recipe => {
+                    return recipe.name.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.description.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.ingredients.some(a => a.ingredient.toLowerCase().includes(inputMainValue.toLowerCase()))
+                })
+                const filtersSelected = Service.getFiltersSelected(filtersArray);
+                resultRecipes = result.filter(recipe => Service.filterRecipes(recipe, filtersSelected));
+                ingredientsArray = Service.getIngredients(null, resultRecipes);
+                resultIngredients = Service.getIngredients(null, resultRecipes)
+                appareilsArray = Service.getAppliance(null, resultRecipes)
+                resultAppareils = Service.getAppliance(null, resultRecipes)
+                ustensilesArray = Service.getUstensils(null, resultRecipes)
+                resultUstensiles = Service.getUstensils(null, resultRecipes);
+                displayRecipes(resultRecipes);
+            } else {
+                resultRecipes = resultRecipes !== undefined ? resultRecipes : recipesArray;
+                recipesArray = Service.loadRecipesAndFilters(resultRecipes, filtersArray).resultRecipes;
+                ingredientsArray = Service.loadRecipesAndFilters(resultRecipes, filtersArray).ingredients;
+                resultIngredients = Service.loadRecipesAndFilters(resultRecipes, filtersArray).ingredients;
+                appareilsArray = Service.loadRecipesAndFilters(resultRecipes, filtersArray).appliances;
+                resultAppareils = Service.loadRecipesAndFilters(resultRecipes, filtersArray).appliances;
+                ustensilesArray = Service.loadRecipesAndFilters(resultRecipes, filtersArray).ustensils;
+                resultUstensiles = Service.loadRecipesAndFilters(resultRecipes, filtersArray).ustensils;
+                displayRecipes(recipesArray);
+            }
         }
     }
 
@@ -251,49 +278,45 @@ document.addEventListener('click', (e) => {
     if (data_value !== undefined && data_type !== undefined) {
         for (var i = 0; i < filtersArray.length; i++) {
             if (filtersArray[i].value == data_value && filtersArray[i].type == data_type) {
-                var button=document.getElementById('button_' + data_value + '_' + data_type);
+                var button = document.getElementById('button_' + data_value + '_' + data_type);
                 button.remove();
-                var element=document.querySelector(`[data-id="${data_value}"]`);
+                var element = document.querySelector(`[data-id="${data_value}"]`);
                 element.classList.remove('filter__hide_selected_filter');
-                filtersArray.splice(i,1);
-                if(inputLength>=3){
-                    if(filtersArray.length==0){
-                        recipesArray=Service.loadRecipesAndFilters().recipesArr.filter(recipe=>{
-                           return recipe.name.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.description.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.ingredients.some(a => a.ingredient.toLowerCase().includes(inputMainValue.toLowerCase()))
-                        })
-                        console.log(recipesArray)
-                        ingredientsArray=Service.getIngredients(null,recipesArray);
-                        resultIngredients=Service.getIngredients(null,recipesArray)
-                        appareilsArray=Service.getAppliance(null,recipesArray)
-                        resultAppareils=Service.getAppliance(null,recipesArray)
-                        ustensilesArray=Service.getUstensils(null,recipesArray)
-                        resultUstensiles=Service.getUstensils(null,recipesArray);
-                        displayRecipes(recipesArray);
-                    }else if(filtersArray.length>0){
-                        const result=Service.loadRecipesAndFilters().recipesArr.filter(recipe=>{
+                filtersArray.splice(i, 1);
+                if (inputLength >= 3) {
+                    if (filtersArray.length == 0) {
+                        recipesArray = Service.loadRecipesAndFilters().recipesArr.filter(recipe => {
                             return recipe.name.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.description.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.ingredients.some(a => a.ingredient.toLowerCase().includes(inputMainValue.toLowerCase()))
-                         })
-                         const filtersSelected=Service.getFiltersSelected(filtersArray);
-                         resultRecipes=result.filter(recipe => Service.filterRecipes(recipe,filtersSelected));
-                        ingredientsArray=Service.getIngredients(null,resultRecipes);
-                        resultIngredients=Service.getIngredients(null,resultRecipes)
-                        appareilsArray=Service.getAppliance(null,resultRecipes)
-                        resultAppareils=Service.getAppliance(null,resultRecipes)
-                        ustensilesArray=Service.getUstensils(null,resultRecipes)
-                        resultUstensiles=Service.getUstensils(null,resultRecipes);
+                        })
+                        ingredientsArray = Service.getIngredients(null, recipesArray);
+                        resultIngredients = Service.getIngredients(null, recipesArray)
+                        appareilsArray = Service.getAppliance(null, recipesArray)
+                        resultAppareils = Service.getAppliance(null, recipesArray)
+                        ustensilesArray = Service.getUstensils(null, recipesArray)
+                        resultUstensiles = Service.getUstensils(null, recipesArray);
+                        displayRecipes(recipesArray);
+                    } else if (filtersArray.length > 0) {
+                        const result = Service.loadRecipesAndFilters().recipesArr.filter(recipe => {
+                            return recipe.name.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.description.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.ingredients.some(a => a.ingredient.toLowerCase().includes(inputMainValue.toLowerCase()))
+                        })
+                        const filtersSelected = Service.getFiltersSelected(filtersArray);
+                        resultRecipes = result.filter(recipe => Service.filterRecipes(recipe, filtersSelected));
+                        ingredientsArray = Service.getIngredients(null, resultRecipes);
+                        resultIngredients = Service.getIngredients(null, resultRecipes)
+                        appareilsArray = Service.getAppliance(null, resultRecipes)
+                        resultAppareils = Service.getAppliance(null, resultRecipes)
+                        ustensilesArray = Service.getUstensils(null, resultRecipes)
+                        resultUstensiles = Service.getUstensils(null, resultRecipes);
                         displayRecipes(resultRecipes);
                     }
-                }else if(inputLength<3){
-                    // NE PAS CHANGER
-                    resultRecipes=Service.loadRecipesAndFilters(resultRecipes,filtersArray).resultRecipes
-                    ingredientsArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
-                    resultIngredients=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ingredients;
-                    appareilsArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).appliances;
-                    resultAppareils=Service.loadRecipesAndFilters(resultRecipes,filtersArray).appliances;
-                    ustensilesArray=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
-                    resultUstensiles=Service.loadRecipesAndFilters(resultRecipes,filtersArray).ustensils;
-                    const result={resultRecipes,recipesArray}
-                    console.log(result)
+                } else if (inputLength < 3) {
+                    resultRecipes = Service.loadRecipesAndFilters(resultRecipes, filtersArray).resultRecipes
+                    ingredientsArray = Service.loadRecipesAndFilters(resultRecipes, filtersArray).ingredients;
+                    resultIngredients = Service.loadRecipesAndFilters(resultRecipes, filtersArray).ingredients;
+                    appareilsArray = Service.loadRecipesAndFilters(resultRecipes, filtersArray).appliances;
+                    resultAppareils = Service.loadRecipesAndFilters(resultRecipes, filtersArray).appliances;
+                    ustensilesArray = Service.loadRecipesAndFilters(resultRecipes, filtersArray).ustensils;
+                    resultUstensiles = Service.loadRecipesAndFilters(resultRecipes, filtersArray).ustensils;
                     displayRecipes(resultRecipes);
                 }
             }
@@ -302,21 +325,21 @@ document.addEventListener('click', (e) => {
 
     //ouvrir et fermer liste des filtres
     var id = e.target.id;
-    if (id == "ingredients_button" || id == "name_ingredients" || id == "inputIngredients" || id=="chevron1") {
+    if (id == "ingredients_button" || id == "name_ingredients" || id == "inputIngredients" || id == "chevron1") {
         document.getElementById('ingredientsList').innerHTML = ``;
         setInitialStateFilterList();
         openFilter('ingredients');
-        displayFilters('ingredients', inputIngredientsLength, inputIngredient.value, ingredientsArray, resultIngredients,filtersArray);
-    } else if (id == "appareils_button" || id == "name_appareil" || id == "inputAppareil" || id=="chevron2") {
+        displayFilters('ingredients', inputIngredientsLength, inputIngredient.value, ingredientsArray, resultIngredients, filtersArray);
+    } else if (id == "appareils_button" || id == "name_appareil" || id == "inputAppareil" || id == "chevron2") {
         document.getElementById('appareilsList').innerHTML = ``;
         setInitialStateFilterList()
         openFilter('appareils');
-        displayFilters('appareils', inputAppareilLength, inputAppareil.value, appareilsArray, resultAppareils,filtersArray)
-    } else if (id == "ustensiles_button" || id == "name_ustensiles" || id == "inputUstensiles" || id=="chevron3") {
+        displayFilters('appareils', inputAppareilLength, inputAppareil.value, appareilsArray, resultAppareils, filtersArray)
+    } else if (id == "ustensiles_button" || id == "name_ustensiles" || id == "inputUstensiles" || id == "chevron3") {
         document.getElementById('ustensilesList').innerHTML = ``;
         setInitialStateFilterList()
         openFilter('ustensiles')
-        displayFilters('ustensiles', inputUstensilsLength, inputUstensiles.value, ustensilesArray, resultUstensiles,filtersArray)
+        displayFilters('ustensiles', inputUstensilsLength, inputUstensiles.value, ustensilesArray, resultUstensiles, filtersArray)
     } else {
         setInitialStateFilterList()
     }
