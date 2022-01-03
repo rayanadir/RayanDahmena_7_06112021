@@ -1,10 +1,9 @@
 import recipes from '../../recipes.js'
 export default class Service {
-    static loadRecipesAndFilters(search, filtersArray, arg) {
+    static loadRecipesAndFilters(search, filtersArray) {
         let recipesArr = recipes;
         // RECHERCHE PRINCIPALE ET SANS FILTRE
         if (search && !filtersArray) {
-            if (arg == true) { console.log("1e condition") }
             recipesArr = search;
             let ingredients = [
                 ...new Set(recipesArr.map(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase())).flat())
@@ -25,8 +24,6 @@ export default class Service {
         }
         // RECHERCHE AVEC FILTRE
         else if (filtersArray && search !== undefined) {
-            if (arg == true) { console.log("2e condition") }
-
             let recipes = [];
             //obtenir recettes à partir des filtres choisis
             recipesArr.forEach((recipe) => {
@@ -182,5 +179,24 @@ export default class Service {
         let filters = this.getFiltersSelected(filtersArray);
         let result = this.filterRecipes(search, filters)
         return result;
+    }
+    static nativeMainSearch(recipesArray, value) {
+        //recherche avec les boucles natives
+        let resultRecipes = [];
+        for (let i = 0; i < recipesArray.length; i++) {
+            let name = recipesArray[i].name.toLowerCase();
+            let description = recipesArray[i].description.toLowerCase();
+            let ingredients = recipesArray[i].ingredients;
+            if (name.includes(value.toLowerCase()) || description.includes(value.toLowerCase())) {
+                resultRecipes.push(recipesArray[i]);
+            } else {
+                for (let j = 0; j < ingredients.length; j++) {
+                    if (ingredients[j].ingredient.toLowerCase().includes(value.toLowerCase())) {
+                        resultRecipes.push(recipesArray[i]);
+                    }
+                }
+            }
+        }
+        return resultRecipes;
     }
 }
