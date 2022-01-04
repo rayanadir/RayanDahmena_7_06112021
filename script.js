@@ -8,6 +8,7 @@ let recipesList = document.getElementById('recipes');
 let inputIngredient = document.getElementById('inputIngredients')
 var ingredientsArray = Service.getIngredients();
 var inputIngredientsLength;
+var resultIngredientsLength = 0;
 
 //Appareils DOM elements
 let inputAppareil = document.getElementById('inputAppareil');
@@ -99,7 +100,20 @@ document.getElementById('search').addEventListener('input', (e) => {
     inputMainValue = value;
     recipesArray = Service.loadRecipesAndFilters().recipesArr;
     if (inputLength >= 3 && filtersArray.length == 0) {
-        resultRecipes = Service.mainInputSearch(recipesArray, resultRecipes, inputMainValue);
+
+
+        console.time();
+        Service.nativeMainSearch(recipesArray,inputMainValue);
+        console.timeEnd();
+
+        /*console.time();
+        Service.mainInputSearch(recipesArray, inputMainValue);
+        console.timeEnd()*/
+
+        resultRecipes = Service.mainInputSearch(recipesArray, inputMainValue);
+        //const resultTest=Service.nativeMainSearch(recipesArray,inputMainValue);
+        //console.log(resultRecipes);
+        //console.log(resultTest);
         ingredientsArray = Service.loadRecipesAndFilters(resultRecipes).ingredients
         appareilsArray = Service.loadRecipesAndFilters(resultRecipes).appliances
         ustensilesArray = Service.loadRecipesAndFilters(resultRecipes).ustensils;
@@ -157,6 +171,7 @@ inputIngredient.addEventListener('input', (e) => {
             document.getElementById('ingredientsList').innerHTML += template;
         }
     });
+    resultIngredientsLength=resultIngredients.length;
     setFilterPosition('ingredients');
     refreshFilterListWidth('ingredients', resultIngredients.length);
 });
@@ -328,7 +343,7 @@ document.addEventListener('click', (e) => {
     if (id == "ingredients_button" || id == "name_ingredients" || id == "inputIngredients" || id == "chevron1") {
         document.getElementById('ingredientsList').innerHTML = ``;
         setInitialStateFilterList();
-        openFilter('ingredients');
+        openFilter('ingredients',resultIngredientsLength);
         displayFilters('ingredients', inputIngredientsLength, inputIngredient.value, ingredientsArray, resultIngredients, filtersArray);
     } else if (id == "appareils_button" || id == "name_appareil" || id == "inputAppareil" || id == "chevron2") {
         document.getElementById('appareilsList').innerHTML = ``;

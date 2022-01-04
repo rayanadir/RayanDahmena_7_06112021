@@ -101,7 +101,7 @@ export function setFilterPosition(filter) {
 /**
  * masque le bouton de filtre et dévoile le dropdown
  */
-export function openFilter(filter) {
+export function openFilter(filter, resultIngredientsLength) {
     if (filter == "ingredients") {
         ingredientsFilter.removeAttribute('relative')
         ingredients_button.setAttribute('hidden', true);
@@ -117,6 +117,30 @@ export function openFilter(filter) {
         ustensilesFilter.removeAttribute('appareil_open_3');
         ustensilesFilter.removeAttribute('appareil_open_2');
         ustensilesFilter.removeAttribute('appareil_open_1');
+        if (resultIngredientsLength) {
+            if (resultIngredientsLength == 1) {
+                appareilsFilter.removeAttribute('ingredients_open_1');
+                ingredientsListDropdown.removeAttribute('ingredients_open_1');
+                appareilsFilter.removeAttribute('ingredients_open_3');
+                ingredientsListDropdown.removeAttribute('ingredients_open_3');
+                appareilsFilter.setAttribute('ingredients_open_1', true);
+                ingredientsListDropdown.setAttribute('ingredients_open_1', true);
+            } else if (resultIngredientsLength == 2) {
+                appareilsFilter.removeAttribute('ingredients_open_1');
+                ingredientsListDropdown.removeAttribute('ingredients_open_1');
+                appareilsFilter.removeAttribute('ingredients_open_3');
+                ingredientsListDropdown.removeAttribute('ingredients_open_3');
+                appareilsFilter.setAttribute('ingredients_open_2', true);
+                ingredientsListDropdown.setAttribute('ingredients_open_2', true);
+            } else if (resultIngredientsLength >= 3) {
+                appareilsFilter.removeAttribute('ingredients_open_1');
+                ingredientsListDropdown.removeAttribute('ingredients_open_1')
+                appareilsFilter.removeAttribute('ingredients_open_2');
+                ingredientsListDropdown.removeAttribute('ingredients_open_2')
+                appareilsFilter.setAttribute('ingredients_open_sup_3', true);
+                ingredientsListDropdown.setAttribute('ingredients_open_3', true);
+            }
+        }
     } else if (filter == "appareils") {
         appareilsFilter.removeAttribute('relative')
         ingredients_button.removeAttribute('hidden');

@@ -153,8 +153,8 @@ export default class Service {
         }
         return filterIngredient && filterAppliance && filterUstensil;
     }
-    static mainInputSearch(recipesArray, resultRecipes, value) {
-        resultRecipes = []
+    static mainInputSearch(recipesArray, value) {
+        let resultRecipes = [];
         recipesArray.forEach((recipe) => {
             if (recipe.name.toLowerCase().includes(value.toLowerCase()) || recipe.description.toLowerCase().includes(value.toLowerCase()) || recipe.ingredients.some(a => a.ingredient.toLowerCase().includes(value.toLowerCase()))) {
                 resultRecipes.push(recipe);
@@ -184,10 +184,8 @@ export default class Service {
         //recherche avec les boucles natives
         let resultRecipes = [];
         for (let i = 0; i < recipesArray.length; i++) {
-            let name = recipesArray[i].name.toLowerCase();
-            let description = recipesArray[i].description.toLowerCase();
             let ingredients = recipesArray[i].ingredients;
-            if (name.includes(value.toLowerCase()) || description.includes(value.toLowerCase())) {
+            if (recipesArray[i].name.toLowerCase().includes(value.toLowerCase()) || recipesArray[i].description.toLowerCase().includes(value.toLowerCase())) {
                 resultRecipes.push(recipesArray[i]);
             } else {
                 for (let j = 0; j < ingredients.length; j++) {
