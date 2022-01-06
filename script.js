@@ -100,28 +100,13 @@ document.getElementById('search').addEventListener('input', (e) => {
     inputMainValue = value;
     recipesArray = Service.loadRecipesAndFilters().recipesArr;
     if (inputLength >= 3 && filtersArray.length == 0) {
-
-
-        console.time();
-        Service.nativeMainSearch(recipesArray,inputMainValue);
-        console.timeEnd();
-
-        /*console.time();
-        Service.mainInputSearch(recipesArray, inputMainValue);
-        console.timeEnd()*/
-
         resultRecipes = Service.mainInputSearch(recipesArray, inputMainValue);
-        //const resultTest=Service.nativeMainSearch(recipesArray,inputMainValue);
-        //console.log(resultRecipes);
-        //console.log(resultTest);
         ingredientsArray = Service.loadRecipesAndFilters(resultRecipes).ingredients
         appareilsArray = Service.loadRecipesAndFilters(resultRecipes).appliances
         ustensilesArray = Service.loadRecipesAndFilters(resultRecipes).ustensils;
         displayRecipes(Service.loadRecipesAndFilters(resultRecipes).recipesArr);
     } else if (inputLength >= 3 && filtersArray.length > 0) {
-        const result = Service.loadRecipesAndFilters().recipesArr.filter(recipe => {
-            return recipe.name.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.description.toLowerCase().includes(inputMainValue.toLowerCase()) || recipe.ingredients.some(a => a.ingredient.toLowerCase().includes(inputMainValue.toLowerCase()))
-        })
+        const result = Service.mainInputSearch(recipesArray,inputMainValue)
         const filtersSelected = Service.getFiltersSelected(filtersArray);
         resultRecipes = result.filter(recipe => Service.filterRecipes(recipe, filtersSelected));
         ingredientsArray = Service.getIngredients(null, resultRecipes);

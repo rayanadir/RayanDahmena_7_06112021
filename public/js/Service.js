@@ -1,5 +1,32 @@
 import recipes from '../../recipes.js'
 export default class Service {
+
+    static mainInputSearch(recipesArray, value) {
+        //recherche avec les méthodes tableau
+        let filterRecipes = recipesArray.filter((recipe) => {
+            return recipe.name.toLowerCase().includes(value.toLowerCase()) || recipe.description.toLowerCase().includes(value.toLowerCase()) || recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(value.toLowerCase()));
+        });
+        return filterRecipes;
+    }
+    static nativeMainSearch(recipesArray, value) {
+        //recherche avec les boucles natives
+        let resultRecipes = [];
+        for (let i = 0; i < recipesArray.length; i++) {
+            let ingredients = recipesArray[i].ingredients;
+            if (recipesArray[i].name.toLowerCase().includes(value.toLowerCase()) || recipesArray[i].description.toLowerCase().includes(value.toLowerCase())) {
+                resultRecipes.push(recipesArray[i]);
+            } else {
+                for (let j = 0; j < ingredients.length; j++) {
+                    if (ingredients[j].ingredient.toLowerCase().includes(value.toLowerCase())) {
+                        resultRecipes.push(recipesArray[i]);
+                        break;
+                    }
+                }
+            }
+        }
+        return resultRecipes;
+    }
+
     static loadRecipesAndFilters(search, filtersArray) {
         let recipesArr = recipes;
         // RECHERCHE PRINCIPALE ET SANS FILTRE
@@ -153,15 +180,6 @@ export default class Service {
         }
         return filterIngredient && filterAppliance && filterUstensil;
     }
-    static mainInputSearch(recipesArray, value) {
-        let resultRecipes = [];
-        recipesArray.forEach((recipe) => {
-            if (recipe.name.toLowerCase().includes(value.toLowerCase()) || recipe.description.toLowerCase().includes(value.toLowerCase()) || recipe.ingredients.some(a => a.ingredient.toLowerCase().includes(value.toLowerCase()))) {
-                resultRecipes.push(recipe);
-            }
-        });
-        return resultRecipes;
-    }
     static getFiltersSelected(filtersArray) {
         let ingredientsSelected = [];
         let applianceSelected = [];
@@ -179,22 +197,5 @@ export default class Service {
         let filters = this.getFiltersSelected(filtersArray);
         let result = this.filterRecipes(search, filters)
         return result;
-    }
-    static nativeMainSearch(recipesArray, value) {
-        //recherche avec les boucles natives
-        let resultRecipes = [];
-        for (let i = 0; i < recipesArray.length; i++) {
-            let ingredients = recipesArray[i].ingredients;
-            if (recipesArray[i].name.toLowerCase().includes(value.toLowerCase()) || recipesArray[i].description.toLowerCase().includes(value.toLowerCase())) {
-                resultRecipes.push(recipesArray[i]);
-            } else {
-                for (let j = 0; j < ingredients.length; j++) {
-                    if (ingredients[j].ingredient.toLowerCase().includes(value.toLowerCase())) {
-                        resultRecipes.push(recipesArray[i]);
-                    }
-                }
-            }
-        }
-        return resultRecipes;
     }
 }
