@@ -6,15 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Les petits plats</title>
-    <script src="recipes.js"></script>
     <script type="module" src="script.js"></script>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="public/css/styles.css">
     <script src="https://kit.fontawesome.com/8570de5ffd.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <header class="header">
-        <img src="images/logo.png" alt="logo" class="header__logo">
+        <img src="public/images/logo.png" alt="logo" class="header__logo">
         <h1 class="header__title">Les petits plats</h1>
     </header>
 
@@ -28,22 +27,65 @@
         </section>
 
         <section class="filter">
-            <div class="filter__results">
-                <button class="filter__result">
-                    Coco
-                    <i class="far fa-times-circle filter__close"></i>
-                </button>
+            <div class="filter__results" id="results">
             </div>
             <div class="filter__buttons">
-                <button class="filter__button filter__1">Ingrédients
-                <i class="fas fa-chevron-down"></i>
-            </button>
-                <button class="filter__button filter__2">Appareils
-                <i class="fas fa-chevron-down"></i>
-            </button>
-                <button class="filter__button filter__3">Ustensiles
-                <i class="fas fa-chevron-down"></i>
-            </button>
+
+
+                <div class="filter__filters_class filter__class_ingredients" id="ingredients">
+                    <button class="filter__button filter__1 filter__ingredients_button" id="ingredients_button">
+                            <div class="filter__name" id="name_ingredients">
+                                Ingrédients
+                            </div>
+                            <i class="fas fa-chevron-down filter__chevron"></i>
+                    </button>
+                    <div class="filter__dropdown filter__1 filter__ingredients" id="ingredientsListDropdown">
+                        <div class="filter__title_chevron">
+                            <input placeholder="Ingrédients" class="filter__input filter__1" autocomplete="off" id="inputIngredients">
+                            </input>
+                            <i class="fas fa-chevron-up filter__chevron" id="chevron1"></i>
+                        </div>
+                        <div class="filter__filters" id="ingredientsList">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter__filters_class filter__class_appareils" id="appareils">
+                    <button class="filter__button filter__2 filter__appareils_button" id="appareils_button">
+                        <div class="filter__name" id="name_appareil">
+                            Appareils
+                        </div>
+                        <i class="fas fa-chevron-down filter__chevron"></i>
+                    </button>
+                    <div class="filter__dropdown filter__2 filter__appareils" id="appareilsListDropdown">
+                        <div class="filter__title_chevron">
+                            <input placeholder="Appareils" class="filter__input filter__2" autocomplete="off" id="inputAppareil">
+                            </input>
+                            <i class="fas fa-chevron-up filter__chevron" id="chevron2"></i>
+                        </div>
+                        <div class="filter__filters" id="appareilsList">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter__filters_class filter__class_ustensiles" id="ustensiles">
+                    <button class="filter__button filter__3 filter__appareils_button" id="ustensiles_button">
+                        <div class="filter__name" id="name_ustensiles">
+                            Ustensiles
+                        </div>
+                        <i class="fas fa-chevron-down filter__chevron"></i>
+                    </button>
+                    <div class="filter__dropdown filter__3 filter__ustensiles" id="ustensilesListDropdown">
+                        <div class="filter__title_chevron">
+                            <input placeholder="Ustensiles" class="filter__input filter__3" autocomplete="off" id="inputUstensiles">
+                            </input>
+                            <i class="fas fa-chevron-up filter__chevron" id="chevron3"></i>
+                        </div>
+                        <div class="filter__filters" id="ustensilesList">
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
