@@ -2,13 +2,11 @@ import recipes from '../../recipes.js'
 export default class Service {
 
     static mainInputSearch(recipesArray, value) {
-        //recherche avec les méthodes tableau
         let filterRecipes = recipesArray.filter((recipe) => {
             return recipe.name.toLowerCase().includes(value.toLowerCase()) || recipe.description.toLowerCase().includes(value.toLowerCase()) || recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(value.toLowerCase()));
         });
         return filterRecipes;
     }
-
 
     static loadRecipesAndFilters(search, filtersArray) {
         let recipesArr = recipes;
