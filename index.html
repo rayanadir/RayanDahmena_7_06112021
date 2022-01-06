@@ -19,14 +19,14 @@
 
     <main>
 
-        <section class="search">
+        <div class="search">
             <div class="search__wrapper">
                 <input type="text" id="search" class="search__input" placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette">
                 <i class="fas fa-search search__icon"></i>
             </div>
-        </section>
+        </div>
 
-        <section class="filter">
+        <div class="filter">
             <div class="filter__results" id="results">
             </div>
             <div class="filter__buttons">
@@ -34,15 +34,12 @@
 
                 <div class="filter__filters_class filter__class_ingredients" id="ingredients">
                     <button class="filter__button filter__1 filter__ingredients_button" id="ingredients_button">
-                            <div class="filter__name" id="name_ingredients">
                                 Ingrédients
-                            </div>
                             <i class="fas fa-chevron-down filter__chevron"></i>
                     </button>
                     <div class="filter__dropdown filter__1 filter__ingredients" id="ingredientsListDropdown">
                         <div class="filter__title_chevron">
                             <input placeholder="Ingrédients" class="filter__input filter__1" autocomplete="off" id="inputIngredients">
-                            </input>
                             <i class="fas fa-chevron-up filter__chevron" id="chevron1"></i>
                         </div>
                         <div class="filter__filters" id="ingredientsList">
@@ -52,15 +49,12 @@
 
                 <div class="filter__filters_class filter__class_appareils" id="appareils">
                     <button class="filter__button filter__2 filter__appareils_button" id="appareils_button">
-                        <div class="filter__name" id="name_appareil">
                             Appareils
-                        </div>
                         <i class="fas fa-chevron-down filter__chevron"></i>
                     </button>
                     <div class="filter__dropdown filter__2 filter__appareils" id="appareilsListDropdown">
                         <div class="filter__title_chevron">
                             <input placeholder="Appareils" class="filter__input filter__2" autocomplete="off" id="inputAppareil">
-                            </input>
                             <i class="fas fa-chevron-up filter__chevron" id="chevron2"></i>
                         </div>
                         <div class="filter__filters" id="appareilsList">
@@ -70,15 +64,12 @@
 
                 <div class="filter__filters_class filter__class_ustensiles" id="ustensiles">
                     <button class="filter__button filter__3 filter__appareils_button" id="ustensiles_button">
-                        <div class="filter__name" id="name_ustensiles">
                             Ustensiles
-                        </div>
                         <i class="fas fa-chevron-down filter__chevron"></i>
                     </button>
                     <div class="filter__dropdown filter__3 filter__ustensiles" id="ustensilesListDropdown">
                         <div class="filter__title_chevron">
                             <input placeholder="Ustensiles" class="filter__input filter__3" autocomplete="off" id="inputUstensiles">
-                            </input>
                             <i class="fas fa-chevron-up filter__chevron" id="chevron3"></i>
                         </div>
                         <div class="filter__filters" id="ustensilesList">
@@ -87,10 +78,10 @@
                 </div>
 
             </div>
-        </section>
+        </div>
 
-        <section class="recipes" id="recipes">
-        </section>
+        <div class="recipes" id="recipes">
+        </div>
 
     </main>
 </body>
