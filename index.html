@@ -9,9 +9,10 @@
     <script type="module" src="script.js"></script>
     <link rel="stylesheet" href="public/css/styles.css">
     <script src="https://kit.fontawesome.com/8570de5ffd.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 
-<body>
+<body style="margin: auto;">
     <header class="header">
         <img src="public/images/logo.png" alt="logo" class="header__logo">
         <h1 class="header__title">Les petits plats</h1>
@@ -29,7 +30,40 @@
         <div class="filter">
             <div class="filter__results" id="results">
             </div>
+
             <div class="filter__buttons">
+                <div class="btn-group">
+                    <button type="button" id="ingredients_button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Ingrédients
+                    </button>
+                    <div class="dropdown-menu pre-scrollable" style="padding: 0;">
+                        <input class="form-control" style="border: 0; border-radius: 0; background-color: #f1f1f1; color: black;" autocomplete="off" id="inputIngredients" type="text" placeholder="Ingrédients">
+                        <ul id="ingredientsList"></ul>
+                    </div>
+                  </div>
+    
+                  <div class="btn-group">
+                    <button type="button" id="appareils_button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Appareils
+                    </button>
+                    <div class="dropdown-menu pre-scrollable" style="padding: 0;">
+                        <input class="form-control" style="border: 0; border-radius: 0; background-color: #f1f1f1; color: black;" id="inputAppareil" type="text" placeholder="Appareils">
+                        <ul id="appareilsList"></ul>
+                    </div>
+                  </div>
+
+                  <div class="btn-group">
+                    <button type="button" id="ustensiles_button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Ustensiles
+                    </button>
+                    <div class="dropdown-menu pre-scrollable" style="padding: 0;">
+                        <input class="form-control" style="border: 0; border-radius: 0; background-color: #f1f1f1; color: black;" id="inputUstensiles" type="text" placeholder="Ustensiles">
+                        <ul id="ustensilesList"></ul>
+                    </div>
+                  </div>
+            </div>
+  
+            <!--<div class="filter__buttons">
 
 
                 <div class="filter__filters_class filter__class_ingredients" id="ingredients">
@@ -77,13 +111,16 @@
                     </div>
                 </div>
 
-            </div>
+            </div>-->
         </div>
 
         <div class="recipes" id="recipes">
         </div>
 
     </main>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 </body>
 
 </html>
