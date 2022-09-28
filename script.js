@@ -88,7 +88,7 @@ function displayRecipes(recipes) {
         recipesList.style.display = "block";
         recipesList.innerHTML = `
         <p class="recipes__no_result">
-            Aucune rectette ne correspond à votre critère ... vous pouvez chercher "tarte aux pommes","poisson", etc ...
+            Aucune recette ne correspond à votre critère ... vous pouvez chercher "tarte aux pommes","poisson", etc ...
         </p>
         `
     }
