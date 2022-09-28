@@ -18,7 +18,7 @@ var attribute;
 /**
  * afficher tous les boutons de filtres à l'état initial
  */
-export function setInitialStateFilterList() {
+/*export function setInitialStateFilterList() {
     let dropDowns = document.getElementsByClassName('filter__dropdown')
     for (let drop of dropDowns) { drop.removeAttribute('open'); }
     let filterButton = document.getElementsByClassName('filter__button');
@@ -33,7 +33,7 @@ export function setInitialStateFilterList() {
     ustensilesFilter.removeAttribute('appareil_open_1');
     ustensilesFilter.removeAttribute('appareil_open_2');
     ustensilesFilter.removeAttribute('appareil_open_3');
-}
+}*/
 
 /**
  * actualise la largeur de la liste des filtres en fonction du résultat
@@ -191,13 +191,6 @@ export function displayFilters(list, input_length, input_value, array, result, f
             `;
                 document.getElementById('ingredientsList').innerHTML += template;
             });
-            if (array.length == 1) {
-                appareilsFilter.setAttribute('ingredients_open_1', true);
-            } else if (array.length == 2) {
-                appareilsFilter.setAttribute('ingredients_open_2', true);
-            } else if (array.length >= 3) {
-                appareilsFilter.setAttribute('ingredients_open_sup_3', true);
-            }
         } else {
             result.forEach((ingredient) => {
                 const found = filtersArray.some(element => element.value == ingredient && element.type == "ingredients")
@@ -226,13 +219,6 @@ export function displayFilters(list, input_length, input_value, array, result, f
             `;
                 document.getElementById('appareilsList').innerHTML += template;
             })
-            if (array.length == 1) {
-                ustensilesFilter.setAttribute('appareil_open_1', true);
-            } else if (array.length == 2) {
-                ustensilesFilter.setAttribute('appareil_open_2', true);
-            } else if (array.length >= 3) {
-                ustensilesFilter.setAttribute('appareil_open_3', true);
-            }
         } else {
             result.forEach((appareil) => {
                 const found = filtersArray.some(element => element.value == appareil && element.type == "appareils")
@@ -246,13 +232,6 @@ export function displayFilters(list, input_length, input_value, array, result, f
                     `;
                 document.getElementById('appareilsList').innerHTML += template;
             });
-            if (result.length == 1) {
-                ustensilesFilter.setAttribute('appareil_open_1', true);
-            } else if (result.length == 2) {
-                ustensilesFilter.setAttribute('appareil_open_2', true);
-            } else if (result.length >= 3) {
-                ustensilesFilter.setAttribute('appareil_open_3', true);
-            }
         }
     } else if (list == "ustensiles") {
         if (input_length == undefined || input_value == "") {

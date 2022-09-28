@@ -1,5 +1,6 @@
 import Service from './public/js/Service.js';
-import { setInitialStateFilterList, refreshFilterListWidth, setFilterPosition, openFilter, displayFilters } from "./public/js/ControllerFilter.js";
+//import { setInitialStateFilterList, refreshFilterListWidth, setFilterPosition, openFilter, displayFilters } from "./public/js/ControllerFilter.js";
+import { displayFilters } from "./public/js/ControllerFilter.js"
 
 //var recipesrecipies = recipes.recipes;
 let recipesList = document.getElementById('recipes');
@@ -29,6 +30,8 @@ var resultIngredients = [];
 var resultAppareils = [];
 var resultUstensiles = [];
 var recipesArray = Service.loadRecipesAndFilters().recipesArr;
+
+
 
 var attribute;
 
@@ -62,7 +65,7 @@ function displayRecipes(recipes) {
                     <div class="recipes__ingredients_description">
                         <div class="recipes__ingredients">
                                 ${recipes[i].ingredients.map((a) => `
-                                <label for="ingredient" class="recipes__ingredient">
+                                <label style="margin:0" for="ingredient" class="recipes__ingredient">
                                     <p class="recipes__ingredient_name">
                                     ${a.ingredient} : 
                                 </p>
@@ -157,8 +160,8 @@ inputIngredient.addEventListener('input', (e) => {
         }
     });
     resultIngredientsLength=resultIngredients.length;
-    setFilterPosition('ingredients');
-    refreshFilterListWidth('ingredients', resultIngredients.length);
+    //setFilterPosition('ingredients');
+    //refreshFilterListWidth('ingredients', resultIngredients.length);
 });
 
 // evenements appareils
@@ -183,8 +186,8 @@ inputAppareil.addEventListener('input', (e) => {
             document.getElementById('appareilsList').innerHTML += template;
         }
     });
-    setFilterPosition('appareils');
-    refreshFilterListWidth('appareils', resultAppareils.length);
+    //setFilterPosition('appareils');
+    //refreshFilterListWidth('appareils', resultAppareils.length);
 })
 
 // evenements ustensiles
@@ -327,20 +330,20 @@ document.addEventListener('click', (e) => {
     var id = e.target.id;
     if (id == "ingredients_button" || id == "name_ingredients" || id == "inputIngredients" || id == "chevron1") {
         document.getElementById('ingredientsList').innerHTML = ``;
-        setInitialStateFilterList();
-        openFilter('ingredients',resultIngredientsLength);
+        //setInitialStateFilterList();
+        //openFilter('ingredients',resultIngredientsLength);
         displayFilters('ingredients', inputIngredientsLength, inputIngredient.value, ingredientsArray, resultIngredients, filtersArray);
     } else if (id == "appareils_button" || id == "name_appareil" || id == "inputAppareil" || id == "chevron2") {
         document.getElementById('appareilsList').innerHTML = ``;
-        setInitialStateFilterList()
-        openFilter('appareils');
+        //setInitialStateFilterList()
+        //openFilter('appareils');
         displayFilters('appareils', inputAppareilLength, inputAppareil.value, appareilsArray, resultAppareils, filtersArray)
     } else if (id == "ustensiles_button" || id == "name_ustensiles" || id == "inputUstensiles" || id == "chevron3") {
         document.getElementById('ustensilesList').innerHTML = ``;
-        setInitialStateFilterList()
-        openFilter('ustensiles')
+        //setInitialStateFilterList()
+        //openFilter('ustensiles')
         displayFilters('ustensiles', inputUstensilsLength, inputUstensiles.value, ustensilesArray, resultUstensiles, filtersArray)
     } else {
-        setInitialStateFilterList()
+        //setInitialStateFilterList()
     }
 })
